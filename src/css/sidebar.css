@@ -1,0 +1,77 @@
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 100%;
+    background-color: #808080;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: 0.7s ease;
+}
+
+nav.active{
+    transform : translateX(0);
+    width: 250px;
+
+}
+nav a{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: #fff;
+    text-decoration: none;
+    padding: 0 .4em;
+    font-size: 1.5em;
+}
+nav > div{
+    margin-top : 30px;
+    font-size: 10px;
+}
+
+.home{
+    display: none;
+    position: absolute;
+    top: 20px;
+    left: 53px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+.sideBarHome a:hover + .home{
+    display: block;
+}
+.sideBar{
+    display: none;
+    position: absolute;
+    top: 75px;
+    left: 53px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+.sideBarHome button:hover + .sideBar{
+     display: block;
+ }
+.third{
+    display: none;
+    position: absolute;
+    top: 132px;
+    left: 53px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+.sideBarHome a:hover + .third{
+    display: block;
+}

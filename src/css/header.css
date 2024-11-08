@@ -1,0 +1,31 @@
+.container{
+
+
+}
+.header {
+    top: 0;
+    position: fixed;
+    right: 0;
+    background-color: white; /* 배경 색상 흰색 */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between; /* 양옆에 공간을 두기 */
+    align-items: center;
+
+}
+
+
+.auth-buttons button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    font-size: 1em;
+    background-color: #808081;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.auth-buttons button:hover {
+    background-color: #37AFE1;
+}
