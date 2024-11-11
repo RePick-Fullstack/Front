@@ -9,12 +9,14 @@ nav{
     flex-direction: column;
     align-items: center;
     transition: 0.7s ease;
+    button:focus{ outline: 0;}
 }
+
 
 nav.active{
     transform : translateX(0);
     width: 250px;
-
+    button:focus{ outline: 0;}
 }
 nav a{
     display: flex;
@@ -28,6 +30,10 @@ nav a{
 nav > div{
     margin-top : 30px;
     font-size: 10px;
+}
+nav button{
+    background-color: transparent;
+    border: none;
 }
 
 .home{
@@ -48,7 +54,7 @@ nav > div{
 .sideBar{
     display: none;
     position: absolute;
-    top: 75px;
+    top: 77px;
     left: 53px;
     background-color: #333;
     color: #fff;
@@ -63,7 +69,7 @@ nav > div{
 .third{
     display: none;
     position: absolute;
-    top: 132px;
+    top: 137px;
     left: 53px;
     background-color: #333;
     color: #fff;
