@@ -1,7 +1,6 @@
 /* eslint-disable */
 import {useState} from 'react';
 import '../css/header.css';
-import PropTypes from "prop-types"; // 스타일을 외부 파일로 관리
 
 function Header() {
     let [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 여부 상태
@@ -12,6 +11,8 @@ function Header() {
     let handleLogout = () => {
         setIsLoggedIn(false); // 로그아웃 처리
     };
+
+
 
 
     return (
@@ -79,12 +80,14 @@ function SignIn(props) {
                 </div>
 
                 <h6>소셜 미디어 로그인</h6>
-                <h6 className="hr">SNS LOGIN</h6><br></br>
-                <div className="auth-container">
-                    <div>카카오</div>
-                    <div>네이버</div>
-                    <div>구글</div> {/* 이미지 넣을 예정 db에 넣는게 편할거같기도 */}
+                <h6 className="hr">SNS LOGIN</h6>
+                <br></br>
+                <div className="oauth-buttons">
+                    <button className="oauth-button kakao"></button>
+                    <button className="oauth-button google"></button>
+                    <button className="oauth-button naver"></button>
                 </div>
+                <br></br>
                 <button onClick={props.handleLogin}>로그인</button>
             </div>
         </div>
@@ -138,7 +141,7 @@ function SignUp(props) {
                     </div>
                     <div className="input-container">
                         <label>생년월일*</label>
-                        <input type="date"/>
+                        <input type="date" max="2024-12-18"/>
                     </div>
                     <div className="input-container">
                         <label>닉네임(선택)</label>

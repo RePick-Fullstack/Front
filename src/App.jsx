@@ -8,11 +8,12 @@ import Header from "./layouts/Header.jsx";
 function App() {
     return (
         <div className="App">
+            <MainScreen></MainScreen>
             <Header></Header>
             <SideBar></SideBar>
 
 
-            <MainScreen></MainScreen>
+
         </div>
     );
 }

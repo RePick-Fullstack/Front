@@ -11,7 +11,6 @@
 }
 .modal-content{
     font-size: 15px;
-    color: black;
 }
 
 .auth-buttons button {
@@ -131,4 +130,23 @@ button.close-modal:hover{
     font-size: 0px;
     line-height: 0px;
     margin: 0px 16px;
+}
+.oauth-button{
+    width: 50px;
+    height: 40px;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    border: none;
+    margin-left: 5px;
+    margin-right: 8px;
+}
+.kakao {
+    background-image: url("https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/social/icon_1/Kakao.png");
+}
+.google{
+    background-image: url("https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/social/icon_1/Google.png");
+}
+.naver{
+    background-image: url("https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/social/icon_1/Naver.png");
 }
