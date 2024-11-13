@@ -1,6 +1,25 @@
 import './css/Main.css'
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {testNews} from "./assets/testNews.js";
 
 function MainScreen() {
+    const [news, setNews] = useState(testNews)
+
+    const handleNews = async () => {
+        try{
+        const getNews = await axios.get("http://localhost:8080/api/v1/news")
+        console.log(getNews.data)
+        getNews.data && setNews(getNews.data)
+        } catch {
+            console.log("server is not running")
+        }
+    }
+
+    useEffect( () => {
+        handleNews()
+    }, []);
+
     return (
         <>
             <div className="container">
@@ -14,13 +33,17 @@ function MainScreen() {
                     <p>스크롤 되게 만들거임</p>
                 </div>
                 <div className="right-column">
-                    <div className="newsCrawling">
-                        <p>똑같ㅇㅇ</p>
-                        <p>뉴스 크롤링</p>
-                        <div>1111</div>
-                        <div>asda</div>
-                        <div>asda</div>
-                        <div>asda</div>
+                    <div className="newsCrawling" style={{overflow: `auto`}}>
+                        <div>
+                            {news.map((item, index) => {
+                                return (
+                                    <div key={index}>
+                                        <a href={item.url} style={{fontStyle: `black`}}>{item.title}</a>
+                                    </div>
+                                )
+
+                            })}
+                        </div>
                     </div>
                     <div className="community">
                         <p>내용 삐져나오는거는 내일 스크롤 되게 만들겠으요</p>
