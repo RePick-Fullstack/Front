@@ -1,12 +1,12 @@
 
 .container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap : 20px;
     width: 100%;
     padding : 20px;
     box-sizing: border-box;
     text-align: left;
+    margin-left: 50px;
 }
 .hotReport {
     width: 400px;      /* 박스의 너비 */
