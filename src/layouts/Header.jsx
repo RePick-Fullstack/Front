@@ -23,7 +23,7 @@ function Header() {
     };
 
     return (
-        <>
+        <div className={"w-full flex justify-end"}>
             <header className="header">
                 <div className="header-content">
                     <div className="auth-buttons">
@@ -42,7 +42,7 @@ function Header() {
             </header>
             {isSignInOpen && <SignIn setIsSignInOpen={setIsSignInOpen} setIsLoggedIn={setIsLoggedIn} />}
             {isSignUpOpen && <SignUp setIsSignUpOpen={setIsSignUpOpen} />}
-        </>
+        </div>
     );
 }
 

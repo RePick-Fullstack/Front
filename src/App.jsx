@@ -7,13 +7,10 @@ import Header from "./layouts/Header.jsx";
 
 function App() {
     return (
-        <div className="App" style={{width: `100%`}}>
-            <MainScreen></MainScreen>
+        <div className="App w-full">
             <Header></Header>
             <SideBar></SideBar>
-
-
-
+            <MainScreen></MainScreen>
         </div>
     );
 }
