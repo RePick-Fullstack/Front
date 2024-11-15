@@ -1,10 +1,14 @@
 import './css/Main.css'
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
+import { useNavigate} from "react-router-dom";
 import { testNews } from "./assets/testNews.js";
+import { testMainCommunity } from "./assets/testMainCommunity.js";
 
 function MainScreen() {
+    let navigate = useNavigate();
     const [news, setNews] = useState(testNews);
+    let mainCommunity = testMainCommunity;
     const [inputValue, setInputValue] = useState("");
     const [chating, setChating] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
@@ -89,7 +93,7 @@ function MainScreen() {
                 <div className="container justify-center">
                     {enterDelay || <div className="hotReport" style={{
                         transition: "height 0.5s ease-in-out",
-                        height: chating ? "0px" : "400px",
+                        height: chating ? "0px" : "500px",
                         overflow: "hidden"
                     }}>
                         <p>인기 리포트 ㅇㅇ</p>
@@ -103,28 +107,34 @@ function MainScreen() {
                     {enterDelay || <div className="right-column">
                         <div className="newsCrawling" style={{
                             transition: "height 0.5s ease-in-out",
-                            height: chating ? "0px" : "175px",
+                            height: chating ? "0px" : "240px",
                             overflow: chating ? "hidden" : `auto`,
                         }}>
                             <div>
                                 {news.map((item, index) => (
-                                    <div key={index}>
+                                    <div key={index}>{index + 1 + ".    "}
                                         <a href={item.url} style={{color: `black`}}>{item.title}</a>
                                     </div>
                                 ))}
                             </div>
                         </div>
+                        <div className={"justify-items-start"}>
+                        <span className={"font-bold text-2xl"}>커뮤니티</span>
+                            {/* 페이지 시작은 최신순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
+                        <button onClick={()=> {console.log("조회순 누름")}}>최신순</button>
+                        <button onClick={()=> {console.log("추천순 누름")}}>추천순</button>
+                            {/*전체보기 누르면 /community 페이지로 이동 */}
+                        <button onClick={()=> {navigate('/community')}}>전체보기</button>
+
+                        </div>
                         <div className="community" style={{
                             transition: "height 0.5s ease-in-out",
-                            height: chating ? "0px" : "175px",
+                            height: chating ? "0px" : "240px",
                             overflow: chating ? "hidden" : `auto`,
                         }}>
-                            <p>내용 삐져나오는거는 내일 스크롤 되게 만들겠으요</p>
-                            <p>커뮤니티</p>
-                            <div>asda</div>
-                            <div>asda</div>
-                            <div>asda</div>
-                            <div>asda</div>
+                            {mainCommunity.map((item, index) => (
+                                <button className={"flex flex-col gap-y-2"} key={index}>{item.id}. {item.description}</button>
+                            ))}
                         </div>
                     </div>}
                 </div>
@@ -157,7 +167,7 @@ function MainScreen() {
                                 onKeyPress={handleEnterKey}
                             />
                             <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
-                                 style={{left: 'calc(100% - 20px)'}}
+                                 style={{left: 'calc(100% - 30px)'}}
                             >
                                 <button className="inputButton" onClick={handleSendRequest} disabled={enterDelay}> {/* enterDelay 상태에 따라 버튼 비활성화 */}
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
