@@ -79,13 +79,22 @@ function SignIn({ setIsSignInOpen, setIsLoggedIn }) {
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <h2>로그인</h2>
                 <button className="close-modal" onClick={() => setIsSignInOpen(false)}>⊗</button>
-                <div className="input-container">
+                <div className="input-container" style={{paddingBottom: "20px"}}>
                     <label>Email</label>
-                    <input type="text" placeholder="abc123@gmail.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type="text" placeholder="abc123@gmail.com" value={email}
+                           onChange={(e) => setEmail(e.target.value)}/>
                 </div>
-                <div className="input-container">
+                <div className="input-container" style={{paddingBottom: "20px"}}>
                     <label>Password</label>
-                    <input type="password" placeholder="*********" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type="password" placeholder="*********" value={password}
+                           onChange={(e) => setPassword(e.target.value)}/>
+                </div>
+                <h6>소셜 미디어 로그인</h6>
+                <h6 className="hr" style={{paddingBottom: "20px"}}>SNS LOGIN</h6>
+                <div className="oauth-buttons" style={{paddingBottom: "20px"}}>
+                    <button className="oauth-button kakao"></button>
+                    <button className="oauth-button google"></button>
+                    <button className="oauth-button naver"></button>
                 </div>
                 <button onClick={handleLogin}>로그인</button>
             </div>
@@ -94,7 +103,7 @@ function SignIn({ setIsSignInOpen, setIsLoggedIn }) {
 }
 
 // 회원가입 모달 컴포넌트
-function SignUp({ setIsSignUpOpen }) {
+function SignUp({setIsSignUpOpen}) {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
