@@ -1,0 +1,18 @@
+.container{
+    z-index: 1;  /* 콘텐츠가 사이드바, 헤더보다 뒤에 위치하도록 설정 */
+}
+.left-container{
+    margin: 100px;
+    padding: 20px; /* 콘텐츠가 편하게 들어갈 수 있도록 여백 추가 */
+
+    border: 1px solid black;
+    background-color: lightgray;
+    width: 50%;
+}
+.right-container{
+    border: 1px solid black;
+    background-color: lightgray;
+    margin:50px;
+    padding: 50px;
+    width: 30%;
+}
