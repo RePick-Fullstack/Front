@@ -1,12 +1,17 @@
-/* eslint-disable */
+ /* eslint-disable */
 import "./css/community.css"
 import {testMainCommunity} from "./assets/testMainCommunity.js";
 import {testCommunity} from "./assets/testCommunity.js";
+import { useNavigate } from "react-router-dom";
+import CommunityDetail from "./CommunityDetail.jsx";
+import { Routes, Route } from "react-router-dom";
+ import {useRecoilValue} from "recoil";
 
-function Community() {
+ function Community() {
 
     let category = testMainCommunity;
-    let community = testCommunity;
+    let data = useRecoilValue(testCommunity);
+    let navigate = useNavigate();
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
@@ -29,9 +34,11 @@ function Community() {
                     overflow: `auto`
                 }}>
                     <div className={"border-amber-100"}>
-                        {community.map((item, index) => (
-                            <div className={"bg-amber-400 mt-5"} key={index}>
-                                <div className={"font-bold"}>{item.title}</div>
+                        {Object.values(data).map((item) => (
+                            <div className={"bg-amber-400 mt-5"} key={item.id}>
+                                <button className={"font-bold"} onClick={()=>{
+                                    navigate(`/community/${item.id}`)
+                                }}>{item.title}</button>
                                 <div>{item.content}</div>
                                 <div className={"text-xs font-bold"}>{item.nickname}</div>
                                 <div className={"text-right"}>
