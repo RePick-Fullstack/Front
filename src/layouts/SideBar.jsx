@@ -16,7 +16,8 @@ function SideBar() {
                     {!menuOpen && (
                         <div className="sideBarHome">
                             <button onClick={() => {
-                                navigate('/')
+                                navigate('/');
+                                location.reload();
                             }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960"
                                      width="35px" fill="black">
