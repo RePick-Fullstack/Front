@@ -4,7 +4,7 @@ import './css/sidebar.css'
 import SideBar from "./layouts/SideBar.jsx";
 import MainScreen from "./MainScreen.jsx";
 import Header from "./layouts/Header.jsx";
-import {Route, Router, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Community from "./Community.jsx";
 import CommunityDetail from "./CommunityDetail.jsx";
 import {RecoilRoot} from "recoil";

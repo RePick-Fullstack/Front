@@ -120,8 +120,8 @@ function MainScreen() {
                         </div>
                         <div className={"justify-items-start"}>
                         <span className={"font-bold text-2xl"}>커뮤니티</span>
-                            {/* 페이지 시작은 최신순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
-                        <button onClick={()=> {console.log("조회순 누름")}}>최신순</button>
+                            {/* 페이지 시작은 조회순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
+                        <button onClick={()=> {console.log("조회순 누름")}}>조회순</button>
                         <button onClick={()=> {console.log("추천순 누름")}}>추천순</button>
                             {/*전체보기 누르면 /community 페이지로 이동 */}
                         <button onClick={()=> {navigate('/community')}}>전체보기</button>
