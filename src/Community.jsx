@@ -12,7 +12,7 @@ import {  getPostsByCategory } from "./api/postApi.js";
 
 function Community() {
 
-    let [category, setCategory] = useState("ENERGY"); // 카테고리 받아오면 시작 ENERGY로
+    let [category, setCategory] = useState(testMainCommunity); // 카테고리 받아오면 시작 ENERGY로
     let [posts, setPosts] = useState([]);
     let data = useRecoilValue(testCommunity);
     let navigate = useNavigate();
@@ -41,12 +41,12 @@ function Community() {
                 <div style={{fontSize: "25px"}}>REPICK 커뮤니티</div>
                 <div className={"rounded-xl bg-gray-400 mt-0"}>
                     <div className={"font-medium flex gap-12 ml-4"}>
-                        {/* {category.map((item, index) => ( */}
-                        {/* <button key={index} */}
-                        {/* // onClick={() => handleCategoryChange(category)} */}
-                        {/* > */}
-                        {/* {item.description}</button> */}
-                        {/* ))} */}
+                         {category.map((item, index) => (
+                         <button key={index}
+                         // onClick={() => handleCategoryChange(category)}
+                         >
+                         {item.description}</button>
+                         ))}
                     </div>
                 </div>
             </div>
