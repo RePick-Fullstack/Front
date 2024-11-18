@@ -12,7 +12,7 @@ import {  getPostsByCategory } from "./api/postApi.js";
 
 function Community() {
 
-    let [category, setCategory] = useState("ENERGY");
+    let [category, setCategory] = useState("ENERGY"); // 카테고리 받아오면 시작 ENERGY로
     let [posts, setPosts] = useState([]);
     let data = useRecoilValue(testCommunity);
     let navigate = useNavigate();
