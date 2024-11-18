@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import CommunityDetail from "./CommunityDetail.jsx";
 import { Routes, Route } from "react-router-dom";
  import {useRecoilValue} from "recoil";
+ import ChatComponent from "./ChatComponent.jsx";
 
  function Community() {
 
@@ -59,7 +60,9 @@ import { Routes, Route } from "react-router-dom";
                         width: "auto",
                         height: "450px",
                         overflow: `auto`
-                    }}>여기에 채팅 넣으삼</div>
+                    }}>
+                        <ChatComponent/>
+                    </div>
                 </div>
             </div>
             </div>
