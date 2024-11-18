@@ -26,9 +26,18 @@ function MainScreen() {
 
     const handleNews = async () => {
         try {
-            const getNews = await axios.get("http://localhost:8080/api/v1/news");
+            const getNews = await axios.get("http://localhost:8083/api/v1/news");
             console.log(getNews.data);
-            getNews.data && setNews(getNews.data);
+            !getNews.data.isEmpty && setNews(getNews.data);
+        } catch {
+            console.log("server is not running");
+        }
+    };
+
+    const handleNewNews = async () => {
+        try {
+            await axios.get("http://localhost:8083/api/v1/news/crawling");
+            await handleNews()
         } catch {
             console.log("server is not running");
         }
@@ -127,6 +136,7 @@ function MainScreen() {
                             height: chating ? "0px" : "240px",
                             overflow: chating ? "hidden" : `auto`,
                         }}>
+                            <button className={"border border-black pl-2 pr-2"} onClick={handleNewNews}>뉴스받아오기</button>
                             <div>
                                 {news.map((item, index) => (
                                     <div key={index}>{index + 1 + ".    "}

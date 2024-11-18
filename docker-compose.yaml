@@ -79,6 +79,67 @@ services:
       retries: 3
       start_period: 10s
 
+  user:
+    image: jogyoungjun/user:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:mysql://user_mysql:3306/user?serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_PASSWORD: root_password
+    ports:
+      - "8080:8080"
+    depends_on:
+      user_mysql:
+        condition: service_healthy
+    networks:
+      - rePick
+
+  user_mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: user
+    ports:
+      - "3307:3306"
+    networks:
+      - rePick
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "--silent" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  news:
+    image: jogyoungjun/news:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:mysql://news_mysql:3306/news?serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_PASSWORD: root_password
+    ports:
+      - "8083:8080"
+    depends_on:
+      user_mysql:
+        condition: service_healthy
+    networks:
+      - rePick
+
+  news_mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: news
+    ports:
+      - "3308:3306"
+    networks:
+      - rePick
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "--silent" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+
 
 volumes:
   kafka_data:
