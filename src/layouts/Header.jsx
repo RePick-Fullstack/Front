@@ -132,15 +132,17 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
                     <button onClick={handleLogin}>로그인</button>
                 </div>
             </div>
-
-            );
+        </div>
+            )
             }
+
 
             // 카카오 로그인
             const handleKakaoLogin = () => {
             const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=http://localhost:8080/oauth/kakao/login/callback";
             window.location.href = kakaoAuthUrl;
         };
+
 
 
             // 회원가입 모달 컴포넌트
