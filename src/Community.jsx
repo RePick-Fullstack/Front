@@ -7,32 +7,46 @@ import CommunityDetail from "./CommunityDetail.jsx";
 import {Routes, Route} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import ChatComponent from "./ChatComponent.jsx";
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import {  getPostsByCategory } from "./api/postApi.js";
 
 function Community() {
 
-    let [category, setCategory] = useState(testMainCommunity);
-    let [posts, setPosts] = useState(testCommunity.filter((post) => post.category === 'ENERGY'));
+    let [category, setCategory] = useState("ENERGY");
+    let [posts, setPosts] = useState([]);
     let data = useRecoilValue(testCommunity);
     let navigate = useNavigate();
 
+    const fetchPosts = async (selectedCategory) =>{
+        try{
+            const data = await getPostsByCategory(selectedCategory);
+            setPosts(data);
+        }catch(err){
+            setError('게시글 불러오는중 문제 생김')
+        }
+    }
+
     const handleCategoryChange = (newCategory) => {
         setCategory(newCategory);
-        setPosts(
-            testCommunity.filter((post) => post.category === newCategory) // 새 카테고리 데이터 설정
-        );
+        fetchPosts(newCategory);
     };
-
+    // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
+    useEffect(() => {
+        fetchPosts(category);
+    }, []); // 빈 배열: 최초 한 번 실행
+    {console.log(category)}
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
                 <div style={{fontSize: "25px"}}>REPICK 커뮤니티</div>
                 <div className={"rounded-xl bg-gray-400 mt-0"}>
                     <div className={"font-medium flex gap-12 ml-4"}>
-                        {category.map((item, index) => (
-                            <button key={index}
-                                    onClick={() => handleCategoryChange(category)}>{item.description}</button>
-                        ))}
+                        {/* {category.map((item, index) => ( */}
+                        {/* <button key={index} */}
+                        {/* // onClick={() => handleCategoryChange(category)} */}
+                        {/* > */}
+                        {/* {item.description}</button> */}
+                        {/* ))} */}
                     </div>
                 </div>
             </div>
@@ -47,7 +61,17 @@ function Community() {
                     }}>
                         <div className={"border-amber-100"}>
 
-                            <PostList category={category} posts={posts}></PostList>
+                            {/* <PostList category={category} posts={posts}></PostList> */}
+
+                            <ul>
+                                {posts.map((post)=> (
+                                    <li key={post.id}>
+                                        <h3>{post.title}</h3>
+                                        <h3>{post.content}</h3>
+                                    </li>
+                                ))}
+                            </ul>
+
                             {/*{Object.values(data).map((item) => (*/}
                             {/*    <div className={"bg-amber-400 mt-5"} key={item.id}>*/}
                             {/*        <button className={"font-bold"} onClick={()=>{*/}
