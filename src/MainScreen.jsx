@@ -4,10 +4,12 @@ import axios from "axios";
 import { useNavigate} from "react-router-dom";
 import { testNews } from "./assets/testNews.js";
 import { testMainCommunity } from "./assets/testMainCommunity.js";
+import {testReport} from "./assets/testReport.js";
 
 function MainScreen() {
     let navigate = useNavigate();
     const [news, setNews] = useState(testNews);
+    const [reports, setReports] = useState(testReport);
     let mainCommunity = testMainCommunity;
     const [inputValue, setInputValue] = useState("");
     const [chating, setChating] = useState(false);
@@ -32,8 +34,19 @@ function MainScreen() {
         }
     };
 
+    const handleReports = async () => {
+        try {
+            const getReports = await axios.get("http://localhost:8082/api/v1/reports");
+            console.log(getReports.data);
+            getReports.data && setReports(getReports.data);
+        } catch {
+            console.log("server is not running");
+        }
+    };
+
     useEffect(() => {
         handleNews();
+        handleReports()
     }, []);
 
     const handleSendRequest = async () => {
@@ -96,13 +109,17 @@ function MainScreen() {
                         height: chating ? "0px" : "500px",
                         overflow: "hidden"
                     }}>
-                        <p>인기 리포트 ㅇㅇ</p>
-                        <div>모크 데이터</div>
-                        <p>만들어서</p>
-                        <p>map으로</p>
-                        <p>반복문 돌리기</p>
-                        <p>내용길면</p>
-                        <p>스크롤 되게 만들거임</p>
+                        <ul className={"h-full overflow-y-scroll"}>
+                            {reports.map((report, index) =>
+                                <li key={index}>
+                                    <div className={"flex justify-between"}>
+                                        <div>{`${index + 1}. ${report.sector_name}`}</div>
+                                        <div>{report.report_title}</div>
+                                    </div>
+                                    <a href={report.pdf_link}>{report.company_name}</a>
+                                </li>
+                            )}
+                        </ul>
                     </div>}
                     {enterDelay || <div className="right-column">
                         <div className="newsCrawling" style={{
@@ -119,7 +136,7 @@ function MainScreen() {
                             </div>
                         </div>
                         <div className={"justify-items-start"}>
-                        <span className={"font-bold text-2xl"}>커뮤니티</span>
+                            <span className={"font-bold text-2xl"}>커뮤니티</span>
                             {/* 페이지 시작은 조회순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
                         <button onClick={()=> {console.log("조회순 누름")}}>조회순</button>
                         <button onClick={()=> {console.log("추천순 누름")}}>추천순</button>

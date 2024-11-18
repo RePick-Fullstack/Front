@@ -38,6 +38,16 @@ services:
     networks:
       - kafka_network
 
+  report:
+    image: jogyoungjun/report:latest
+    container_name: report_server
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+    ports:
+      - "8082:8080"
+    networks:
+      - kafka_network
+
 volumes:
   kafka_data:
 
