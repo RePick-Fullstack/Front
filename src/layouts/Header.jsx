@@ -115,7 +115,7 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                <div className="input-container">
+                <div className="input-container" style={{paddingBottom: "20px"}}>
                     <label>Password</label>
                     <input
                         type="password"
@@ -124,84 +124,86 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+                <h6>소셜 미디어 로그인</h6>
+                <h6 className="hr" style={{paddingBottom: "20px"}}>SNS LOGIN</h6>
                 <div className="oauth-buttons">
                     <button className="oauth-button kakao" onClick={() => handleKakaoLogin()}>
                     </button>
+                    <button onClick={handleLogin}>로그인</button>
                 </div>
-                <button onClick={handleLogin}>로그인</button>
             </div>
-        </div>
-    );
-}
 
-// 카카오 로그인
-const handleKakaoLogin = () => {
-    const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=http://localhost:8080/oauth/kakao/login/callback";
-    window.location.href = kakaoAuthUrl;
-};
+            );
+            }
+
+            // 카카오 로그인
+            const handleKakaoLogin = () => {
+            const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=http://localhost:8080/oauth/kakao/login/callback";
+            window.location.href = kakaoAuthUrl;
+        };
 
 
-// 회원가입 모달 컴포넌트
-function SignUp({setIsSignUpOpen, setIsLoggedIn}) {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        gender: '',
-        birthDate: '',
-        nickname: '',
-    });
+            // 회원가입 모달 컴포넌트
+            function SignUp({setIsSignUpOpen, setIsLoggedIn}) {
+            const [formData, setFormData] = useState({
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            gender: '',
+            birthDate: '',
+            nickname: '',
+        });
 
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
-    };
+            const handleChange = (e) => {
+            const {name, value} = e.target;
+            setFormData({...formData, [name]: value});
+        };
 
-    const handleSignUp = () => {
-        if (formData.password !== formData.confirmPassword) {
+            const handleSignUp = () => {
+            if (formData.password !== formData.confirmPassword) {
             alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
             return;
         }
 
-        axios.post('http://localhost:8080/api/v1/signup', formData)
+            axios.post('http://localhost:8080/api/v1/signup', formData)
             .then(response => {
-                if (response.status === 200) {
-                    alert('회원가입 성공!');
+            if (response.status === 200) {
+            alert('회원가입 성공!');
 
-                    setTimeout(() => {
-                        axios.post('http://localhost:8080/api/v1/login', {
-                            email: formData.email,
-                            password: formData.password,
-                        })
-                            .then(loginResponse => {
-                                const {accessToken, refreshToken} = loginResponse.data;
+            setTimeout(() => {
+            axios.post('http://localhost:8080/api/v1/login', {
+            email: formData.email,
+            password: formData.password,
+        })
+            .then(loginResponse => {
+            const {accessToken, refreshToken} = loginResponse.data;
 
-                                if (accessToken && refreshToken) {
-                                    localStorage.setItem('accessToken', accessToken.token);
-                                    localStorage.setItem('refreshToken', refreshToken.token);
+            if (accessToken && refreshToken) {
+            localStorage.setItem('accessToken', accessToken.token);
+            localStorage.setItem('refreshToken', refreshToken.token);
 
-                                    setIsLoggedIn(true); // 로그인 상태 업데이트
-                                    setIsSignUpOpen(false); // 회원가입 모달 닫기
-                                } else {
-                                    alert("로그인 토큰을 받을 수 없습니다. 다시 로그인하세요.");
-                                }
-                            })
-                            .catch(loginError => {
-                                console.error("자동 로그인 실패:", loginError);
-                                alert("회원가입은 성공했지만 자동 로그인에 실패했습니다. 로그인 화면으로 이동해주세요.");
-                            });
-                    }, 400);
-                }
-            })
+            setIsLoggedIn(true); // 로그인 상태 업데이트
+            setIsSignUpOpen(false); // 회원가입 모달 닫기
+        } else {
+            alert("로그인 토큰을 받을 수 없습니다. 다시 로그인하세요.");
+        }
+        })
+            .catch(loginError => {
+            console.error("자동 로그인 실패:", loginError);
+            alert("회원가입은 성공했지만 자동 로그인에 실패했습니다. 로그인 화면으로 이동해주세요.");
+        });
+        }, 400);
+        }
+        })
             .catch(error => {
-                console.error('회원가입 실패:', error);
-                alert(error.response?.data?.message || '회원가입에 실패했습니다. 다시 시도해주세요.');
-            });
-    };
+            console.error('회원가입 실패:', error);
+            alert(error.response?.data?.message || '회원가입에 실패했습니다. 다시 시도해주세요.');
+        });
+        };
 
-    return (
-        <div className="modal-overlay" onClick={() => setIsSignUpOpen(false)}>
+            return (
+            <div className="modal-overlay" onClick={() => setIsSignUpOpen(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <h2>회원가입</h2>
                 <button className="close-modal" onClick={() => setIsSignUpOpen(false)}>⊗</button>
