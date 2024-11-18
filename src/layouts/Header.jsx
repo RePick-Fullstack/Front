@@ -84,6 +84,7 @@ function SignIn({ setIsSignInOpen, setIsLoggedIn }) {
                     <input type="text" placeholder="abc123@gmail.com" value={email}
                            onChange={(e) => setEmail(e.target.value)}/>
                 </div>
+<<<<<<< Updated upstream
                 <div className="input-container" style={{paddingBottom: "20px"}}>
                     <label>Password</label>
                     <input type="password" placeholder="*********" value={password}
@@ -95,7 +96,22 @@ function SignIn({ setIsSignInOpen, setIsLoggedIn }) {
                     <button className="oauth-button kakao"></button>
                     <button className="oauth-button google"></button>
                     <button className="oauth-button naver"></button>
+=======
+                <br></br>
+                <div className="input-container">
+                    <label>Password</label>
+                    <input type="password" placeholder="*********" value={password}
+                           onChange={(e) => setPassword(e.target.value)}/>
+>>>>>>> Stashed changes
                 </div>
+                <br></br>
+                <h6>소셜 미디어 로그인</h6>
+                <h6 className="hr">SNS LOGIN</h6>
+                <button className="oauth-button kakao"></button>
+                <button className="oauth-button google"></button>
+                <button className="oauth-button naver"></button>
+                <br></br>
+                <br></br>
                 <button onClick={handleLogin}>로그인</button>
             </div>
         </div>
