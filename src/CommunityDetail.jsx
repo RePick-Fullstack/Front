@@ -26,9 +26,9 @@ function CommunityDetail() {
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
                 {/*<span> {category[0].title}</span> /!* 해당하는 category 뜨게 할 예정 *!/*/}
                 <div className={"border-amber-100 mb-5"}>
-                    <div className={"bg-white mt-5"}>{post.title}
+                    <div className={"bg-white mt-5"}> 제목 : {post.title}
                         <p className={"mb-5 text-right"}>조회 {post.viewCount}</p>
-                        <div>{post.content}</div>
+                        <div>내용 : {post.content}</div>
                         {/*<div>{post.nickname}</div>*/}
                     </div>
                 </div>
