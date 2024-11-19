@@ -11,15 +11,15 @@ function Header() {
     const [isSignInOpen, setIsSignInOpen] = useState(false);
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
 
-    // 페이지 로드 시 localStorage에서 토큰 확인
-    useEffect(() => {
-        const token = localStorage.getItem('accessToken');
-        if (token) {
-            setIsLoggedIn(true); // 토큰이 있으면 로그인 상태로 설정
-        } else {
-            navigate('/'); // 토큰이 없으면 홈 화면으로 리다이렉트
-        }
-    }, [navigate]);
+    // // 페이지 로드 시 localStorage에서 토큰 확인
+    // useEffect(() => {
+    //     const token = localStorage.getItem('accessToken');
+    //     if (token) {
+    //         setIsLoggedIn(true); // 토큰이 있으면 로그인 상태로 설정
+    //     } else {
+    //         navigate('/'); // 토큰이 없으면 홈 화면으로 리다이렉트
+    //     }
+    // }, [navigate]);
 
     // 로그아웃
     const handleLogout = () => {
