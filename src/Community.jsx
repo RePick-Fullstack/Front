@@ -2,7 +2,7 @@
 import "./css/community.css"
 import {testMainCommunity} from "./assets/testMainCommunity.js";
 import {testCommunity} from "./assets/testCommunity.js";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import CommunityDetail from "./CommunityDetail.jsx";
 import {Routes, Route} from "react-router-dom";
 import {useRecoilValue} from "recoil";
@@ -22,6 +22,7 @@ function Community() {
         try{
             const data = await getPostsByCategory(selectedCategory);
             setPosts(data);
+            console.log(data)
         }catch(err){
             alert('게시글 불러오는중 문제 생김')
         }
@@ -73,8 +74,7 @@ function Community() {
                             <ul>
                                 {posts.map((post)=> (
                                     <li key={post.id}>
-                                        <h3>{post.title}</h3>
-                                        <h3>{post.content}</h3>
+                                        <h3 className={"hover:cursor-pointer hover:underline"} onClick={() => {navigate(`/community/${post.id}`)}}>{post.title}</h3>
                                     </li>
                                 ))}
                             </ul>

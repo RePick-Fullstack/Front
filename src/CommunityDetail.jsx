@@ -3,24 +3,33 @@ import {testCommunity} from "./assets/testCommunity.js";
 import {testMainCommunity} from "./assets/testMainCommunity.js";
 import {useParams} from "react-router-dom";
 import {useRecoilValue} from "recoil";
+import {getPostById} from "./api/postApi.js";
+import {useEffect, useState} from "react";
+
 
 function CommunityDetail() {
-    //let community = testCommunity;
-    let category = testMainCommunity;
+    const [post , setPost] = useState(null)
     let {id} = useParams();
-    let data = useRecoilValue(testCommunity);
-    let selectTitle = data[id];
+    useEffect(() => {
+        handlePost()
+    }, []);
+
+    const handlePost = async () => {
+        const newPost = await getPostById(id)
+        setPost(newPost)
+        console.log(newPost)
+    }
 
     return (
         <>
-            {selectTitle ?( 
+            {post ?(
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
-                <span> {category[0].title}</span> {/* 해당하는 category 뜨게 할 예정 */}
+                {/*<span> {category[0].title}</span> /!* 해당하는 category 뜨게 할 예정 *!/*/}
                 <div className={"border-amber-100 mb-5"}>
-                    <div className={"bg-white mt-5"}>{selectTitle.title}
-                        <p className={"mb-5"}>조회 {selectTitle.check}</p>
-                        <div>{selectTitle.content}</div>
-                        <div>{selectTitle.nickname}</div>
+                    <div className={"bg-white mt-5"}>{post.title}
+                        <p className={"mb-5 text-right"}>조회 {post.viewCount}</p>
+                        <div>{post.content}</div>
+                        {/*<div>{post.nickname}</div>*/}
                     </div>
                 </div>
                 <div className={"bg-amber-800 rounded-l p-5"}>댓글 0
