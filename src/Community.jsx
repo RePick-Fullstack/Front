@@ -8,13 +8,14 @@ import {Routes, Route} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import ChatComponent from "./ChatComponent.jsx";
 import {useState, useEffect} from "react";
-import {  getPostsByCategory } from "./api/postApi.js";
+import {createPost, getPostsByCategory} from "./api/postApi.js";
+import {randomPostGenerator} from "./assets/randomPostGenerator.js";
 
 function Community() {
 
-    let [category, setCategory] = useState(testMainCommunity); // 카테고리 받아오면 시작 ENERGY로
+    let [category, setCategory] = useState("ENERGY"); // 카테고리 받아오면 시작 ENERGY로
     let [posts, setPosts] = useState([]);
-    let data = useRecoilValue(testCommunity);
+    let data = testMainCommunity;
     let navigate = useNavigate();
 
     const fetchPosts = async (selectedCategory) =>{
@@ -26,7 +27,14 @@ function Community() {
         }
     }
 
+    const handleCreatePost = async () => {
+        const post = randomPostGenerator(category)
+        await createPost(post)
+        await fetchPosts(category);
+    }
+
     const handleCategoryChange = (newCategory) => {
+        console.log(`categorychange :`, newCategory)
         setCategory(newCategory);
         fetchPosts(newCategory);
     };
@@ -40,9 +48,9 @@ function Community() {
                 <div style={{fontSize: "25px"}}>REPICK 커뮤니티</div>
                 <div className={"rounded-xl bg-gray-400 mt-0"}>
                     <div className={"font-medium flex gap-12 ml-4"}>
-                         {category.map((item, index) => (
+                         {data.map((item, index) => (
                          <button key={index}
-                         onClick={() => handleCategoryChange(category)}
+                         onClick={() => handleCategoryChange(item.title)}
                          >
                          {item.description}</button>
                          ))}
@@ -51,7 +59,7 @@ function Community() {
             </div>
             <div className="container">
                 <div className="left-container">
-                    <button className={"border-2 border-b-fuchsia bg-white mb-5"}>작성하기</button>
+                    <button className={"border-2 border-b-fuchsia bg-white mb-5"} onClick={handleCreatePost}>작성하기</button>
 
                     <div className={" rounded-xl border-black border-1 bg-white"} style={{
                         width: "auto",
