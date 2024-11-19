@@ -14,6 +14,7 @@ import {randomPostGenerator} from "./assets/randomPostGenerator.js";
 function Community() {
 
     let [category, setCategory] = useState("ENERGY"); // 카테고리 받아오면 시작 ENERGY로
+    let [selectCat, setSelectCat] = useState("에너지")
     let [posts, setPosts] = useState([]);
     let data = testMainCommunity;
     let navigate = useNavigate();
@@ -36,9 +37,14 @@ function Community() {
 
     const handleCategoryChange = (newCategory) => {
         console.log(`categorychange :`, newCategory)
-        setCategory(newCategory);
-        fetchPosts(newCategory);
+        const selected = data.find(item => item.title === newCategory);
+        if(selected){
+        setCategory(selected.title);
+        setSelectCat(selected.description);
+        fetchPosts(selected.title);
+        }
     };
+
     // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
     useEffect(() => {
         fetchPosts("ENERGY");
@@ -46,14 +52,14 @@ function Community() {
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
-                <div style={{fontSize: "25px"}}>REPICK 커뮤니티</div>
+                <div onClick={()=> handleCategoryChange(category)} style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
                 <div className={"rounded-xl bg-gray-400 mt-0"}>
                     <div className={"font-medium flex gap-12 ml-4"}>
                          {data.map((item, index) => (
                          <button key={index}
-                         onClick={() => handleCategoryChange(item.title)}
-                         >
+                         onClick={() => handleCategoryChange(item.title)}>
                          {item.description}</button>
+
                          ))}
                     </div>
                 </div>
