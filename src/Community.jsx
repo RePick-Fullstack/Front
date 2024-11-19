@@ -22,7 +22,7 @@ function Community() {
             const data = await getPostsByCategory(selectedCategory);
             setPosts(data);
         }catch(err){
-            setError('게시글 불러오는중 문제 생김')
+            alert('게시글 불러오는중 문제 생김')
         }
     }
 
@@ -32,9 +32,8 @@ function Community() {
     };
     // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
     useEffect(() => {
-        fetchPosts(category);
+        fetchPosts("ENERGY");
     }, []); // 빈 배열: 최초 한 번 실행
-    {console.log(category)}
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
@@ -43,7 +42,7 @@ function Community() {
                     <div className={"font-medium flex gap-12 ml-4"}>
                          {category.map((item, index) => (
                          <button key={index}
-                         // onClick={() => handleCategoryChange(category)}
+                         onClick={() => handleCategoryChange(category)}
                          >
                          {item.description}</button>
                          ))}
