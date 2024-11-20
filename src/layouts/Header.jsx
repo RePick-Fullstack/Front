@@ -147,7 +147,7 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
 
 // 카카오 로그인
 const handleKakaoLogin = () => {
-            const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=http://localhost:8080/oauth/kakao/login/callback";
+    const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=26aa2297f0431d7a130b7f937f10eb4c&redirect_uri=http://localhost:8080/oauth/kakao/login/callback";
             window.location.href = kakaoAuthUrl;
         };
 
