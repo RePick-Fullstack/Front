@@ -59,4 +59,14 @@ export const testMainCommunity = [
         "title" : "SECURITIES_FIRMS",
         "description" : "증권사"
     },
+    {
+        "id" : 12,
+        "title" : "HOLDING_COMPANY",
+        "description" : "지주회사"
+    },
+    {
+        "id" : 13,
+        "title" : "ETC",
+        "description" : "기타"
+    }
 ]
