@@ -105,12 +105,13 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
         <div className="modal-overlay" onClick={() => setIsSignInOpen(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <h2>로그인
-                    <button className="absolute w-20 h-5 top-5 left-50 text-center p-0 flex justify-center items-center" onClick={
-                        (() => {
-                            setEmail('example2@gmail.com')
-                            setPassword('password123')
-                        })
-                    }>테스트</button>
+                    <button className="absolute w-20 h-5 top-5 left-50 text-center p-0 flex justify-center items-center"
+                            onClick={
+                                (() => {
+                                    setEmail('example2@gmail.com')
+                                    setPassword('password123')
+                                })
+                            }>테스트</button>
                 </h2>
 
                 <button className="close-modal" onClick={() => setIsSignInOpen(false)}>⊗</button>
@@ -134,11 +135,11 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
                 </div>
                 <h6>소셜 미디어 로그인</h6>
                 <h6 className="hr" style={{paddingBottom: "20px"}}>SNS LOGIN</h6>
-                <div className="oauth-buttons">
+                <div className="oauth-buttons" style={{marginBottom:"20px"}}>
                     <button className="oauth-button kakao" onClick={() => handleKakaoLogin()}>
                     </button>
-                    <button onClick={handleLogin}>로그인</button>
                 </div>
+                <button onClick={handleLogin}>로그인</button>
             </div>
         </div>
     )
