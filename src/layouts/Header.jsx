@@ -104,7 +104,15 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
     return (
         <div className="modal-overlay" onClick={() => setIsSignInOpen(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <h2>로그인</h2>
+                <h2>로그인
+                    <button className="absolute w-20 h-5 top-5 left-50 text-center p-0 flex justify-center items-center" onClick={
+                        (() => {
+                            setEmail('example2@gmail.com')
+                            setPassword('password123')
+                        })
+                    }>테스트</button>
+                </h2>
+
                 <button className="close-modal" onClick={() => setIsSignInOpen(false)}>⊗</button>
                 <div className="input-container">
                     <label>Email</label>
@@ -133,12 +141,12 @@ function SignIn({setIsSignInOpen, setIsLoggedIn}) {
                 </div>
             </div>
         </div>
-            )
-            }
+    )
+}
 
 
-            // 카카오 로그인
-            const handleKakaoLogin = () => {
+// 카카오 로그인
+const handleKakaoLogin = () => {
             const kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=http://localhost:8080/oauth/kakao/login/callback";
             window.location.href = kakaoAuthUrl;
         };
