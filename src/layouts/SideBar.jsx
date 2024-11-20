@@ -40,7 +40,7 @@ function SideBar() {
                             </button>
                         </div>
                     )}
-                    <div className={"flex justify-between items-center mb-8 w-3/4 ml-1"}>
+                    <div className={"flex justify-between items-center mb-9 w-3/4 ml-1"}>
                         <button onClick={() => {  //홈 버튼
                             navigate('/');
                             location.reload();
