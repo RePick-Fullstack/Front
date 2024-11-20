@@ -1,5 +1,10 @@
 export const testMainCommunity = [
     {
+      "id": 0,
+      "title" : "TOTAL",
+      "description": "전체"
+    },
+    {
         "id": 1,
         "title" : "ENERGY",
         "description" : "에너지"
