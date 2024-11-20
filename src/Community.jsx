@@ -54,10 +54,10 @@ function Community() {
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
                 <div onClick={() => handleCategoryChange(category)}
                      style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
-                <div className={"h-8 rounded-xl bg-gray-400 mt-0 items-center flex"}>
-                    <span className={"font-medium text-base flex gap-10 ml-5"}>
+                <div className={"h-auto rounded-xl bg-gray-400 mt-0 items-center flex flex-wrap"}>
+                    <span className={"font-semibold text-sm flex gap-8 ml-6"}>
                          {data.map((item, index) => (
-                             <span className={"cursor-pointer hover:underline"} key={index}
+                             <span className={"cursor-pointer hover:underline  text-center"} key={index}
                                    onClick={() => handleCategoryChange(item.title)}>
                                  {item.description}</span>
                          ))}
