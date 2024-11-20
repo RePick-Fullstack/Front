@@ -8,6 +8,8 @@ import {Route, Routes} from "react-router-dom";
 import Community from "./Community.jsx";
 import CommunityDetail from "./CommunityDetail.jsx";
 import {RecoilRoot} from "recoil";
+import MyPage from "./MyPage.jsx";
+import ReportPage from "./ReportPage.jsx";
 
 //import {testCommunity} from "./assets/testCommunity.js";
 
@@ -24,6 +26,8 @@ function App() {
                         <Route path="/" element={<MainScreen/>}/>
                         <Route path="/community" element={<Community/>}/>
                         <Route path="/community/:id" element={<CommunityDetail/>}/>
+                        <Route path="/ReportPage" element={<ReportPage/>}/>
+                        <Route path="/myPage" element={<MyPage/>}/>
                     </Routes>
                 </div>
         </RecoilRoot>
