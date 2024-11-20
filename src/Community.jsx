@@ -19,12 +19,12 @@ function Community() {
     let data = testMainCommunity;
     let navigate = useNavigate();
 
-    const fetchPosts = async (selectedCategory) =>{
-        try{
+    const fetchPosts = async (selectedCategory) => {
+        try {
             const data = await getPostsByCategory(selectedCategory);
             setPosts(data);
             console.log(data)
-        }catch(err){
+        } catch (err) {
             alert('게시글 불러오는중 문제 생김')
         }
     }
@@ -38,10 +38,10 @@ function Community() {
     const handleCategoryChange = (newCategory) => {
         console.log(`categorychange :`, newCategory)
         const selected = data.find(item => item.title === newCategory);
-        if(selected){
-        setCategory(selected.title);
-        setSelectCat(selected.description);
-        fetchPosts(selected.title);
+        if (selected) {
+            setCategory(selected.title);
+            setSelectCat(selected.description);
+            fetchPosts(selected.title);
         }
     };
 
@@ -52,21 +52,22 @@ function Community() {
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
-                <div onClick={()=> handleCategoryChange(category)} style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
-                <div className={"rounded-xl bg-gray-400 mt-0"}>
-                    <div className={"font-medium flex gap-12 ml-4"}>
+                <div onClick={() => handleCategoryChange(category)}
+                     style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
+                <div className={"h-8 rounded-xl bg-gray-400 mt-0 items-center flex"}>
+                    <span className={"font-medium text-base flex gap-10 ml-5"}>
                          {data.map((item, index) => (
-                         <button key={index}
-                         onClick={() => handleCategoryChange(item.title)}>
-                         {item.description}</button>
-
+                             <span className={"cursor-pointer hover:underline"} key={index}
+                                   onClick={() => handleCategoryChange(item.title)}>
+                                 {item.description}</span>
                          ))}
-                    </div>
+                    </span>
                 </div>
             </div>
             <div className="container">
                 <div className="left-container">
-                    <button className={"border-2 border-b-fuchsia bg-white mb-5"} onClick={handleCreatePost}>작성하기</button>
+                    <button className={"border-2 border-b-fuchsia bg-white mb-5"} onClick={handleCreatePost}>작성하기
+                    </button>
 
                     <div className={" rounded-xl border-black border-1 bg-white"} style={{
                         width: "auto",
@@ -78,9 +79,11 @@ function Community() {
                             {/* <PostList category={category} posts={posts}></PostList> */}
 
                             <ul>
-                                {posts.map((post)=> (
+                                {posts.map((post) => (
                                     <li key={post.id}>
-                                        <h3 className={"hover:cursor-pointer hover:underline"} onClick={() => {navigate(`/community/${post.id}`)}}>{post.title}</h3>
+                                        <h3 className={"hover:cursor-pointer hover:underline"} onClick={() => {
+                                            navigate(`/community/${post.id}`)
+                                        }}>{post.title}</h3>
                                     </li>
                                 ))}
                             </ul>
@@ -99,11 +102,12 @@ function Community() {
                             {/*        </div>*/}
                             {/*    </div>*/}
                             {/*))}*/}
+                            {/*))}*/}
                         </div>
 
                     </div>
                 </div>
-                <div className="right-container">
+                <div className="right-container w-auto">
                     <p className={"text-3xl  font-bold"}>실시간 채팅</p>
                     <div className={"bg-white mt-5"}>
                         <div style={{
