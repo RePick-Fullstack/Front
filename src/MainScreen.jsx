@@ -8,7 +8,6 @@ import {testReport} from "./assets/testReport.js";
 
 function MainScreen() {
     let navigate = useNavigate();
-    let [menuOpen, setMenuOpen] = useState(false);
     const [news, setNews] = useState(testNews);
     const [reports, setReports] = useState(testReport);
     let mainCommunity = testMainCommunity;
@@ -53,11 +52,6 @@ function MainScreen() {
             console.log("server is not running");
         }
     };
-    const handleNavigation = (path) =>{
-        console.log(path);
-        navigate(path);
-        location.reload();
-    }
 
     useEffect(() => {
         handleNews();
@@ -117,7 +111,7 @@ function MainScreen() {
 
     return (
         <div className={"ml-[150px]"} style={{maxWidth: `calc(100% - 50px)`}}>
-            <span className={"cursor-pointer hover:underline"} onClick={()=> {handleNavigation("/ReportPage")}}>리포트 다운받으러가기</span>
+
             <div className="main_container justify-center">
                 {enterDelay || <div className="hotReport" style={{
                     transition: "height 0.5s ease-in-out", // 리서치 컴포넌트
