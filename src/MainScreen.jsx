@@ -1,13 +1,14 @@
 import './css/Main.css'
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import { useNavigate} from "react-router-dom";
-import { testNews } from "./assets/testNews.js";
-import { testMainCommunity } from "./assets/testMainCommunity.js";
+import {useNavigate} from "react-router-dom";
+import {testNews} from "./assets/testNews.js";
+import {testMainCommunity} from "./assets/testMainCommunity.js";
 import {testReport} from "./assets/testReport.js";
 
 function MainScreen() {
     let navigate = useNavigate();
+    let [menuOpen, setMenuOpen] = useState(false);
     const [news, setNews] = useState(testNews);
     const [reports, setReports] = useState(testReport);
     let mainCommunity = testMainCommunity;
@@ -52,6 +53,11 @@ function MainScreen() {
             console.log("server is not running");
         }
     };
+    const handleNavigation = (path) =>{
+        console.log(path);
+        navigate(path);
+        location.reload();
+    }
 
     useEffect(() => {
         handleNews();
@@ -60,7 +66,7 @@ function MainScreen() {
 
     const handleSendRequest = async () => {
         if (inputValue.trim() !== "") {
-            const userMessage = { type: "user", text: inputValue };
+            const userMessage = {type: "user", text: inputValue};
             setChatHistory((prev) => [...prev, userMessage]);
             setLlmTyping(true);
 
@@ -77,7 +83,7 @@ function MainScreen() {
                         if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
                             updatedHistory[updatedHistory.length - 1].text = currentText + "_";
                         } else {
-                            updatedHistory.push({ type: "llm", text: currentText + "_" });
+                            updatedHistory.push({type: "llm", text: currentText + "_"});
                         }
                         return updatedHistory;
                     });
@@ -110,62 +116,87 @@ function MainScreen() {
     };
 
     return (
-        <div className={"ml-[50px] w-full"} style={{maxWidth: `calc(100% - 50px)`}}>
-            <div className={"flex justify-center"}>
-                <div className="container justify-center">
-                    {enterDelay || <div className="hotReport" style={{
-                        transition: "height 0.5s ease-in-out",
-                        height: chating ? "0px" : "500px",
-                        overflow: "hidden"
-                    }}>
-                        <ul className={"h-full overflow-y-scroll"}>
-                            {reports.map((report, index) =>
-                                <li key={index}>
-                                    <div className={"flex justify-between"}>
-                                        <div>{`${index + 1}. ${report.sector_name}`}</div>
-                                        <div>{report.report_title}</div>
-                                    </div>
-                                    <a href={report.pdf_link}>{report.company_name}</a>
-                                </li>
-                            )}
-                        </ul>
-                    </div>}
-                    {enterDelay || <div className="right-column">
-                        <div className="newsCrawling" style={{
-                            transition: "height 0.5s ease-in-out",
-                            height: chating ? "0px" : "240px",
-                            overflow: chating ? "hidden" : `auto`,
-                        }}>
-                            <button className={"border border-black pl-2 pr-2"} onClick={handleNewNews}>뉴스받아오기</button>
-                            <div>
-                                {news.map((item, index) => (
-                                    <div key={index}>{index + 1 + ".    "}
-                                        <a href={item.url} style={{color: `black`}}>{item.title}</a>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className={"justify-items-start"}>
-                            <span className={"font-bold text-2xl"}>커뮤니티</span>
-                            {/* 페이지 시작은 조회순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
-                        <button onClick={()=> {console.log("조회순 누름")}}>조회순</button>
-                        <button onClick={()=> {console.log("추천순 누름")}}>추천순</button>
-                            {/*전체보기 누르면 /community 페이지로 이동 */}
-                        <button onClick={()=> {navigate('/community')}}>전체보기</button>
+        <div className={"ml-[150px]"} style={{maxWidth: `calc(100% - 50px)`}}>
+            <span className={"cursor-pointer hover:underline"} onClick={()=> {handleNavigation("/ReportPage")}}>리포트 다운받으러가기</span>
+            <div className="main_container justify-center">
+                {enterDelay || <div className="hotReport" style={{
+                    transition: "height 0.5s ease-in-out", // 리서치 컴포넌트
+                    height: chating ? "0px" : "505px",
+                    overflow: "hidden"
+                }}>
+                    <ul className={"h-full overflow-y-scroll font-semibold"}>
+                        <li className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 bg-gray-100"}>
+                            <span className="text-left">리포트 제목</span>
+                            <span className="text-center">회사</span>
+                            <span className="text-right">발행 일자</span>
+                        </li>
+                        {reports.map((report, index) =>
+                            <li key={index}>
+                                <div className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 border-t border-gray-300"}>
+                                    <span className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
+                                    <span className={"text-center"}><a className={"ml-5"}
+                                                                       href={report.pdf_link}>{report.sector_name}</a></span>
+                                    <span className={"text-right"}>{report.report_date}</span>
 
-                        </div>
-                        <div className="community" style={{
-                            transition: "height 0.5s ease-in-out",
-                            height: chating ? "0px" : "240px",
-                            overflow: chating ? "hidden" : `auto`,
-                        }}>
-                            {mainCommunity.map((item, index) => (
-                                <button className={"flex flex-col gap-y-2"} key={index}>{item.id}. {item.description}</button>
+                                    {/*여기에 리포트 내용의 요약이 들어가야됨*/}
+                                </div>
+
+                            </li>
+                        )}
+                    </ul>
+                </div>}
+
+                {enterDelay || <div className="right-column">
+                    <p className={"font-bold text-2xl ml-11"}>뉴스
+                        <button className={"border border-black text-xs pl-2 pr-2 w-32 ml-5"} onClick={handleNewNews}>뉴스
+                            새로받아오기</button>
+                    </p>
+
+                    <div className="newsCrawling" style={{     //뉴스 컴포넌트
+                        transition: "height 0.5s ease-in-out",
+                        height: chating ? "0px" : "230px",
+                        overflow: chating ? "hidden" : `auto`,
+                    }}>
+                        <div>
+                            {news.map((item, index) => (
+                                <div key={index}>{index + 1 + ".    "}
+                                    <a href={item.url} style={{color: `black`}}>{item.title}</a>
+                                </div>
                             ))}
                         </div>
-                    </div>}
-                </div>
+                    </div>
+                    <div className={"justify-items-start"}>   {/*  커뮤니티 컴포넌트   */}
+                        <span className={"font-bold text-2xl ml-11"}>커뮤니티</span>
+                        {/* 페이지 시작은 조회순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
+                        <button onClick={() => {
+                            console.log("조회순 누름")
+                        }}>조회순
+                        </button>
+                        <button onClick={() => {
+                            console.log("추천순 누름")
+                        }}>추천순
+                        </button>
+                        {/*전체보기 누르면 /community 페이지로 이동 */}
+                        <button onClick={() => {
+                            navigate('/community')
+                        }}>전체보기
+                        </button>
+
+
+                    </div>
+                    <div className="community" style={{
+                        transition: "height 0.5s ease-in-out",
+                        height: chating ? "0px" : "150px",
+                        overflow: chating ? "hidden" : `auto`,
+                    }}>
+                        {mainCommunity.slice(1).map((item, index) => (
+                            <button className={"flex flex-col gap-y-2"}
+                                    key={index}>{item.id}. {item.description}</button>
+                        ))}
+                    </div>
+                </div>}
             </div>
+
             <div>
                 <div className={`w-full flex justify-center ${chating ? `h-96` : `h-0`} overflow-y-scroll pl-5`}>
                     <div className="chatArea w-full max-w-[744px]" ref={chatAreaRef}>
@@ -187,7 +218,7 @@ function MainScreen() {
                     <div className="inputContainer flex w-full justify-center">
                         <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
                             <input
-                                className="chatInput border border-black flex justify-between"
+                                className="chatInput rounded-2xl border border-black flex justify-between"
                                 placeholder="쳇봇에게 질문"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
@@ -196,7 +227,8 @@ function MainScreen() {
                             <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
                                  style={{left: 'calc(100% - 30px)'}}
                             >
-                                <button className="inputButton" onClick={handleSendRequest} disabled={enterDelay}> {/* enterDelay 상태에 따라 버튼 비활성화 */}
+                                <button className="inputButton" onClick={handleSendRequest}
+                                        disabled={enterDelay}> {/* enterDelay 상태에 따라 버튼 비활성화 */}
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                          className="input-svg">
                                         <path
