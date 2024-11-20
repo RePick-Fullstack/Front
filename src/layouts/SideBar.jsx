@@ -1,12 +1,17 @@
 /* eslint-disable */
 import {useState} from "react";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 import "../css/sidebar.css";
 
 function SideBar() {
     let navigate = useNavigate();
     let [menuOpen, setMenuOpen] = useState(false);
+
+    const handleNavigation = (path) =>{
+        setMenuOpen(false);
+        navigate(path);
+    }
 
 
     return (
@@ -47,7 +52,7 @@ function SideBar() {
                     </div>
                     {menuOpen ? (
                         <>
-                            <div className="sideBarHome"><a href="#new1">New Content 1</a></div>
+                            <h4 className={"cursor-pointer hover:underline"} onClick={()=> {handleNavigation("/myPage")}}>마이 페이지</h4>
                             <div className="sideBarHome"><a href="#new2">New Content 2</a></div>
                         </>
                     ) : (
