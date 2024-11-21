@@ -10,28 +10,27 @@ import CommunityDetail from "./CommunityDetail.jsx";
 import {RecoilRoot} from "recoil";
 import MyPage from "./MyPage.jsx";
 import ReportPage from "./ReportPage.jsx";
+import CompleteProfile from "./layouts/CompleteProfile.jsx";
 
 //import {testCommunity} from "./assets/testCommunity.js";
 
 function App() {
 
-    return (
-        <RecoilRoot>
-                <div className="App w-full">
-                    <Header></Header>
-                    <SideBar></SideBar>
-
-                    {/*<<MainScreen></MainScreen>> */}
-                    <Routes>
-                        <Route path="/" element={<MainScreen/>}/>
-                        <Route path="/community" element={<Community/>}/>
-                        <Route path="/community/:id" element={<CommunityDetail/>}/>
-                        <Route path="/ReportPage" element={<ReportPage/>}/>
-                        <Route path="/myPage" element={<MyPage/>}/>
-                    </Routes>
-                </div>
-        </RecoilRoot>
-    );
+    return (<RecoilRoot>
+        <div className="App w-full">
+            <Header></Header>
+            <SideBar></SideBar>
+            {/*<<MainScreen></MainScreen>> */}
+            <Routes>
+                <Route path="/*" element={<CompleteProfile/>}/>
+                <Route path="/" element={<MainScreen/>}/>
+                <Route path="/community" element={<Community/>}/>
+                <Route path="/community/:id" element={<CommunityDetail/>}/>
+                <Route path="/ReportPage" element={<ReportPage/>}/>
+                <Route path="/myPage" element={<MyPage/>}/>
+            </Routes>
+        </div>
+    </RecoilRoot>);
 }
 
 export default App
