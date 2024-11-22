@@ -1,10 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
+import {useNavigate, useParams} from "react-router-dom";
 
 let socket = null;
 
 const buttonUi = `w-32 h-10 border border-black active:bg-gray-500`
 
 function ChatComponent() {
+    const {id} = useParams()
+    const navigate = useNavigate();
     const [messages, setMessages] = useState([]);
     const [connect, setConnect] = useState(true);
     const [input, setInput] = useState('');
@@ -13,15 +16,11 @@ function ChatComponent() {
     const messagesEndRef = useRef(null);
 
 
-    const connectWebSocket = (channel) => {
-        if (socket) {
-            socket.close();
-        }
-
-        socket = new WebSocket(`${channel}`);
+    const connectWebSocket = () => {
+        socket = new WebSocket(`ws://localhost:8080/websocket/${id}`);
 
         socket.onopen = () => {
-            console.log(`WebSocket connection to ${channel} opened`);
+            console.log(`WebSocket connection opened`);
         };
 
         socket.onmessage = (event) => {
@@ -60,6 +59,7 @@ function ChatComponent() {
     };
 
     useEffect(() => {
+        connectWebSocket();
         return () => {
             if (socket) {
                 socket.close();
@@ -87,29 +87,19 @@ function ChatComponent() {
         <div className={"relative h-full"}>
             {connect &&
                 <div className={"absolute w-full h-full p-2 bg-white"}>
-                <div className={"flex justify-center flex-wrap"}>
-                    <div>닉네임 설정</div>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
-                           placeholder={username}
-                           className={"mt-2 w-full p-2 border rounded text-center"}
-                    />
-                </div>
-                <div className={"mt-2 flex justify-center mb-2"}>
-                    <button className={`${buttonUi} bg-amber-300 active:bg-amber-500`}
-                            onClick={() => {
-                                setLoading(true);
-                                connectWebSocket('ws://localhost:8081/websocket/2f977970-d0be-4224-97e0-bc71ba8ed67b')
-                            }}>채팅방 입장
-                    </button>
-                </div>
-                    <div className={"flex justify-center"}>
-                    {loading && <h3>입장 대기중...</h3>}
-                    </div>
+                    <h3>입장 대기중...</h3>
             </div>
             }
             <div className={"h-full"}>
                 <div className={"h-full"} style={{maxHeight: `calc(100% - 70px)`}}>
-                    <ul className={"h-full overflow-y-scroll"} >
+                    <button className={"w-full h-12 bg-amber-300 active:bg-amber-400"}
+                            onClick={() => {
+                                socket.close();
+                                navigate("/chatRoom")
+                            }}>채팅방 나가기
+                    </button>
+                    <ul className={"h-full overflow-y-scroll"}
+                    style={{maxHeight: `calc(100% - 48px)`}}>
                         {messages.map((message, index) => {
                             const isMe = message.user === username
                             return(
