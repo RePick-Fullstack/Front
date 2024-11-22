@@ -11,6 +11,8 @@ import {RecoilRoot} from "recoil";
 import MyPage from "./MyPage.jsx";
 import ReportPage from "./ReportPage.jsx";
 import CompleteProfile from "./layouts/CompleteProfile.jsx";
+import {ChatRoom} from "./ChatRoom.jsx";
+import {ChatRoomList} from "./ChatRoomList.jsx";
 
 //import {testCommunity} from "./assets/testCommunity.js";
 
@@ -28,6 +30,8 @@ function App() {
                 <Route path="/community/:id" element={<CommunityDetail/>}/>
                 <Route path="/ReportPage" element={<ReportPage/>}/>
                 <Route path="/myPage" element={<MyPage/>}/>
+                <Route path="/chatRoom/" element={<ChatRoomList/>}/>
+                <Route path="/chatRoom/:id" element={<ChatRoom/>}/>
             </Routes>
         </div>
     </RecoilRoot>);
