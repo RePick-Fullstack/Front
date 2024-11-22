@@ -170,7 +170,7 @@ function MainScreen() {
                             console.log("추천순 누름")
                         }}>추천순
                         </button>
-                        
+
 
                     </div>
                     <div className="community" style={{
@@ -180,7 +180,8 @@ function MainScreen() {
                     }}>
                         {mainCommunity.slice(1).map((item, index) => (
                             <button className={"flex flex-col gap-y-2"}
-                                    key={index}>{item.id}. {item.description}</button>
+                                    key={index}  onClick={()=> {navigate(`/community?category=${item.title}`);
+                                    }}>{item.id}. {item.description}</button>
                         ))}
                     </div>
                 </div>}
