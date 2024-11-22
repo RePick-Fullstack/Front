@@ -1,11 +1,17 @@
-
-
-function MyPage(){
-
-
+import './css/myPage.css'
+function MyPage() {
 
     return (
-            <div className={"ml-20"}>마이페이지</div>
+        <>
+            <div className="retrieveReport">
+                <div>adfasdfa</div>
+                <div>adfasdfa</div>
+                <div>adfasdfa</div>
+            </div>
+            <div className="saveKeyword">
+
+            </div>
+        </>
     )
 }
 

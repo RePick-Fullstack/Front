@@ -1,8 +1,9 @@
 /* eslint-disable */
 import "./css/community.css"
+import {useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "./assets/testMainCommunity.js";
 import {testCommunity} from "./assets/testCommunity.js";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import CommunityDetail from "./CommunityDetail.jsx";
 import {Routes, Route} from "react-router-dom";
 import {useRecoilValue} from "recoil";
@@ -13,11 +14,12 @@ import {randomPostGenerator} from "./assets/randomPostGenerator.js";
 
 function Community() {
 
-    let [category, setCategory] = useState("ENERGY"); // 카테고리 받아오면 시작 ENERGY로
-    let [selectCat, setSelectCat] = useState("에너지")
+    let [category, setCategory] = useState(null); // 카테고리 받아오면 시작 TOTAL로
+    let [selectCat, setSelectCat] = useState("전체")
     let [posts, setPosts] = useState([]);
     let data = testMainCommunity;
     let navigate = useNavigate();
+    let [searchParams] = useSearchParams(); // URL에서 쿼리스트링 읽기
 
     const fetchPosts = async (selectedCategory) => {
         try {
@@ -42,13 +44,27 @@ function Community() {
             setCategory(selected.title);
             setSelectCat(selected.description);
             fetchPosts(selected.title);
+            navigate(`/community?category=${selected.title}`); // URL 업데이트
         }
     };
 
     // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
     useEffect(() => {
-        fetchPosts("ENERGY");
+        fetchPosts(null);
     }, []); // 빈 배열: 최초 한 번 실행
+
+    useEffect(() => {
+        const urlCategory = searchParams.get("category") || "TOTAL";
+        const selected = data.find((item) => item.title === urlCategory);
+        if(urlCategory){
+            setCategory(urlCategory);
+            setSelectCat(selected.description);
+            fetchPosts(urlCategory);
+        }else{
+            setCategory("TOTAL");
+            fetchPosts("TOTAL");
+        }
+    }, [searchParams]); // searchParams 또는 data 변경 시 실행
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
