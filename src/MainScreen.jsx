@@ -170,12 +170,7 @@ function MainScreen() {
                             console.log("추천순 누름")
                         }}>추천순
                         </button>
-                        {/*전체보기 누르면 /community 페이지로 이동 */}
-                        <button onClick={() => {
-                            navigate('/community')
-                        }}>전체보기
-                        </button>
-
+                        
 
                     </div>
                     <div className="community" style={{
