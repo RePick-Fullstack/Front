@@ -37,6 +37,37 @@ function Header() {
             });
     };
 
+    //로그인 연장
+    const handleExtendLogin = () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) {
+            alert('리프레시 토큰이 없습니다. 다시 로그인하세요.');
+            return;
+        }
+
+        axios.post('http://localhost:8080/api/v1/users/refresh-token', {}, {
+            headers: {
+                Authorization: `Bearer ${refreshToken}`,
+            },
+        })
+            .then((response) => {
+                // 응답 형태에 따라 토큰 값 추출
+                const accessToken = response.data.accessToken?.token || response.data.accessToken;
+                if (accessToken) {
+                    localStorage.setItem('accessToken', accessToken);
+                    alert('로그인 세션이 연장되었습니다!');
+                } else {
+                    throw new Error('유효한 액세스 토큰이 응답되지 않았습니다.');
+                }
+            })
+            .catch((error) => {
+                console.error('로그인 연장 실패:', error);
+                alert('로그인 연장에 실패했습니다. 다시 로그인하세요.');
+                handleLogout(); // 실패 시 로그아웃 처리
+            });
+    };
+
+
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const accessToken = params.get('accessToken');
@@ -64,11 +95,17 @@ function Header() {
         <header className="header">
             <div className="header-content">
                 <div className="auth-buttons">
-                    {isLoggedIn ? (<button onClick={handleLogout}>로그아웃</button> // 로그인 시 로그아웃 버튼
-                    ) : (<>
-                        <button onClick={() => setIsSignInOpen(!isSignInOpen)}>로그인</button>
-                        <button onClick={() => setIsSignUpOpen(!isSignUpOpen)}>회원가입</button>
-                    </>)}
+                    {isLoggedIn ? (
+                        <>
+                            <button onClick={handleLogout}>로그아웃</button>
+                            <button onClick={handleExtendLogin}>로그인 연장</button> {/* 로그인 연장 버튼 */}
+                        </>
+                    ) : (
+                        <>
+                            <button onClick={() => setIsSignInOpen(true)}>로그인</button>
+                            <button onClick={() => setIsSignUpOpen(true)}>회원가입</button>
+                        </>
+                    )}
                 </div>
             </div>
         </header>

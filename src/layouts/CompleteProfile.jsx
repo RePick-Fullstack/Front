@@ -89,12 +89,13 @@ const CompleteProfile = () => {
             </div>
 
             <div className="input-container">
-                <label>생일*</label>
+                <label>생년월일*</label>
                 <input
                     type="date"
                     name="birthDate"
                     value={birthDate}
                     onChange={(e) => setBirthDate(e.target.value)}
+                    max="2024-12-18"
                     required
                 />
             </div>
