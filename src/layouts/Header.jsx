@@ -57,7 +57,6 @@ function Header() {
     // 로그아웃
     const handleLogout = () => {
         const refreshToken = localStorage.getItem('refreshToken');
-        console.log(refreshToken);
 
         // 로컬 스토리지에서 토큰 삭제
         localStorage.removeItem('accessToken');
@@ -93,19 +92,27 @@ function Header() {
             },
         })
             .then((response) => {
-                // 응답 형태에 따라 토큰 값 추출
-                const accessToken = response.data.accessToken?.token || response.data.accessToken;
-                if (accessToken) {
+                const accessToken = response?.data?.accessToken?.token || response?.data?.accessToken || null;
+                const newRefreshToken = response?.data?.refreshToken?.token || response?.data?.refreshToken || null;
+
+                console.log(accessToken)
+                console.log(newRefreshToken)
+                if (accessToken && newRefreshToken) {
                     localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem('refreshToken', newRefreshToken);
                     alert('로그인 세션이 연장되었습니다!');
                 } else {
-                    throw new Error('유효한 액세스 토큰이 응답되지 않았습니다.');
+                    throw new Error('유효한 액세스 토큰 또는 리프레시 토큰이 응답되지 않았습니다.');
                 }
             })
             .catch((error) => {
                 console.error('로그인 연장 실패:', error);
-                alert('로그인 연장에 실패했습니다. 다시 로그인하세요.');
-                handleLogout(); // 실패 시 로그아웃 처리
+                if (error.response?.status === 401) {
+                    alert('인증이 만료되었습니다. 다시 로그인하세요.');
+                    handleLogout();
+                } else {
+                    alert('로그인 연장에 실패했습니다. 다시 시도해주세요.');
+                }
             });
     };
 
@@ -146,17 +153,31 @@ function Header() {
     // 실시간 토큰 남은 시간 계산
     useEffect(() => {
         const interval = setInterval(() => {
-            updateTokenRemainingTime();
-        }, 1000); // 매 초마다 남은 시간을 갱신
+            updateTokenRemainingTime(); // 매 초마다 남은 시간 갱신
+        }, 1000);
 
-        return () => clearInterval(interval); // 컴포넌트 언마운트 시 클리어
+        return () => clearInterval(interval); // 컴포넌트 언마운트 시 interval 해제
     }, []);
 
-// 토큰 만료 시 처리
+
+
     useEffect(() => {
+        // 토큰 만료 시 로그아웃 처리
         if (tokenRemainingTime === 0) {
             alert('토큰이 만료되었습니다. 다시 로그인하세요.');
-            handleLogout(); // 자동 로그아웃
+            handleLogout();
+        }
+
+    }, [tokenRemainingTime]);
+
+    useEffect(() => {
+        if (tokenRemainingTime === 30) {
+            const userConfirmed = window.confirm('로그인 세션이 곧 만료됩니다. 연장하시겠습니까?');
+            if (userConfirmed) {
+           handleExtendLogin();
+            } else {
+                handleLogout();
+            }
         }
     }, [tokenRemainingTime]);
 
@@ -191,12 +212,10 @@ function Header() {
                     {isLoggedIn ? (<>
 
                         <button onClick={handleLogout}>로그아웃</button>
-                        <button onClick={handleExtendLogin}>로그인 연장</button>
                         <div className="user-greeting">안녕하세요, {userName}님!</div>
                         {/* 토큰 남은 시간 표시 */}
                         <div className="token-timer">
-                            토큰 남은
-                            시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                            토큰 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                         </div>
                     </>) : (<>
                         <button onClick={() => setIsSignInOpen(true)}>로그인</button>
