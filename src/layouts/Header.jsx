@@ -69,7 +69,6 @@ function Header() {
             },
         })
             .then(response => {
-                console.log("로그아웃 성공:", response.data);
                 window.location.reload(); // 새로고침
             })
             .catch(error => {
@@ -95,8 +94,6 @@ function Header() {
                 const accessToken = response?.data?.accessToken?.token || response?.data?.accessToken || null;
                 const newRefreshToken = response?.data?.refreshToken?.token || response?.data?.refreshToken || null;
 
-                console.log(accessToken)
-                console.log(newRefreshToken)
                 if (accessToken && newRefreshToken) {
                     localStorage.setItem('accessToken', accessToken);
                     localStorage.setItem('refreshToken', newRefreshToken);
