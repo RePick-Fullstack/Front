@@ -1,8 +1,7 @@
 /* eslint-disable */
 import "./css/community.css"
 import {useSearchParams} from "react-router-dom";
-import {testMainCommunity} from "./assets/testMainCommunity.js";
-import {testCommunity} from "./assets/testCommunity.js";
+import {testMainCommunity} from "./data/testMainCommunity.js";
 import { Link, useNavigate} from "react-router-dom";
 import CommunityDetail from "./CommunityDetail.jsx";
 import {Routes, Route} from "react-router-dom";
@@ -10,12 +9,12 @@ import {useRecoilValue} from "recoil";
 import ChatComponent from "./ChatComponent.jsx";
 import {useState, useEffect} from "react";
 import {createPost, getPostsByCategory} from "./api/postApi.js";
-import {randomPostGenerator} from "./assets/randomPostGenerator.js";
+import {randomPostGenerator} from "./data/randomPostGenerator.js";
 
 function Community() {
 
-    let [category, setCategory] = useState(null); // 카테고리 받아오면 시작 TOTAL로
-    let [selectCat, setSelectCat] = useState("전체")
+    let [category, setCategory] = useState("TOTAL"); // 카테고리 받아오면 시작 TOTAL로
+    let [selectCat, setSelectCat] = useState("전체");
     let [posts, setPosts] = useState([]);
     let data = testMainCommunity;
     let navigate = useNavigate();
@@ -50,7 +49,7 @@ function Community() {
 
     // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
     useEffect(() => {
-        fetchPosts(null);
+        fetchPosts("TOTAL");
     }, []); // 빈 배열: 최초 한 번 실행
 
     useEffect(() => {
@@ -82,7 +81,7 @@ function Community() {
             </div>
             <div className="container">
                 <div className="left-container">
-                    <button className={"border-2 border-b-fuchsia bg-white mb-5"} onClick={handleCreatePost}>작성하기
+                    <button className={"border-2 border-b-fuchsia bg-white mb-5"} onClick={()=> navigate("/CreatePost")}>작성하기
                     </button>
 
                     <div className={" rounded-xl border-black border-1 bg-white"} style={{

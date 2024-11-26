@@ -1,6 +1,5 @@
 /* eslint-disable */
-import {testCommunity} from "./assets/testCommunity.js";
-import {testMainCommunity} from "./assets/testMainCommunity.js";
+import {testMainCommunity} from "./data/testMainCommunity.js";
 import {useParams} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import {getPostById} from "./api/postApi.js";
