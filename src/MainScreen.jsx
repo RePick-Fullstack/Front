@@ -47,6 +47,7 @@ function MainScreen() {
             console.log("=============================");
             console.log(getCommunity);
             console.log("=============================");
+            // posts = 게시물 가져오는 API임. 커뮤니티 가져오는 API를 만들거나 아니면 걍 정적데이터 testMainCommunity 쓰던가 해야됨.
             getCommunity.data;
         }catch{
             console.log("Community is not running");
