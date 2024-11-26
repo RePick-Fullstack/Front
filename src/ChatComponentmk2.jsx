@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-
+import { v4 as uuidv4 } from 'uuid';
 let socket = null;
 
 const buttonUi = `w-32 h-10 border border-black active:bg-gray-500`
@@ -12,29 +12,44 @@ function ChatComponent() {
     const [connect, setConnect] = useState(true);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
-    const [username, setUsername] = useState('JGJ');
+    const [username, setUsername] = useState('default');
     const messagesEndRef = useRef(null);
+    const [sessionUUID, setSessionUUID] = useState("");
 
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     const connectWebSocket = () => {
-        socket = new WebSocket(`ws://localhost:8080/websocket/${id}`);
-
-        socket.onopen = () => {
+        socket = new WebSocket(`ws://localhost:8081/websocket/${id}`);
+        let myUuid = '';
+        let isJoined = false;
+        socket.onopen = async () => {
+            const uuid = uuidv4().toString();
+            setSessionUUID(uuid)
+            myUuid = uuid;
+            console.log(uuid)
             console.log(`WebSocket connection opened`);
+            const initData = { token: localStorage.getItem('accessToken'), uuid: uuid };
+            socket.send(JSON.stringify(initData));
+            await delay(250);
+            if(connect){
+                console.log('resent')
+                socket.send(JSON.stringify(initData));
+            }
         };
 
         socket.onmessage = (event) => {
             console.log('Message from server:', event.data);
-
             try {
                 const chat = JSON.parse(event.data);
                 console.log('chat:', chat);
-                // 유저 연결 감지 로직
-                if (chat.id && chat.id !== "") {
-                    setConnect(false); // 연결 성공 상태 처리
+                if (chat.uuid && Object.keys(chat).length === 1) {
+                    setConnect(false);
+                    isJoined = true;
                     return;
                 }
-                // 일반 메시지 처리
+
                 setMessages((prevMessages) => [...prevMessages, chat]);
             } catch (error) {
                 console.error("Error parsing message:", error);
@@ -42,6 +57,7 @@ function ChatComponent() {
         };
 
         socket.onclose = () => {
+            setSessionUUID('')
             console.log('WebSocket connection closed');
         };
 
@@ -52,7 +68,7 @@ function ChatComponent() {
 
     const sendMessage = () => {
         if (input.trim() && socket && socket.readyState === WebSocket.OPEN) {
-            const message = {user: username, input: input}
+            const message = {uuid: sessionUUID, input: input}
             socket.send(JSON.stringify(message));
             setInput(''); // Clear the input field after sending
         }
@@ -101,12 +117,12 @@ function ChatComponent() {
                     <ul className={"h-full overflow-y-scroll"}
                     style={{maxHeight: `calc(100% - 48px)`}}>
                         {messages.map((message, index) => {
-                            const isMe = message.user === username
+                            const isMe = message.uuid === sessionUUID
                             return(
                                 <li key={index} className={`${isMe ? `flex justify-end` : `flex justify-normal`} p-1 pl-5 pr-5`}>
                                     <div>
-                                        <div className={`text-${isMe ? `right` : 'left' }`}>{message.user}</div>
-                                        <div className={`border ${isMe ? `bg-amber-300` : `white`} rounded-b p-2`}>{`${message.input}`}</div>
+                                        <div className={`text-${isMe ? `right` : 'left' }`}>{message.nickName}</div>
+                                        <div className={`border ${isMe ? `bg-amber-300` : `white`} rounded-b p-2`}>{`${message.message}`}</div>
                                     </div>
                                 </li>
                             )

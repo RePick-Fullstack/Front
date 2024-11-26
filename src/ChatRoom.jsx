@@ -8,7 +8,14 @@ export const ChatRoom = () => {
     const {id} = useParams();
     const navigate = useNavigate();
     const [isJoin, setIsJoin] = useState(true)
-    const [selectChatRoom, setSelectChatRoom] = useState({id: 1, uuid: '1bb1f396-ec88-4a3a-b96b-fc6bf5a93617' , chatRoomName: `샘플 채팅방 1`, ownerName: `Who`, createAt: `2024-06-18`})
+    const [selectChatRoom, setSelectChatRoom] = useState({
+        uuid: "454ccca4-c2d0-4cf3-b46b-086fae57226a",
+        chatRoomName: "testChatRoom 1494",
+        ownerName: "가나다",
+        UserNumber: 1,
+        hashTags: [],
+        createdAt: "2024-11-26T20:49:23.173148"
+    })
 
     useEffect(() => {
         ChatRoomLoad()
@@ -19,7 +26,7 @@ export const ChatRoom = () => {
     }
 
     const ChatRoomLoad = async () => {
-        const {data: chatRoom} = await axios.get(`http://localhost:8080/api/v1/chatroom/${id}`)
+        const {data: chatRoom} = await axios.get(`http://localhost:8081/api/v1/chatroom/${id}`)
         setSelectChatRoom(chatRoom);
     }
 
@@ -33,11 +40,17 @@ export const ChatRoom = () => {
                         <button className={"w-50 h-12 bg-amber-300 active:bg-amber-400 p-1"} onClick={() => navigate("/chatRoom")}>돌아기기</button>
                         <div className={"px-5 py-1 text-white"}>
                             <div className={"font-bold"}>{selectChatRoom.chatRoomName}</div>
-                            <div>참여자 : 0/1500</div>
+                            <div>참여자 : {selectChatRoom.UserNumber}/1500</div>
                             <div>개설일 : {selectChatRoom.createdAt}</div>
                         </div>
                         <div className={"p-5 rounded-t bg-white w-full"}>
                             <div>{selectChatRoom.ownerName}</div>
+                            <div className={"w-full flex flex-wrap gap-2"}>{
+                                selectChatRoom.hashTags.map((tag,index) => {
+                                return(
+                                    <p key={index}>{tag.tag}</p>
+                                )
+                            })}</div>
                             <div className={"mt-10 flex justify-center"}>
                                 <button className={"w-full h-12 bg-amber-300 active:bg-amber-400"}
                                         onClick={handleJoin}>채팅방 입장하기
