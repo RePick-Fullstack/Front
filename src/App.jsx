@@ -13,6 +13,7 @@ import ReportPage from "./ReportPage.jsx";
 import CompleteProfile from "./layouts/CompleteProfile.jsx";
 import {ChatRoom} from "./ChatRoom.jsx";
 import {ChatRoomList} from "./ChatRoomList.jsx";
+import CreatePost from "./CreatePost.jsx";
 
 //import {testCommunity} from "./assets/testCommunity.js";
 
@@ -27,6 +28,7 @@ function App() {
                 <Route path="/*" element={<CompleteProfile/>}/>
                 <Route path="/" element={<MainScreen/>}/>
                 <Route path="/community" element={<Community/>}/>
+                <Route path="/CreatePost" element={<CreatePost/>}/>
                 <Route path="/community/:id" element={<CommunityDetail/>}/>
                 <Route path="/ReportPage" element={<ReportPage/>}/>
                 <Route path="/myPage" element={<MyPage/>}/>
