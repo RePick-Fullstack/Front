@@ -6,9 +6,11 @@ import axios from 'axios';
 
 const CreatePost = () => {
     const data = testMainCommunity;
+    const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,7 +20,7 @@ const CreatePost = () => {
         }
 
         try {
-            const response = await axios.post('/api/community/posts', {
+            const response = await axios.post('http://localhost:9000/posts', {
                 title,
                 content,
                 category,
@@ -30,49 +32,57 @@ const CreatePost = () => {
             alert('게시글 작성에 실패했습니다. 다시 시도해주세요.');
         }
     };
+    const handleCategorySelect = (title, description) => {
+        setCategory(description);
+        console.log(title);
+        setIsOpen(false);
+    }
 
     return (
         <>
-        <div className="create_container">
-            <form onSubmit={handleSubmit}>
-                <div className={"m-10"}>
-                    <select className="category_select"
-                            style={{width:"130px"}}
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            required
-                    >
-                        <option value="">카테고리 선택</option>
-                        {data.slice(1).map((cat) => (
-                            <option key={cat.value} value={cat.value}>
-                                {cat.description}
-                            </option>
-                        ))}
-                    </select>
+            <div className="create_container">
+                <div className="Form_header">
+                        <span className="category_select">
+                            <div className="category_select_toggle"
+                                 onClick={() => setIsOpen(!isOpen)}>
+                                {category || '카테고리 선택' }
+                            </div>
+                            {isOpen && (
+                                <ul className="category_select_menu">
+                                    {data.slice(1).map((cat) => (
+                                        <li
+                                            key={cat.value}
+                                            onClick={() => handleCategorySelect(cat.title, cat.description)}
+                                            className="dropdown_item"
+                                        >
+                                            {cat.description}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </span>
+                    <span className="submit_button" type="submit" onClick={handleSubmit}>게시글 작성</span>
                 </div>
-                <label className={"ml-10"}>제목</label>
-                <div className={"h-40 w-200 border-solid border-2 p-14 ml-10 mr-10"}>
+                <div className={"caret-transparent"}>
                     <input
                         type="text"
+                        className="title_write"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="제목을 입력하세요"
                         required
                     />
                 </div>
-                <div>
-                    <label>내용</label>
+                <div className={"caret-transparent"}>
                     <textarea
                         value={content}
+                        className="content_write"
                         onChange={(e) => setContent(e.target.value)}
                         placeholder="내용을 입력하세요"
                         required
                     />
                 </div>
-
-                <button type="submit">게시글 작성</button>
-            </form>
-        </div>
+            </div>
         </>
     );
 };
