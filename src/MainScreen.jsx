@@ -2,15 +2,14 @@ import './css/Main.css'
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {testNews} from "./assets/testNews.js";
-import {testMainCommunity} from "./assets/testMainCommunity.js";
-import {testReport} from "./assets/testReport.js";
+import {testNews} from "./data/testNews.js";
+import {testReport} from "./data/testReport.js";
 
 function MainScreen() {
     let navigate = useNavigate();
     const [news, setNews] = useState(testNews);
     const [reports, setReports] = useState(testReport);
-    let mainCommunity = testMainCommunity;
+    const [community, setCommunity] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [chating, setChating] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
@@ -42,6 +41,17 @@ function MainScreen() {
             console.log("server is not running");
         }
     };
+    const handleCommunity = async () =>{
+        try{
+            const getCommunity = await axios.get("http://localhost:9000/posts");
+            console.log("=============================");
+            console.log(getCommunity);
+            console.log("=============================");
+            getCommunity.data;
+        }catch{
+            console.log("Community is not running");
+        }
+    }
 
     const handleReports = async () => {
         try {
@@ -56,6 +66,7 @@ function MainScreen() {
     useEffect(() => {
         handleNews();
         handleReports()
+        handleCommunity()
     }, []);
 
     const handleSendRequest = async () => {
@@ -111,38 +122,44 @@ function MainScreen() {
 
     return (
         <div className={"ml-[150px]"} style={{maxWidth: `calc(100% - 50px)`}}>
-
             <div className="main_container justify-center">
-                {enterDelay || <div className="hotReport" style={{
-                    transition: "height 0.5s ease-in-out", // 리서치 컴포넌트
-                    height: chating ? "0px" : "505px",
-                    overflow: "hidden"
-                }}>
-                    <ul className={"h-full overflow-y-scroll font-semibold"}>
-                        <li className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 bg-gray-100"}>
-                            <span className="text-left">리포트 제목</span>
-                            <span className="text-center">회사</span>
-                            <span className="text-right">발행 일자</span>
-                        </li>
-                        {reports.map((report, index) =>
-                            <li key={index}>
-                                <div className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 border-t border-gray-300"}>
-                                    <span className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
-                                    <span className={"text-center"}><a className={"ml-5"}
-                                                                       href={report.pdf_link}>{report.sector_name}</a></span>
-                                    <span className={"text-right"}>{report.report_date}</span>
+                <div className="left_container">
+                    <div className="report_header">
+                        <p className={"font-bold text-2xl ml-11"}>리포트</p>
+                        {enterDelay || <div className="hotReport" style={{
+                            transition: "height 0.5s ease-in-out", // 리서치 컴포넌트
+                            height: chating ? "0px" : "455px",
+                            overflow: "hidden"
+                        }}>
+                            <ul className={"h-full overflow-y-scroll font-semibold"}>
+                                <li className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 bg-gray-100"}>
+                                    <span className="text-left">리포트 제목</span>
+                                    <span className="text-center">회사</span>
+                                    <span className="text-right">발행 일자</span>
+                                </li>
+                                {reports.map((report, index) =>
+                                    <li key={index}>
+                                        <div
+                                            className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 border-t border-gray-300"}>
+                                            <span
+                                                className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
+                                            <span className={"text-center"}><a className={"ml-5"}
+                                                                               href={report.pdf_link}>{report.sector_name}</a></span>
+                                            <span className={"text-right"}>{report.report_date}</span>
 
-                                    {/*여기에 리포트 내용의 요약이 들어가야됨*/}
-                                </div>
+                                            {/*여기에 리포트 내용의 요약이 들어가야됨*/}
+                                        </div>
 
-                            </li>
-                        )}
-                    </ul>
-                </div>}
-
+                                    </li>
+                                )}
+                            </ul>
+                        </div>}
+                    </div>
+                </div>
                 {enterDelay || <div className="right-column">
                     <p className={"font-bold text-2xl ml-11"}>뉴스
-                        <button className={"border border-black text-xs pl-2 pr-2 w-32 ml-5"} onClick={handleNewNews}>뉴스
+                        <button className={"border border-black text-xs pl-2 pr-2 w-32 ml-5"}
+                                onClick={handleNewNews}>뉴스
                             새로받아오기</button>
                     </p>
 
@@ -178,10 +195,11 @@ function MainScreen() {
                         height: chating ? "0px" : "150px",
                         overflow: chating ? "hidden" : `auto`,
                     }}>
-                        {mainCommunity.slice(1).map((item, index) => (
+                        {community.map((item, index) => (
                             <button className={"flex flex-col gap-y-2"}
-                                    key={index}  onClick={()=> {navigate(`/community?category=${item.title}`);
-                                    }}>{item.id}. {item.description}</button>
+                                    key={index} onClick={() => {
+                                navigate(`/community?category=${item.title}`);
+                            }}>{item.id}. {item.description}</button>
                         ))}
                     </div>
                 </div>}
