@@ -1,4 +1,5 @@
 import '../css/myPage.css'
+
 function MyPage() {
 
     return (

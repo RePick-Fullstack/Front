@@ -3,7 +3,7 @@ import '../css/CreatePost.css'
 import {testMainCommunity} from "../data/testMainCommunity.js";
 import React, {useState} from 'react';
 import axios from 'axios';
-import api, {setAuthHeader} from "../api/api.js";
+import {setAuthHeader} from "../api/api.js";
 import {useNavigate} from "react-router-dom";
 
 const CreatePost = () => {
@@ -24,14 +24,14 @@ const CreatePost = () => {
 
         try {
             const token = localStorage.getItem("accessToken");
-            if(token){
+            if (token) {
                 setAuthHeader(token);
             }
             const response = await axios.post('http://localhost:9000/posts', {
                 title,
                 content,
                 category,
-            },{
+            }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -60,7 +60,7 @@ const CreatePost = () => {
                         <span className="category_select">
                             <div className="category_select_toggle"
                                  onClick={() => setIsOpen(!isOpen)}>
-                                {category || '카테고리 선택' }
+                                {category || '카테고리 선택'}
                             </div>
                             {isOpen && (
                                 <ul className="category_select_menu">

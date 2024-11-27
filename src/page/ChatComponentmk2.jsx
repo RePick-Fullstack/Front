@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
+
 let socket = null;
 
 const buttonUi = `w-32 h-10 border border-black active:bg-gray-500`
@@ -30,10 +31,10 @@ function ChatComponent() {
             myUuid = uuid;
             console.log(uuid)
             console.log(`WebSocket connection opened`);
-            const initData = { token: localStorage.getItem('accessToken'), uuid: uuid };
+            const initData = {token: localStorage.getItem('accessToken'), uuid: uuid};
             socket.send(JSON.stringify(initData));
             await delay(250);
-            if(connect){
+            if (connect) {
                 console.log('resent')
                 socket.send(JSON.stringify(initData));
             }
@@ -104,7 +105,7 @@ function ChatComponent() {
             {connect &&
                 <div className={"absolute w-full h-full p-2 bg-white"}>
                     <h3>입장 대기중...</h3>
-            </div>
+                </div>
             }
             <div className={"h-full"}>
                 <div className={"h-full"} style={{maxHeight: `calc(100% - 70px)`}}>
@@ -115,14 +116,16 @@ function ChatComponent() {
                             }}>채팅방 나가기
                     </button>
                     <ul className={"h-full overflow-y-scroll"}
-                    style={{maxHeight: `calc(100% - 48px)`}}>
+                        style={{maxHeight: `calc(100% - 48px)`}}>
                         {messages.map((message, index) => {
                             const isMe = message.uuid === sessionUUID
-                            return(
-                                <li key={index} className={`${isMe ? `flex justify-end` : `flex justify-normal`} p-1 pl-5 pr-5`}>
+                            return (
+                                <li key={index}
+                                    className={`${isMe ? `flex justify-end` : `flex justify-normal`} p-1 pl-5 pr-5`}>
                                     <div>
-                                        <div className={`text-${isMe ? `right` : 'left' }`}>{message.nickName}</div>
-                                        <div className={`border ${isMe ? `bg-amber-300` : `white`} rounded-b p-2`}>{`${message.message}`}</div>
+                                        <div className={`text-${isMe ? `right` : 'left'}`}>{message.nickName}</div>
+                                        <div
+                                            className={`border ${isMe ? `bg-amber-300` : `white`} rounded-b p-2`}>{`${message.message}`}</div>
                                     </div>
                                 </li>
                             )
@@ -132,16 +135,16 @@ function ChatComponent() {
                     </ul>
                 </div>
                 <div className={"flex"}>
-                <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="메시지를 입력하세요..."
-                    style={{width: '80%', padding: '10px'}}
-                    disabled={connect}
-                />
-                <button onClick={sendMessage} style={{padding: '10px'}}>전송</button>
+                    <input
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="메시지를 입력하세요..."
+                        style={{width: '80%', padding: '10px'}}
+                        disabled={connect}
+                    />
+                    <button onClick={sendMessage} style={{padding: '10px'}}>전송</button>
                 </div>
             </div>
         </div>

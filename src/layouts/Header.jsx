@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom'; // React Router
 import axios from 'axios';
 import '../css/header.css';
@@ -157,7 +157,6 @@ function Header() {
     }, []);
 
 
-
     useEffect(() => {
         // 토큰 만료 시 로그아웃 처리
         if (tokenRemainingTime === 0) {
@@ -171,7 +170,7 @@ function Header() {
         if (tokenRemainingTime === 30) {
             const userConfirmed = window.confirm('로그인 세션이 곧 만료됩니다. 연장하시겠습니까?');
             if (userConfirmed) {
-           handleExtendLogin();
+                handleExtendLogin();
             } else {
                 handleLogout();
             }
@@ -212,9 +211,11 @@ function Header() {
                         <div className="user-greeting">안녕하세요, {userName}님!</div>
                         {/* 토큰 남은 시간 표시 */}
                         <div className="token-timer">
-                            토큰 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                            토큰 남은
+                            시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                         </div>
                     </>) : (<>
+                        <button onClick={() => {navigate("/tosspayment")}}>결제하기</button>
                         <button onClick={() => setIsSignInOpen(true)}>로그인</button>
                         <button onClick={() => setIsSignUpOpen(true)}>회원가입</button>
                     </>)}

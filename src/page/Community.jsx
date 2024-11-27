@@ -1,13 +1,9 @@
 /* eslint-disable */
 import "../css/community.css"
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../data/testMainCommunity.js";
-import { Link, useNavigate} from "react-router-dom";
-import CommunityDetail from "./CommunityDetail.jsx";
-import {Routes, Route} from "react-router-dom";
-import {useRecoilValue} from "recoil";
 import ChatComponent from "./ChatComponent.jsx";
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 import {createPost, getPostsByCategory} from "../api/postApi.js";
 import {randomPostGenerator} from "../data/randomPostGenerator.js";
 
@@ -20,10 +16,10 @@ function Community() {
     let navigate = useNavigate();
     let [searchParams] = useSearchParams(); // URL에서 쿼리스트링 읽기
 
-    const getData=async ()=>{
+    const getData = async (selectedCategory) => {
         try {
-            return  await getPostsByCategory(selectedCategory)
-        }catch (e){
+            return await getPostsByCategory(selectedCategory)
+        } catch (e) {
             alert('게시글 불러오는중 문제 생김')
         }
 
@@ -62,11 +58,11 @@ function Community() {
     useEffect(() => {
         const urlCategory = searchParams.get("category") || "TOTAL";
         const selected = data.find((item) => item.title === urlCategory);
-        if(urlCategory){
+        if (urlCategory) {
             setCategory(urlCategory);
             setSelectCat(selected.description);
             fetchPosts(urlCategory);
-        }else{
+        } else {
             setCategory("TOTAL");
             fetchPosts("TOTAL");
         }
@@ -88,7 +84,8 @@ function Community() {
             </div>
             <div className="container">
                 <div className="left-container">
-                    <button className={"border-2 border-b-fuchsia bg-white mb-5"} onClick={()=> navigate("/CreatePost")}>작성하기
+                    <button className={"border-2 border-b-fuchsia bg-white mb-5"}
+                            onClick={() => navigate("/CreatePost")}>작성하기
                     </button>
 
                     <div className={" rounded-xl border-black border-1 bg-white"} style={{

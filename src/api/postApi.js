@@ -2,7 +2,7 @@ import api from './api';
 // 카테고리별 게시글 목록 조회
 export const getPostsByCategory = async (category) => {
     const response = await api.get(``, {
-        params : { category : category }
+        params: {category: category}
     });
     return response.data;
 };
