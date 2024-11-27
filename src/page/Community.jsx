@@ -1,15 +1,15 @@
 /* eslint-disable */
-import "./css/community.css"
+import "../css/community.css"
 import {useSearchParams} from "react-router-dom";
-import {testMainCommunity} from "./data/testMainCommunity.js";
+import {testMainCommunity} from "../data/testMainCommunity.js";
 import { Link, useNavigate} from "react-router-dom";
 import CommunityDetail from "./CommunityDetail.jsx";
 import {Routes, Route} from "react-router-dom";
 import {useRecoilValue} from "recoil";
 import ChatComponent from "./ChatComponent.jsx";
 import {useState, useEffect} from "react";
-import {createPost, getPostsByCategory} from "./api/postApi.js";
-import {randomPostGenerator} from "./data/randomPostGenerator.js";
+import {createPost, getPostsByCategory} from "../api/postApi.js";
+import {randomPostGenerator} from "../data/randomPostGenerator.js";
 
 function Community() {
 
@@ -20,14 +20,21 @@ function Community() {
     let navigate = useNavigate();
     let [searchParams] = useSearchParams(); // URL에서 쿼리스트링 읽기
 
-    const fetchPosts = async (selectedCategory) => {
+    const getData=async ()=>{
         try {
-            const data = await getPostsByCategory(selectedCategory);
-            setPosts(data);
-            console.log(data)
-        } catch (err) {
+            return  await getPostsByCategory(selectedCategory)
+        }catch (e){
             alert('게시글 불러오는중 문제 생김')
         }
+
+    }
+
+    const fetchPosts = async (selectedCategory) => {
+
+        const data = await getData(selectedCategory);
+        if (data) setPosts(data);
+        console.log(data)
+
     }
 
     const handleCreatePost = async () => {
@@ -39,12 +46,12 @@ function Community() {
     const handleCategoryChange = (newCategory) => {
         console.log(`categorychange :`, newCategory)
         const selected = data.find(item => item.title === newCategory);
-        if (selected) {
-            setCategory(selected.title);
-            setSelectCat(selected.description);
-            fetchPosts(selected.title);
-            navigate(`/community?category=${selected.title}`); // URL 업데이트
-        }
+        if (!selected) return;
+        setCategory(selected.title);
+        setSelectCat(selected.description);
+        fetchPosts(selected.title);
+        navigate(`/community?category=${selected.title}`); // URL 업데이트
+
     };
 
     // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
@@ -90,14 +97,11 @@ function Community() {
                         overflow: `auto`
                     }}>
                         <div className={"border-amber-100"}>
-
-                            {/* <PostList category={category} posts={posts}></PostList> */}
-
                             <ul>
                                 {posts.map((post) => (
                                     <li key={post.id}>
                                         <h3 className={"hover:cursor-pointer hover:underline"} onClick={() => {
-                                            navigate(`/community/${post.id}`)
+                                            navigate(`/posts/${post.id}`)
                                         }}>{post.title}</h3>
                                     </li>
                                 ))}
