@@ -328,30 +328,8 @@ function SignUp({setIsSignUpOpen, setIsLoggedIn}) {
         axios.post('http://localhost:8080/api/v1/signup', formData)
             .then(response => {
                 if (response.status === 200) {
-                    alert('회원가입 성공!');
-
-                    // 자동 로그인 시도
-                    axios.post('http://localhost:8080/api/v1/login', {
-                        email: formData.email, password: formData.password,
-                    })
-                        .then(loginResponse => {
-                            const {accessToken, refreshToken} = loginResponse.data;
-
-                            if (accessToken && refreshToken) {
-                                localStorage.setItem('accessToken', accessToken.token);
-                                localStorage.setItem('refreshToken', refreshToken.token);
-
-                                setIsLoggedIn(true); // 로그인 상태 업데이트
-                                setIsSignUpOpen(false); // 회원가입 모달 닫기
-
-                            } else {
-                                alert('로그인 토큰을 받을 수 없습니다. 다시 로그인하세요.');
-                            }
-                        })
-                        .catch(loginError => {
-                            console.error('자동 로그인 실패:', loginError);
-                            alert('회원가입은 성공했지만 자동 로그인에 실패했습니다. 로그인 화면으로 이동해주세요.');
-                        });
+                    alert('회원가입 성공! 이제 로그인하세요.');
+                    setIsSignUpOpen(false); // 회원가입 모달 닫기
                 }
             })
             .catch(error => {
