@@ -1,7 +1,7 @@
-import './css/report.css'
+import '../css/report.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {testReport} from "./data/testReport.js";
+import {testReport} from "../data/testReport.js";
 
 function ReportPage() {
     const [reports, setReports] = useState(testReport);

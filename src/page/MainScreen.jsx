@@ -1,9 +1,9 @@
-import './css/Main.css'
+import '../css/Main.css'
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {testNews} from "./data/testNews.js";
-import {testReport} from "./data/testReport.js";
+import {testNews} from "../data/testNews.js";
+import {testReport} from "../data/testReport.js";
 
 function MainScreen() {
     let navigate = useNavigate();

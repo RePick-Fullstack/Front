@@ -1,13 +1,13 @@
 /* eslint-disable */
-import {testMainCommunity} from "./data/testMainCommunity.js";
+import {testMainCommunity} from "../data/testMainCommunity.js";
 import {useParams} from "react-router-dom";
 import {useRecoilValue} from "recoil";
-import {getPostById} from "./api/postApi.js";
+import {getPostById} from "../api/postApi.js";
 import {useEffect, useState} from "react";
 
 
 function CommunityDetail() {
-    const [post , setPost] = useState(null)
+    const [post , setPost] = useState([]);
     let {id} = useParams();
     useEffect(() => {
         handlePost()

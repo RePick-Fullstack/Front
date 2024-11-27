@@ -1,10 +1,13 @@
 /* eslint-disable */
-import './css/CreatePost.css'
-import {testMainCommunity} from "./data/testMainCommunity.js";
+import '../css/CreatePost.css'
+import {testMainCommunity} from "../data/testMainCommunity.js";
 import React, {useState} from 'react';
 import axios from 'axios';
+import api, {setAuthHeader} from "../api/api.js";
+import {useNavigate} from "react-router-dom";
 
 const CreatePost = () => {
+    const navigate = useNavigate();
     const data = testMainCommunity;
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState('');
@@ -20,20 +23,32 @@ const CreatePost = () => {
         }
 
         try {
+            const token = localStorage.getItem("accessToken");
+            if(token){
+                setAuthHeader(token);
+            }
             const response = await axios.post('http://localhost:9000/posts', {
                 title,
                 content,
                 category,
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
             alert('게시글 작성 완료!');
+            navigate("/community")
             console.log('응답 데이터:', response.data);
         } catch (error) {
+            console.log(title);
+            console.log(content);
+            console.log(category);
             console.error('게시글 작성 중 오류 발생:', error);
             alert('게시글 작성에 실패했습니다. 다시 시도해주세요.');
         }
     };
     const handleCategorySelect = (title, description) => {
-        setCategory(description);
+        setCategory(title);
         console.log(title);
         setIsOpen(false);
     }
@@ -52,10 +67,11 @@ const CreatePost = () => {
                                     {data.slice(1).map((cat) => (
                                         <li
                                             key={cat.value}
+                                            value={cat.title}
                                             onClick={() => handleCategorySelect(cat.title, cat.description)}
                                             className="dropdown_item"
                                         >
-                                            {cat.description}
+                                            {cat.title}
                                         </li>
                                     ))}
                                 </ul>
