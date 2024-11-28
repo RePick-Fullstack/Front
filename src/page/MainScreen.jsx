@@ -12,6 +12,7 @@ function MainScreen() {
     const [reports, setReports] = useState(testReport);
     const [community, setCommunity] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [userMessage, setUserMessage] = useState("");  // userMessage로 상태 관리
     const [chating, setChating] = useState(false);
     const [chatHistory, setChatHistory] = useState([]);
     const [llmTyping, setLlmTyping] = useState(false);
@@ -71,55 +72,67 @@ function MainScreen() {
         handleCommunity()
     }, []);
 
-    const handleSendRequest = async () => {
-        if (inputValue.trim() !== "") {
-            const userMessage = {type: "user", text: inputValue};
-            setChatHistory((prev) => [...prev, userMessage]);
-            setLlmTyping(true);
+    // const handleSendRequest = async () => {
+    //     if (inputValue.trim() !== "") {
+    //         const userMessage = {type: "user", text: inputValue};
+    //         setChatHistory((prev) => [...prev, userMessage]);
+    //         setLlmTyping(true);
+    //         navigate("/ChatBot");
+    //
+    //         try {
+    //             const response = await axios.get(`http://localhost:8080/generate-text?keyword=${inputValue} search result`);
+    //             console.log(response.data);
+    //             const generatedText = response.data[0].generated_text;
+    //             const words = generatedText.split(" ");
+    //             let currentText = "";
+    //             for (let i = 0; i < words.length; i++) {
+    //                 currentText += (i === 0 ? "" : " ") + words[i];
+    //                 setChatHistory((prev) => {
+    //                     const updatedHistory = [...prev];
+    //                     if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
+    //                         updatedHistory[updatedHistory.length - 1].text = currentText + "_";
+    //                     } else {
+    //                         updatedHistory.push({type: "llm", text: currentText + "_"});
+    //                     }
+    //                     return updatedHistory;
+    //                 });
+    //                 await new Promise((resolve) => setTimeout(resolve, 25)); // 타이핑 효과를 위해 지연 시간 설정 (단어 단위)
+    //             }
+    //             // 마지막 _ 제거
+    //             setChatHistory((prev) => {
+    //                 const updatedHistory = [...prev];
+    //                 if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
+    //                     updatedHistory[updatedHistory.length - 1].text = currentText;
+    //                 }
+    //                 return updatedHistory;
+    //             });
+    //         } catch (error) {
+    //             console.log("Failed to fetch data from server");
+    //         }
+    //         setLlmTyping(false);
+    //         setInputValue(""); // 요청 후 입력 필드 초기화
+    //     }alert("내용 입력하삼 ; ")
+    //
+    // };
 
-            try {
-                const response = await axios.get(`http://localhost:8080/generate-text?keyword=${inputValue} search result`);
-                console.log(response.data);
-                const generatedText = response.data[0].generated_text;
-                const words = generatedText.split(" ");
-                let currentText = "";
-                for (let i = 0; i < words.length; i++) {
-                    currentText += (i === 0 ? "" : " ") + words[i];
-                    setChatHistory((prev) => {
-                        const updatedHistory = [...prev];
-                        if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
-                            updatedHistory[updatedHistory.length - 1].text = currentText + "_";
-                        } else {
-                            updatedHistory.push({type: "llm", text: currentText + "_"});
-                        }
-                        return updatedHistory;
-                    });
-                    await new Promise((resolve) => setTimeout(resolve, 25)); // 타이핑 효과를 위해 지연 시간 설정 (단어 단위)
-                }
-                // 마지막 _ 제거
-                setChatHistory((prev) => {
-                    const updatedHistory = [...prev];
-                    if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
-                        updatedHistory[updatedHistory.length - 1].text = currentText;
-                    }
-                    return updatedHistory;
-                });
-            } catch (error) {
-                console.log("Failed to fetch data from server");
-            }
-            setLlmTyping(false);
-            setInputValue(""); // 요청 후 입력 필드 초기화
+    const handleSendRequest = async () =>{
+        if(userMessage.trim() !== ""){
+            const userMessage = { type: "user", text: inputValue};
+            setChatHistory((prev) => [...prev, userMessage]);
+            navigate("/ChatBot", {state : userMessage});
+            setInputValue("");
+        }else{
+            alert("챗봇 내용 입력하삼");
         }
     };
 
     const handleEnterKey = (event) => {
         if (event.key === "Enter") {
             handleSendRequest();
-            navigate("/ChatBot");
-            setChating(true);
-            setTimeout(() => {
-                setEnterDelay(true);
-            }, 500); // 0.5초 후에 enterDelay를 false로 변경
+            // setChating(true);
+            // setTimeout(() => {
+            //     setEnterDelay(true);
+            // }, 500); // 0.5초 후에 enterDelay를 false로 변경
         }
     };
 
@@ -129,11 +142,7 @@ function MainScreen() {
                 <div className="left_container">
                     <div className="report_header">
                         <p className={"font-bold text-2xl ml-11"}>리포트</p>
-                        {enterDelay || <div className="hotReport" style={{
-                            transition: "height 0.5s ease-in-out", // 리서치 컴포넌트
-                            height: chating ? "0px" : "455px",
-                            overflow: "hidden"
-                        }}>
+                        {enterDelay || <div className="hotReport">
                             <ul className={"h-full overflow-y-scroll font-semibold"}>
                                 <li className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 bg-gray-100"}>
                                     <span className="text-left">리포트 제목</span>
@@ -166,11 +175,7 @@ function MainScreen() {
                             새로받아오기</button>
                     </p>
 
-                    <div className="newsCrawling" style={{     //뉴스 컴포넌트
-                        transition: "height 0.5s ease-in-out",
-                        height: chating ? "0px" : "230px",
-                        overflow: chating ? "hidden" : `auto`,
-                    }}>
+                    <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
                         <div>
                             {news.map((item, index) => (
                                 <div key={index}>{index + 1 + ".    "}
@@ -193,11 +198,7 @@ function MainScreen() {
 
 
                     </div>
-                    <div className="community" style={{
-                        transition: "height 0.5s ease-in-out",
-                        height: chating ? "0px" : "150px",
-                        overflow: chating ? "hidden" : `auto`,
-                    }}>
+                    <div className="community">
                         {community.map((item, index) => (
                             <button className={"flex flex-col gap-y-2"}
                                     key={index} onClick={() => {
@@ -231,8 +232,8 @@ function MainScreen() {
                             <input
                                 className="chatInput rounded-2xl border border-black flex justify-between"
                                 placeholder="쳇봇에게 질문"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
+                                value={userMessage}
+                                onChange={(e) => setUserMessage(e.target.value)}
                                 onKeyPress={handleEnterKey}
                             />
                             <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
