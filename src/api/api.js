@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({
+export const api = axios.create({
     baseURL: 'http://localhost:9000/posts', // spring 서버 url
     timeout: 5000,
     headers: {
