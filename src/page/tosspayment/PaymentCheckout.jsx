@@ -1,6 +1,6 @@
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
-import './App.css'
+import './Payment.css'
 
 // ------  SDK 초기화 ------
 // TODO: clientKey는 개발자센터의 API 개별 연동 키 > 결제창 연동에 사용하려할 MID > 클라이언트 키로 바꾸세요.
@@ -12,7 +12,7 @@ const customerKey = generateRandomString();
 
 const amount = {
   currency: "KRW",
-  value: 50000,
+  value: 5900,
 };
 
 export function PaymentCheckoutPage() {
@@ -58,7 +58,7 @@ export function PaymentCheckoutPage() {
           method: "CARD", // 카드 및 간편결제
           amount,
           orderId: generateRandomString(), // 고유 주문번호
-          orderName: "토스 티셔츠 외 2건",
+          orderName: "리픽 구독 결재",
           successUrl: window.location.origin + "/tosspayment/success", // 결제 요청이 성공하면 리다이렉트되는 URL
           failUrl: window.location.origin + "/tosspayment/fail", // 결제 요청이 실패하면 리다이렉트되는 URL
           customerEmail: "customer123@gmail.com",
@@ -77,7 +77,7 @@ export function PaymentCheckoutPage() {
           method: "TRANSFER", // 계좌이체 결제
           amount,
           orderId: generateRandomString(),
-          orderName: "토스 티셔츠 외 2건",
+          orderName: "리픽 구독 결재",
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -96,7 +96,7 @@ export function PaymentCheckoutPage() {
           method: "VIRTUAL_ACCOUNT", // 가상계좌 결제
           amount,
           orderId: generateRandomString(),
-          orderName: "토스 티셔츠 외 2건",
+          orderName: "리픽 구독 결재",
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -116,7 +116,7 @@ export function PaymentCheckoutPage() {
           method: "MOBILE_PHONE", // 휴대폰 결제
           amount,
           orderId: generateRandomString(),
-          orderName: "토스 티셔츠 외 2건",
+          orderName: "리픽 구독 결재",
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -129,7 +129,7 @@ export function PaymentCheckoutPage() {
           method: "CULTURE_GIFT_CERTIFICATE", // 문화상품권 결제
           amount,
           orderId: generateRandomString(),
-          orderName: "토스 티셔츠 외 2건",
+          orderName: "리픽 구독 결재",
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -145,7 +145,7 @@ export function PaymentCheckoutPage() {
             currency: "USD",
           },
           orderId: generateRandomString(),
-          orderName: "토스 티셔츠 외 2건",
+          orderName: "리픽 구독 결재",
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",

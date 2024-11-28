@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import './App.css'
+import './Payment.css'
 
 export function PaymentFailPage() {
   const [searchParams] = useSearchParams();
