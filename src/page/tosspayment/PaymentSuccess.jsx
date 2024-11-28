@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import './Payment.css'
 
+const url = `http://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:4000/api/v1/tosspayments`
+
 export function PaymentSuccessPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -15,7 +17,7 @@ export function PaymentSuccessPage() {
         paymentKey: searchParams.get("paymentKey"),
       };
 
-      const response = await fetch("http://localhost:4000/api/confirm/payment", {
+      const response = await fetch(`${url}/confirm/payment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

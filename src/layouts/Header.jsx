@@ -206,7 +206,10 @@ function Header() {
             <div className="header-content">
                 <div className="auth-buttons">
                     {isLoggedIn ? (<>
-
+                        <button onClick={() => {
+                            navigate("/tosspayment")
+                        }}>결제하기
+                        </button>
                         <button onClick={handleLogout}>로그아웃</button>
                         <div className="user-greeting">안녕하세요, {userName}님!</div>
                         {/* 토큰 남은 시간 표시 */}
@@ -215,7 +218,6 @@ function Header() {
                             시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                         </div>
                     </>) : (<>
-                        <button onClick={() => {navigate("/tosspayment")}}>결제하기</button>
                         <button onClick={() => setIsSignInOpen(true)}>로그인</button>
                         <button onClick={() => setIsSignUpOpen(true)}>회원가입</button>
                     </>)}
