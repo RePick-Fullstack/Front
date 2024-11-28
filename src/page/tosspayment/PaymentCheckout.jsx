@@ -60,7 +60,7 @@ export function PaymentCheckoutPage() {
           method: "CARD", // 카드 및 간편결제
           amount,
           orderId: generateRandomString(), // 고유 주문번호
-          orderName: `리픽 구독 결재 ${amount.value === 5900 ? `1개월` : `12개월`}`,
+          orderName: `리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`,
           successUrl: window.location.origin + "/tosspayment/success", // 결제 요청이 성공하면 리다이렉트되는 URL
           failUrl: window.location.origin + "/tosspayment/fail", // 결제 요청이 실패하면 리다이렉트되는 URL
           customerEmail: "customer123@gmail.com",
@@ -79,7 +79,7 @@ export function PaymentCheckoutPage() {
           method: "TRANSFER", // 계좌이체 결제
           amount,
           orderId: generateRandomString(),
-          orderName: `리픽 구독 결재 ${amount.value === 5900 ? `1개월` : `12개월`}`,
+          orderName: `리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`,
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -98,7 +98,7 @@ export function PaymentCheckoutPage() {
           method: "VIRTUAL_ACCOUNT", // 가상계좌 결제
           amount,
           orderId: generateRandomString(),
-          orderName: `리픽 구독 결재 ${amount.value === 5900 ? `1개월` : `12개월`}`,
+          orderName: `리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`,
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -118,7 +118,7 @@ export function PaymentCheckoutPage() {
           method: "MOBILE_PHONE", // 휴대폰 결제
           amount,
           orderId: generateRandomString(),
-          orderName: `리픽 구독 결재 ${amount.value === 5900 ? `1개월` : `12개월`}`,
+          orderName: `리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`,
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -131,7 +131,7 @@ export function PaymentCheckoutPage() {
           method: "CULTURE_GIFT_CERTIFICATE", // 문화상품권 결제
           amount,
           orderId: generateRandomString(),
-          orderName: `리픽 구독 결재 ${amount.value === 5900 ? `1개월` : `12개월`}`,
+          orderName: `리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`,
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -147,7 +147,7 @@ export function PaymentCheckoutPage() {
             currency: "USD",
           },
           orderId: generateRandomString(),
-          orderName: `리픽 구독 결재 ${amount.value === 5900 ? `1개월` : `12개월`}`,
+          orderName: `리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`,
           successUrl: window.location.origin + "/tosspayment/success",
           failUrl: window.location.origin + "/tosspayment/fail",
           customerEmail: "customer123@gmail.com",
@@ -194,10 +194,10 @@ export function PaymentCheckoutPage() {
           {isSelected && <div>
             <div className="box_section-amount w-full h-20 pl-[65px] pr-5 flex flex-col justify-center gap-2">
               <div className="flex justify-between">
-                <strong>상품명 :</strong><p> {` 리픽 구독 결재 ${amount.value === 5900 ? `1개월` : `12개월`}`}</p>
+                <strong>상품명 :</strong><p> {` 리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`}</p>
               </div>
               <div className="flex justify-between">
-                <strong>결재 금액 :</strong><p>{` ${amount.value === 5900 ? `5,900 원` : `59,000원`}`}</p>
+                <strong>결제 금액 :</strong><p>{` ${amount.value === 5900 ? `5,900 원` : `59,000원`}`}</p>
               </div>
             </div>
             <div className="box_section">
