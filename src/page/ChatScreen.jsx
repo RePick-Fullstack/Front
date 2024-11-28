@@ -1,5 +1,5 @@
-function ChatScreen(){
-    return(
+function ChatScreen() {
+    return (
         <div>챗봇화면</div>
     )
 }

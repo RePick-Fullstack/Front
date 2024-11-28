@@ -14,6 +14,9 @@ import CompleteProfile from "./layouts/CompleteProfile.jsx";
 import {ChatRoom} from "./page/ChatRoom.jsx";
 import {ChatRoomList} from "./page/ChatRoomList.jsx";
 import CreatePost from "./page/CreatePost.jsx";
+import {PaymentCheckoutPage} from "./page/tosspayment/PaymentCheckout.jsx";
+import {PaymentSuccessPage} from "./page/tosspayment/PaymentSuccess.jsx";
+import {PaymentFailPage} from "./page/tosspayment/PaymentFail.jsx";
 
 //import {testCommunity} from "./assets/testCommunity.js";
 
@@ -35,6 +38,9 @@ function App() {
                 <Route path="/myPage" element={<MyPage/>}/>
                 <Route path="/chatRoom/" element={<ChatRoomList/>}/>
                 <Route path="/chatRoom/:id" element={<ChatRoom/>}/>
+                <Route path="/tosspayment" element={<PaymentCheckoutPage/>}/>
+                <Route path="/tosspayment/success" element={<PaymentSuccessPage/>}/>
+                <Route path="/tosspayment/fail" element={<PaymentFailPage/>}/>
             </Routes>
         </div>
     </RecoilRoot>);

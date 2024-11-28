@@ -42,7 +42,6 @@ function randomString() {
 }
 
 
-
 export const randomPostGenerator = (category) => {
     sample.title = randomString()
     sample.content = randomString()

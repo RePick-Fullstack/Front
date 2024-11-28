@@ -1,5 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
-import ChatComponent from "./ChatComponent.jsx";
+import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -37,7 +36,7 @@ export const ChatRoomList = () => {
 
     const handleCreate = async () => {
         const {data: createdChatRoom} = await axios.post("http://localhost:8081/api/v1/chatroom", {
-            chatRoomName: `testChatRoom ${Math.floor(Math.random()*9999)}`,
+            chatRoomName: `testChatRoom ${Math.floor(Math.random() * 9999)}`,
             token: localStorage.getItem('accessToken'),
             hashTags: inputHashTag //헤쉬테그 리스트
         })
@@ -72,26 +71,27 @@ export const ChatRoomList = () => {
         navigate(`/chatroom/${room.uuid}`)
     }
 
-    return(
+    return (
         <div className={"ml-[50px] flex justify-center p-5 gap-5"}>
             <div className={"w-full max-w-[400px] border"}
                  style={{height: `calc(100vh - 94px)`}}>
                 <div className={"w-full h-full p-5"}>
-                    <button className={`w-full h-12 ${isHashTagRight ? `bg-amber-300` : `bg-gray-400`} active:bg-amber-400`}
-                    onClick={handleCreate}
-                            disabled={!isHashTagRight}
+                    <button
+                        className={`w-full h-12 ${isHashTagRight ? `bg-amber-300` : `bg-gray-400`} active:bg-amber-400`}
+                        onClick={handleCreate}
+                        disabled={!isHashTagRight}
                     >채팅방 생성하기
                     </button>
                     <div>헤쉬 테그</div>
                     <input className={"w-full h-12 border"}
-                    onChange={(e) => handleHashTag(e)}
+                           onChange={(e) => handleHashTag(e)}
                     />
                     {!isHashTagRight && <div>헤쉬 테그 입력이 옳바르지 않습니다.</div>}
                     <ul className={"overflow-auto h-full"} style={{maxHeight: "calc(100% - 48px)"}}>
                         {ChatRoomList.map((room, index) => {
                             return (
                                 <li key={index} className="h-20 hover:bg-gray-100 flex items-center pl-5"
-                                onClick={() => handleSelectChatRoom(room)}>
+                                    onClick={() => handleSelectChatRoom(room)}>
                                     <div>
                                         <div className="font-bold">{room.chatRoomName}</div>
                                         <div>참여자 {room.UserNumber} 명</div>

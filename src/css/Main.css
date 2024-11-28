@@ -2,71 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-.main_container{
+.main_container {
     display: flex;
-    gap : 20px;
-    padding : 20px;
+    gap: 20px;
+    padding: 20px;
     box-sizing: border-box;
     text-align: left;
 }
-.left_container{
+
+.left_container {
     display: flex;
 }
+
 .hotReport {
-    width: 750px;      /* 박스의 너비 */
-    border: 1px solid black;  /* 1px 두께의 검정색 테두리 */
+    width: 750px; /* 박스의 너비 */
+    border: 1px solid black; /* 1px 두께의 검정색 테두리 */
     border-radius: 10px;
     margin-top: 20px;
 }
-.report_header{
+
+.report_header {
     display: flex;
     flex-direction: column; /* 위아래로 정렬 */
     align-items: flex-start; /* 왼쪽 정렬 */
 }
+
 .report_header p {
     margin: 0; /* 불필요한 여백 제거 */
 }
-.newsCrawling{
-    width: 60%;
-    padding:15px;
-    margin-left: 50px;
-    border:1px solid black;
-    border-radius: 10px;
-}
-.community{
+
+.newsCrawling {
     width: 60%;
     padding: 15px;
     margin-left: 50px;
     border: 1px solid black;
     border-radius: 10px;
 }
-.community{
+
+.community {
+    width: 60%;
+    padding: 15px;
+    margin-left: 50px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.community {
     height: 175px;
 }
-.newsCrawling{
+
+.newsCrawling {
     height: 175px;
 }
+
 /* newsCrawling과 community를 세로로 배치 */
 .right-column {
     display: flex;
     flex-direction: column;
     gap: 20px; /* 위아래 간격 */
 }
+
 .inputContainer {
     position: relative; /* 버튼 위치 조정을 위해 relative로 설정 */
 }
-.chatInput{
+
+.chatInput {
     height: 35px;
     width: 100%;
     max-width: 744px;
     text-align: center;
     padding-right: 20px;
 }
-.input-svg{
+
+.input-svg {
     height: 15px;
     width: 15px;
 }
-.inputButton{
+
+.inputButton {
     background: none; /* 버튼의 배경색 제거 */
     border: none; /* 버튼 테두리 제거 */
     cursor: pointer; /* 클릭할 때 포인터 커서로 변경 */

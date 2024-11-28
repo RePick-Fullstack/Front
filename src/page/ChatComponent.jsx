@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 let socket = null;
 
@@ -87,36 +87,38 @@ function ChatComponent() {
         <div className={"relative h-full"}>
             {connect &&
                 <div className={"absolute w-full h-full p-2 bg-white"}>
-                <div className={"flex justify-center flex-wrap"}>
-                    <div>닉네임 설정</div>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
-                           placeholder={username}
-                           className={"mt-2 w-full p-2 border rounded text-center"}
-                    />
-                </div>
-                <div className={"mt-2 flex justify-center mb-2"}>
-                    <button className={`${buttonUi} bg-amber-300 active:bg-amber-500`}
-                            onClick={() => {
-                                setLoading(true);
-                                connectWebSocket('ws://localhost:8081/websocket/2f977970-d0be-4224-97e0-bc71ba8ed67b')
-                            }}>채팅방 입장
-                    </button>
-                </div>
-                    <div className={"flex justify-center"}>
-                    {loading && <h3>입장 대기중...</h3>}
+                    <div className={"flex justify-center flex-wrap"}>
+                        <div>닉네임 설정</div>
+                        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}
+                               placeholder={username}
+                               className={"mt-2 w-full p-2 border rounded text-center"}
+                        />
                     </div>
-            </div>
+                    <div className={"mt-2 flex justify-center mb-2"}>
+                        <button className={`${buttonUi} bg-amber-300 active:bg-amber-500`}
+                                onClick={() => {
+                                    setLoading(true);
+                                    connectWebSocket('ws://localhost:8081/websocket/2f977970-d0be-4224-97e0-bc71ba8ed67b')
+                                }}>채팅방 입장
+                        </button>
+                    </div>
+                    <div className={"flex justify-center"}>
+                        {loading && <h3>입장 대기중...</h3>}
+                    </div>
+                </div>
             }
             <div className={"h-full"}>
                 <div className={"h-full"} style={{maxHeight: `calc(100% - 70px)`}}>
-                    <ul className={"h-full overflow-y-scroll"} >
+                    <ul className={"h-full overflow-y-scroll"}>
                         {messages.map((message, index) => {
                             const isMe = message.user === username
-                            return(
-                                <li key={index} className={`${isMe ? `flex justify-end` : `flex justify-normal`} p-1 pl-5 pr-5`}>
+                            return (
+                                <li key={index}
+                                    className={`${isMe ? `flex justify-end` : `flex justify-normal`} p-1 pl-5 pr-5`}>
                                     <div>
-                                        <div className={`text-${isMe ? `right` : 'left' }`}>{message.user}</div>
-                                        <div className={`border ${isMe ? `bg-amber-300` : `white`} rounded-b p-2`}>{`${message.input}`}</div>
+                                        <div className={`text-${isMe ? `right` : 'left'}`}>{message.user}</div>
+                                        <div
+                                            className={`border ${isMe ? `bg-amber-300` : `white`} rounded-b p-2`}>{`${message.input}`}</div>
                                     </div>
                                 </li>
                             )
@@ -126,16 +128,16 @@ function ChatComponent() {
                     </ul>
                 </div>
                 <div className={"flex"}>
-                <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="메시지를 입력하세요..."
-                    style={{width: '80%', padding: '10px'}}
-                    disabled={connect}
-                />
-                <button onClick={sendMessage} style={{padding: '10px'}}>전송</button>
+                    <input
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="메시지를 입력하세요..."
+                        style={{width: '80%', padding: '10px'}}
+                        disabled={connect}
+                    />
+                    <button onClick={sendMessage} style={{padding: '10px'}}>전송</button>
                 </div>
             </div>
         </div>
