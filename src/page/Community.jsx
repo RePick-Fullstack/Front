@@ -23,9 +23,8 @@ function Community() {
             console.log("선택한 카테고리" + selectedCategory);
             if (selectedCategory === "TOTAL") {
                 return await getPosts();
-            } else {
-                return await getPostsByCategory(selectedCategory);
             }
+            return await getPostsByCategory(selectedCategory);
         } catch (e) {
             alert('게시글 불러오는중 문제 생김');
             return null;
@@ -33,7 +32,6 @@ function Community() {
     }
 
     const fetchPosts = async (selectedCategory) => {
-
         const data = await getData(selectedCategory);
         if (data) setPosts(data);
         console.log("data : " + data)
