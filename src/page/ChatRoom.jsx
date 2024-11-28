@@ -45,7 +45,8 @@ export const ChatRoom = (props) => {
     return (
         <div className={`${!isCommunity && `ml-[50px]`} flex justify-center p-5 gap-5`}>
             <div className={"w-full max-w-[400px] border"}
-                 style={{height: `calc(100vh - 118px)`}}>
+                 //style={{height: `calc(100vh - 180px)`}}> 밑으로 빠져나감
+                 style={{height: `calc(550px)`}}>
                 {isJoin ? <div className={"w-full h-full flex items-end"}
                                style={{backgroundColor: `rgba(150, 150, 150, 0.7)`}}>
                     <div className={"w-full"}>
