@@ -17,6 +17,7 @@ import CreatePost from "./page/CreatePost.jsx";
 import {PaymentCheckoutPage} from "./page/tosspayment/PaymentCheckout.jsx";
 import {PaymentSuccessPage} from "./page/tosspayment/PaymentSuccess.jsx";
 import {PaymentFailPage} from "./page/tosspayment/PaymentFail.jsx";
+import ChatBot from "./page/ChatBot.jsx";
 
 //import {testCommunity} from "./assets/testCommunity.js";
 
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/mypage" element={<MyPage/>}/>
                 <Route path="/chatroom/" element={<ChatRoomList/>}/>
                 <Route path="/chatroom/:id" element={<ChatRoom/>}/>
+                <Route path="/chatbot" element={<ChatBot/>}/>
                 <Route path="/tosspayment" element={<PaymentCheckoutPage/>}/>
                 <Route path="/tosspayment/success" element={<PaymentSuccessPage/>}/>
                 <Route path="/tosspayment/fail" element={<PaymentFailPage/>}/>
