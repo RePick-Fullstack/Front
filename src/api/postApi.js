@@ -6,6 +6,11 @@ export const getPostsByCategory = async (category) => {
     });
     return response.data;
 };
+export const getPosts = async () =>{
+    const response = await api.get('',{
+    });
+    return response.data;
+}
 // 사용자가 작성한 게시글 조회
 export const getMyPosts = async () => {
     const response = await api.get('/my-posts');
