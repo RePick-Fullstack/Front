@@ -11,34 +11,28 @@ import {ChatRoom} from "./ChatRoom.jsx";
 
 function Community() {
     const isCommunity = true;
-    let [category, setCategory] = useState("TOTAL"); // 카테고리 받아오면 시작 TOTAL로
-    let [selectCat, setSelectCat] = useState("전체");
-    let [posts, setPosts] = useState([]);
-    let data = testMainCommunity;
-    let navigate = useNavigate();
-    let [searchParams] = useSearchParams(); // URL에서 쿼리스트링 읽기
+    const [category, setCategory] = useState("TOTAL"); // 카테고리 받아오면 시작 TOTAL로
+    const [selectCat, setSelectCat] = useState("전체");
+    const [posts, setPosts] = useState([]);
+    const data = testMainCommunity;
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams(); // URL에서 쿼리스트링 읽기
 
     const getData = async (selectedCategory) => {
         try {
+            console.log("선택한 카테고리" + selectedCategory);
             return await getPostsByCategory(selectedCategory)
         } catch (e) {
-            alert('게시글 불러오는중 문제 생김')
+            alert('게시글 불러오는중 문제 생김');
+            return null;
         }
-
     }
 
     const fetchPosts = async (selectedCategory) => {
 
         const data = await getData(selectedCategory);
         if (data) setPosts(data);
-        console.log(data)
-
-    }
-
-    const handleCreatePost = async () => {
-        const post = randomPostGenerator(category)
-        await createPost(post)
-        await fetchPosts(category);
+        console.log( "data : " +  data)
     }
 
     const handleCategoryChange = (newCategory) => {
@@ -49,35 +43,35 @@ function Community() {
         setSelectCat(selected.description);
         fetchPosts(selected.title);
         navigate(`/community?category=${selected.title}`); // URL 업데이트
-
     };
 
-    // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
-    useEffect(() => {
-        fetchPosts("TOTAL");
-    }, []); // 빈 배열: 최초 한 번 실행
+    // // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
+    // useEffect(() => {
+    //     fetchPosts("ENERGY");
+    // }, []); // 빈 배열: 최초 한 번 실행
 
     useEffect(() => {
         const urlCategory = searchParams.get("category") || "TOTAL";
         const selected = data.find((item) => item.title === urlCategory);
         if (urlCategory) {
-            setCategory(urlCategory);
+            console.log("urlCategory " + urlCategory);
+            console.log("selected.title " + selected);
+            setCategory(selected.title);
             setSelectCat(selected.description);
-            fetchPosts(urlCategory);
+            fetchPosts(selected.title);
         } else {
             setCategory("TOTAL");
             fetchPosts("TOTAL");
         }
-    }, [searchParams]); // searchParams 또는 data 변경 시 실행
+    }, [searchParams]); // searchParams 변경 시 실행
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
-                <div onClick={() => handleCategoryChange(category)}
-                     style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
+                <div className={"caret-transparent"} style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
                 <div className={"h-auto rounded-xl bg-gray-400 mt-0 items-center flex flex-wrap"}>
                     <span className={"font-semibold text-sm flex gap-8 ml-6"}>
                          {data.map((item, index) => (
-                             <span className={"cursor-pointer hover:underline  text-center"} key={index}
+                             <span className={"caret-transparent cursor-pointer hover:underline  text-center"} key={index}
                                    onClick={() => handleCategoryChange(item.title)}>
                                  {item.description}</span>
                          ))}
@@ -105,22 +99,6 @@ function Community() {
                                     </li>
                                 ))}
                             </ul>
-
-                            {/*{Object.values(data).map((item) => (*/}
-                            {/*    <div className={"bg-amber-400 mt-5"} key={item.id}>*/}
-                            {/*        <button className={"font-bold"} onClick={()=>{*/}
-                            {/*            navigate(`/community/${item.id}`)*/}
-                            {/*        }}>{item.title}</button>*/}
-                            {/*        <div>{item.content}</div>*/}
-                            {/*        <div className={"text-xs font-bold"}>{item.nickname}</div>*/}
-                            {/*        <div className={"text-right"}>*/}
-                            {/*            <span>좋아요 {item.good}</span>*/}
-                            {/*            <span>댓글 {item.comment}</span>*/}
-                            {/*            <span>조회 {item.check}</span>*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*))}*/}
-                            {/*))}*/}
                         </div>
 
                     </div>
@@ -139,22 +117,6 @@ function Community() {
                 </div>
             </div>
 
-        </>
-    )
-}
-
-function PostList(category, posts) {
-    return (
-        <>
-            <h2>{category} 게시글</h2>
-            <ul>
-                {posts.map((post) => (
-                    <li key={post.id}>
-                        <h3>{post.title}</h3>
-                        <p>{post.content}</p>
-                    </li>
-                ))}
-            </ul>
         </>
     )
 }
