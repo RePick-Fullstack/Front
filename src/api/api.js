@@ -22,6 +22,10 @@ export const reportApi = axios.create({
     }
 });
 
+export const realTimeChatApi = axios.create({
+    baseURL: 'http://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:8402/api/v1/chatroom', // spring 서버 url
+});
+
 export const setAuthHeader = (token) => {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 

@@ -6,7 +6,7 @@ let socket = null;
 
 const buttonUi = `w-32 h-10 border border-black active:bg-gray-500`
 
-function ChatComponent() {
+function ChatComponent(props) {
     const {id} = useParams()
     const navigate = useNavigate();
     const [messages, setMessages] = useState([]);
@@ -22,14 +22,15 @@ function ChatComponent() {
     }
 
     const connectWebSocket = () => {
-        socket = new WebSocket(`ws://localhost:8081/websocket/${id}`);
+        console.log(`charRoom uuid :` + (id === undefined ? props.id : id));
+        socket = new WebSocket(`ws://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:8402/websocket/${id === undefined ? props.id : id}`);
         let myUuid = '';
         let isJoined = false;
         socket.onopen = async () => {
             const uuid = uuidv4().toString();
             setSessionUUID(uuid)
             myUuid = uuid;
-            console.log(uuid)
+            console.log(`user uuid :` + uuid)
             console.log(`WebSocket connection opened`);
             const initData = {token: localStorage.getItem('accessToken'), uuid: uuid};
             socket.send(JSON.stringify(initData));
@@ -107,7 +108,7 @@ function ChatComponent() {
                     <h3>입장 대기중...</h3>
                 </div>
             }
-            <div className={"h-full"}>
+            <div className={"h-full bg-white"}>
                 <div className={"h-full"} style={{maxHeight: `calc(100% - 70px)`}}>
                     <button className={"w-full h-12 bg-amber-300 active:bg-amber-400"}
                             onClick={() => {

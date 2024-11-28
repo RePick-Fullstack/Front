@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {realTimeChatApi} from "../api/api.js";
 
 export const ChatRoomList = () => {
     const navigate = useNavigate();
@@ -29,13 +30,17 @@ export const ChatRoomList = () => {
     }, []);
 
     const ChatRoomLoad = async () => {
-        const {data: page} = await axios.get("http://localhost:8081/api/v1/chatroom/chatroom")
+        const {data: page} = await realTimeChatApi.get("/chatroom")
         console.log(page.content)
         setChatRoomList(page.content)
     }
 
     const handleCreate = async () => {
-        const {data: createdChatRoom} = await axios.post("http://localhost:8081/api/v1/chatroom", {
+        if (localStorage.getItem('accessToken') === null) {
+            alert('채팅방을 만들려면 로그인이 필요합니다.')
+            return;
+        }
+        const {data: createdChatRoom} = await realTimeChatApi.post("", {
             chatRoomName: `testChatRoom ${Math.floor(Math.random() * 9999)}`,
             token: localStorage.getItem('accessToken'),
             hashTags: inputHashTag //헤쉬테그 리스트
@@ -74,7 +79,7 @@ export const ChatRoomList = () => {
     return (
         <div className={"ml-[50px] flex justify-center p-5 gap-5"}>
             <div className={"w-full max-w-[400px] border"}
-                 style={{height: `calc(100vh - 94px)`}}>
+                 style={{Height: `calc(100vh - 118px)`}}>
                 <div className={"w-full h-full p-5"}>
                     <button
                         className={`w-full h-12 ${isHashTagRight ? `bg-amber-300` : `bg-gray-400`} active:bg-amber-400`}

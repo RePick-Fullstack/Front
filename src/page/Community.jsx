@@ -6,9 +6,11 @@ import ChatComponent from "./ChatComponent.jsx";
 import {useEffect, useState} from "react";
 import {createPost, getPostsByCategory} from "../api/postApi.js";
 import {randomPostGenerator} from "../data/randomPostGenerator.js";
+import ChatComponentmk2 from "./ChatComponentmk2.jsx";
+import {ChatRoom} from "./ChatRoom.jsx";
 
 function Community() {
-
+    const isCommunity = true;
     let [category, setCategory] = useState("TOTAL"); // 카테고리 받아오면 시작 TOTAL로
     let [selectCat, setSelectCat] = useState("전체");
     let [posts, setPosts] = useState([]);
@@ -123,17 +125,17 @@ function Community() {
 
                     </div>
                 </div>
-                <div className="right-container w-auto">
-                    <p className={"text-3xl  font-bold"}>실시간 채팅</p>
-                    <div className={"bg-white mt-5"}>
-                        <div style={{
-                            width: "auto",
-                            height: "450px",
-                            overflow: `auto`
-                        }}>
-                            <ChatComponent/>
-                        </div>
-                    </div>
+                <div className="right-container w-auto p-0">
+                    {/*<p className={"text-3xl  font-bold"}>실시간 채팅</p>*/}
+                    {/*<div className={"bg-white mt-5"}>*/}
+                    {/*    <div style={{*/}
+                    {/*        width: "auto",*/}
+                    {/*        height: "450px",*/}
+                    {/*        overflow: `auto`*/}
+                    {/*    }}>*/}
+                            <ChatRoom isCommunity={isCommunity}/>
+                        {/*</div>*/}
+                    {/*</div>*/}
                 </div>
             </div>
 

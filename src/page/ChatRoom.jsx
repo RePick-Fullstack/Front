@@ -2,14 +2,16 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
+import {realTimeChatApi} from "../api/api.js";
 
-export const ChatRoom = () => {
+export const ChatRoom = (props) => {
+    const isCommunity = props.isCommunity || false;
     const {id} = useParams();
     const navigate = useNavigate();
     const [isJoin, setIsJoin] = useState(true)
     const [selectChatRoom, setSelectChatRoom] = useState({
-        uuid: "454ccca4-c2d0-4cf3-b46b-086fae57226a",
-        chatRoomName: "testChatRoom 1494",
+        uuid: "38e05c99-d5c7-41bd-ae84-4c7f2d0de160",
+        chatRoomName: "커뮤니티 쳇룸",
         ownerName: "가나다",
         UserNumber: 1,
         hashTags: [],
@@ -17,23 +19,33 @@ export const ChatRoom = () => {
     })
 
     useEffect(() => {
-        ChatRoomLoad()
+        !isCommunity ? ChatRoomLoad() : communityChatRoomLoad()
     }, []);
 
     const handleJoin = () => {
+        if(localStorage.getItem('accessToken') === null) {
+            alert('채팅방에 입장하시려면 로그인이 필요합니다.')
+            return;
+        }
         setIsJoin(!isJoin);
     }
 
     const ChatRoomLoad = async () => {
-        const {data: chatRoom} = await axios.get(`http://localhost:8081/api/v1/chatroom/${id}`)
+        const {data: chatRoom} = await realTimeChatApi.get(`/${id}`)
         setSelectChatRoom(chatRoom);
+    }
+
+    const communityChatRoomLoad = async () => {
+        const {data: page} = await realTimeChatApi.get("/chatroom")
+        console.log(page.content[0])
+        setSelectChatRoom(page.content[0])
     }
 
 
     return (
-        <div className={"ml-[50px] flex justify-center p-5 gap-5"}>
+        <div className={`${!isCommunity && `ml-[50px]`} flex justify-center p-5 gap-5`}>
             <div className={"w-full max-w-[400px] border"}
-                 style={{height: `calc(100vh - 94px)`}}>
+                 style={{height: `calc(100vh - 118px)`}}>
                 {isJoin ? <div className={"w-full h-full flex items-end"}
                                style={{backgroundColor: `rgba(150, 150, 150, 0.7)`}}>
                     <div className={"w-full"}>
@@ -60,7 +72,7 @@ export const ChatRoom = () => {
                             </div>
                         </div>
                     </div>
-                </div> : <ChatComponentmk2/>}
+                </div> : <ChatComponentmk2 id={selectChatRoom.uuid}/>}
             </div>
         </div>
     );
