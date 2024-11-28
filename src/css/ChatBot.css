@@ -1,0 +1,59 @@
+.chatBot-container {
+    width: auto;
+    margin: auto;
+    padding: 20px;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+}
+
+.slide-up {
+    position: relative;
+    animation: slideUpAnimation 0.8s ease-out forwards;
+}
+
+@keyframes slideUpAnimation {
+    0% {
+        transform: translateY(30px); /* 시작 위치 */
+        opacity: 0; /* 투명도 */
+        background-color: rgba(255, 255, 255, 0.1); /* 배경색 초기 상태 */
+    }
+    100% {
+        transform: translateY(0); /* 최종 위치 */
+        opacity: 1; /* 완전한 불투명 */
+        background-color: rgba(255, 255, 255, 1); /* 최종 배경색 */
+    }
+}
+
+.chatBox {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 700px;
+    margin: 0 0 0 100px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.user-message {
+    margin: 50px;
+    font-size: 40px;
+}
+
+.llm-message {
+    margin: 35px;
+    font-size: 20px;
+}
+
+.user-message strong,
+.llm-message strong {
+    color: #4A90E2;
+}
+
+.reportBox {
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 400px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
