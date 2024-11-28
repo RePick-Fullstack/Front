@@ -115,6 +115,7 @@ function MainScreen() {
     const handleEnterKey = (event) => {
         if (event.key === "Enter") {
             handleSendRequest();
+            navigate("/ChatBot");
             setChating(true);
             setTimeout(() => {
                 setEnterDelay(true);
