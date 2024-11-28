@@ -15,6 +15,13 @@ export const newsApi = axios.create({
     }
 });
 
+export const reportApi = axios.create({
+    baseURL: 'http://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:8401/api/v1/reports', // spring 서버 url
+    headers: {
+        'Content-Type': 'application/json', // 기본 Content-Type 설정
+    }
+});
+
 export const setAuthHeader = (token) => {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 

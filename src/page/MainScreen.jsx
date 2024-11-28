@@ -4,7 +4,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {testNews} from "../data/testNews.js";
 import {testReport} from "../data/testReport.js";
-import {newsApi} from "../api/api.js";
+import {newsApi, reportApi} from "../api/api.js";
 
 function MainScreen() {
     let navigate = useNavigate();
@@ -57,7 +57,7 @@ function MainScreen() {
 
     const handleReports = async () => {
         try {
-            const getReports = await axios.get("http://localhost:8082/api/v1/reports");
+            const getReports = await reportApi.get("");
             console.log(getReports.data);
             getReports.data && setReports(getReports.data);
         } catch {
@@ -146,9 +146,9 @@ function MainScreen() {
                                             <span
                                                 className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
                                             <span className={"text-center"}><a className={"ml-5"}
-                                                                               href={report.pdf_link}>{report.sector_name}</a></span>
+                                                                               href={report.pdf_link}>{report.securities_firm}</a></span>
                                             <span className={"text-right"}>{report.report_date}</span>
-
+                                            <span>{report.report_title}</span>
                                             {/*여기에 리포트 내용의 요약이 들어가야됨*/}
                                         </div>
 
