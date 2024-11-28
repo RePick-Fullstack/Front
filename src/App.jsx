@@ -1,9 +1,9 @@
 //import { useState } from 'react'
 import './App.css'
 import './css/sidebar.css'
-import SideBar from "./layouts/SideBar.jsx";
+import SideBar from "./layout/SideBar.jsx";
 import MainScreen from "./page/MainScreen.jsx";
-import Header from "./layouts/Header.jsx";
+import Header from "./layout/Header.jsx";
 import {Route, Routes} from "react-router-dom";
 import Community from "./page/Community.jsx";
 import CommunityDetail from "./page/CommunityDetail.jsx";
@@ -26,18 +26,17 @@ function App() {
         <div className="App w-full">
             <Header></Header>
             <SideBar></SideBar>
-            {/*<<MainScreen></MainScreen>> */}
 
             <Routes>
                 <Route path="/*" element={<MainKakaoSignUp/>}/>
                 <Route path="/" element={<MainScreen/>}/>
                 <Route path="/community" element={<Community/>}/>
-                <Route path="/CreatePost" element={<CreatePost/>}/>
+                <Route path="/createpost" element={<CreatePost/>}/>
                 <Route path="/posts/:id" element={<CommunityDetail/>}/>
-                <Route path="/ReportPage" element={<ReportPage/>}/>
-                <Route path="/myPage" element={<MyPage/>}/>
-                <Route path="/chatRoom/" element={<ChatRoomList/>}/>
-                <Route path="/chatRoom/:id" element={<ChatRoom/>}/>
+                <Route path="/reportpage" element={<ReportPage/>}/>
+                <Route path="/mypage" element={<MyPage/>}/>
+                <Route path="/chatroom/" element={<ChatRoomList/>}/>
+                <Route path="/chatroom/:id" element={<ChatRoom/>}/>
                 <Route path="/tosspayment" element={<PaymentCheckoutPage/>}/>
                 <Route path="/tosspayment/success" element={<PaymentSuccessPage/>}/>
                 <Route path="/tosspayment/fail" element={<PaymentFailPage/>}/>
