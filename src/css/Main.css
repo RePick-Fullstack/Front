@@ -8,6 +8,7 @@
     padding: 20px;
     box-sizing: border-box;
     text-align: left;
+    height: 550px;
 }
 
 .left_container {
@@ -19,6 +20,7 @@
     border: 1px solid black; /* 1px 두께의 검정색 테두리 */
     border-radius: 10px;
     margin-top: 20px;
+    overflow: auto;
 }
 
 .report_header {
@@ -37,6 +39,8 @@
     margin-left: 50px;
     border: 1px solid black;
     border-radius: 10px;
+    height: 175px;
+    overflow: auto;
 }
 
 .community {
@@ -45,14 +49,8 @@
     margin-left: 50px;
     border: 1px solid black;
     border-radius: 10px;
-}
-
-.community {
     height: 175px;
-}
-
-.newsCrawling {
-    height: 175px;
+    overflow: auto;
 }
 
 /* newsCrawling과 community를 세로로 배치 */
