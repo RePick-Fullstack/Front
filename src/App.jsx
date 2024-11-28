@@ -10,7 +10,7 @@ import CommunityDetail from "./page/CommunityDetail.jsx";
 import {RecoilRoot} from "recoil";
 import MyPage from "./page/MyPage.jsx";
 import ReportPage from "./page/ReportPage.jsx";
-import CompleteProfile from "./layouts/CompleteProfile.jsx";
+import MainKakaoSignUp from "./page/mainuser/MainKakaoSignUp.jsx";
 import {ChatRoom} from "./page/ChatRoom.jsx";
 import {ChatRoomList} from "./page/ChatRoomList.jsx";
 import CreatePost from "./page/CreatePost.jsx";
@@ -29,7 +29,7 @@ function App() {
             {/*<<MainScreen></MainScreen>> */}
 
             <Routes>
-                <Route path="/*" element={<CompleteProfile/>}/>
+                <Route path="/*" element={<MainKakaoSignUp/>}/>
                 <Route path="/" element={<MainScreen/>}/>
                 <Route path="/community" element={<Community/>}/>
                 <Route path="/CreatePost" element={<CreatePost/>}/>

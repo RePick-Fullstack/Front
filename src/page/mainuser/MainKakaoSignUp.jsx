@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import {usersApi} from '../../api/api.js'; // usersApi 사용
 
-const CompleteProfile = () => {
+const MainKakaoSignUp = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -27,11 +27,11 @@ const CompleteProfile = () => {
         const additionalInfo = {email, name, gender, birthDate, nickname};
 
         try {
-            // '/api/oauth/kakao/login'으로 추가 정보를 전송
-            const response = await axios.post('http://localhost:8080/api/oauth/kakao/login', additionalInfo);
+            // '/oauth/kakao/login'으로 추가 정보를 전송
+            const response = await usersApi.post('/oauth/kakao/login', additionalInfo);
 
             // 응답 데이터에서 accessToken, refreshToken을 추출
-            const {accessToken, refreshToken} = response.data;
+            const { accessToken, refreshToken } = response.data;
 
             // 실제 토큰 값을 추출하여 저장
             const accessTokenValue = accessToken.token; // accessToken에서 token 값 추출
@@ -39,7 +39,7 @@ const CompleteProfile = () => {
 
             // 토큰이 없으면 오류 처리
             if (!accessTokenValue || !refreshTokenValue) {
-                alert("토큰을 받지 못했습니다. 다시 시도해주세요.");
+                alert('토큰을 받지 못했습니다. 다시 시도해주세요.');
                 return;
             }
 
@@ -48,7 +48,7 @@ const CompleteProfile = () => {
             localStorage.setItem('refreshToken', refreshTokenValue);
 
             // URL을 인코딩하여 리다이렉트
-            window.location.href = encodeURI("http://localhost:5173"); // 리다이렉트할 URL
+            window.location.href = encodeURI('http://localhost:5173'); // 리다이렉트할 URL
         } catch (error) {
             console.error('회원가입 실패:', error);
             alert(`회원가입에 실패했습니다: ${error.response?.data?.message || error.message}`);
@@ -116,4 +116,4 @@ const CompleteProfile = () => {
     </div>);
 };
 
-export default CompleteProfile;
+export default MainKakaoSignUp;
