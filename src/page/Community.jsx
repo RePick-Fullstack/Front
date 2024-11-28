@@ -4,7 +4,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../data/testMainCommunity.js";
 import ChatComponent from "./ChatComponent.jsx";
 import {useEffect, useState} from "react";
-import {createPost, getPostsByCategory} from "../api/postApi.js";
+import {createPost, getPosts, getPostsByCategory} from "../api/postApi.js";
 import {randomPostGenerator} from "../data/randomPostGenerator.js";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
 import {ChatRoom} from "./ChatRoom.jsx";
@@ -21,7 +21,11 @@ function Community() {
     const getData = async (selectedCategory) => {
         try {
             console.log("선택한 카테고리" + selectedCategory);
-            return await getPostsByCategory(selectedCategory)
+            if (selectedCategory === "TOTAL") {
+                return await getPosts();
+            } else {
+                return await getPostsByCategory(selectedCategory);
+            }
         } catch (e) {
             alert('게시글 불러오는중 문제 생김');
             return null;
@@ -32,7 +36,7 @@ function Community() {
 
         const data = await getData(selectedCategory);
         if (data) setPosts(data);
-        console.log( "data : " +  data)
+        console.log("data : " + data)
     }
 
     const handleCategoryChange = (newCategory) => {
@@ -67,11 +71,13 @@ function Community() {
     return (
         <>
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
-                <div className={"caret-transparent"} style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
+                <div className={"caret-transparent"}
+                     style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
                 <div className={"h-auto rounded-xl bg-gray-400 mt-0 items-center flex flex-wrap"}>
                     <span className={"font-semibold text-sm flex gap-8 ml-6"}>
                          {data.map((item, index) => (
-                             <span className={"caret-transparent cursor-pointer hover:underline  text-center"} key={index}
+                             <span className={"caret-transparent cursor-pointer hover:underline  text-center"}
+                                   key={index}
                                    onClick={() => handleCategoryChange(item.title)}>
                                  {item.description}</span>
                          ))}
@@ -111,8 +117,8 @@ function Community() {
                     {/*        height: "450px",*/}
                     {/*        overflow: `auto`*/}
                     {/*    }}>*/}
-                            <ChatRoom isCommunity={isCommunity}/>
-                        {/*</div>*/}
+                    <ChatRoom isCommunity={isCommunity}/>
+                    {/*</div>*/}
                     {/*</div>*/}
                 </div>
             </div>
