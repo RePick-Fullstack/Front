@@ -4,6 +4,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {testNews} from "../data/testNews.js";
 import {testReport} from "../data/testReport.js";
+import {newsApi} from "../api/api.js";
 
 function MainScreen() {
     let navigate = useNavigate();
@@ -25,7 +26,7 @@ function MainScreen() {
 
     const handleNews = async () => {
         try {
-            const getNews = await axios.get("http://localhost:8083/api/v1/news");
+            const getNews = await newsApi.get("");
             console.log(getNews.data);
             !getNews.data.isEmpty && setNews(getNews.data);
         } catch {
@@ -35,7 +36,7 @@ function MainScreen() {
 
     const handleNewNews = async () => {
         try {
-            await axios.get("http://localhost:8083/api/v1/news/crawling");
+            await newsApi.get("/crawling");
             await handleNews()
         } catch {
             console.log("server is not running");
