@@ -1,52 +1,4 @@
 services:
-  kafka:
-    image: apache/kafka:3.7.1
-    container_name: kafka_chat
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_LISTENERS: PLAINTEXT_BROKER://0.0.0.0:9092,PLAINTEXT_CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT_BROKER://kafka:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT_BROKER:PLAINTEXT,PLAINTEXT_CONTROLLER:PLAINTEXT
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-      KAFKA_CONTROLLER_LISTENER_NAMES: PLAINTEXT_CONTROLLER
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_BROKER
-      KAFKA_LOG_DIRS: /var/lib/kafka/data
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-    ports:
-      - "9092:9092"
-      - "9093:9093"
-    volumes:
-      - kafka_data:/var/lib/kafka/data
-    networks:
-      - rePick
-
-  app:
-    image: jogyoungjun/realtimechat:latest
-    container_name: chat_server_A
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      KAFKA_CONSUMER_GROUP_ID: app1-group
-      SPRING_PROFILES_ACTIVE: production
-    ports:
-      - "8081:8080"
-    depends_on:
-      - kafka
-    networks:
-      - rePick
-
-  report:
-    image: jogyoungjun/report:latest
-    container_name: report_server
-    environment:
-      SPRING_PROFILES_ACTIVE: production
-    ports:
-      - "8082:8080"
-    networks:
-      - rePick
-
   community:
     image: jogyoungjun/community:latest
     environment:
@@ -108,41 +60,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
-
-  news:
-    image: jogyoungjun/news:latest
-    environment:
-      SPRING_PROFILES_ACTIVE: production
-      SPRING_DATASOURCE_URL: jdbc:mysql://news_mysql:3306/news?serverTimezone=Asia/Seoul
-      SPRING_DATASOURCE_PASSWORD: root_password
-    ports:
-      - "8080:8080"
-    depends_on:
-      user_mysql:
-        condition: service_healthy
-    networks:
-      - rePick
-
-  news_mysql:
-    image: mysql:8.0
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: news
-    ports:
-      - "3308:3306"
-    networks:
-      - rePick
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "--silent" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-
-
-
-volumes:
-  kafka_data:
 
 networks:
   rePick:
