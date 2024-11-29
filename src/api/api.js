@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: 'http://localhost:9000/posts', // spring 서버 url
+    baseURL: 'http://localhost:9000/api/v1/posts', // spring 서버 url
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json', // 기본 Content-Type 설정
