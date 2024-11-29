@@ -113,7 +113,8 @@ function ChatComponent(props) {
                     <button className={"w-full h-12 bg-amber-300 active:bg-amber-400"}
                             onClick={() => {
                                 socket.close();
-                                navigate("/chatRoom")
+                                props.setIsJoin(true)
+                                props || navigate("/chatRoom")
                             }}>채팅방 나가기
                     </button>
                     <ul className={"h-full overflow-y-scroll"}

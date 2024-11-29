@@ -50,11 +50,11 @@ export const ChatRoom = (props) => {
                 {isJoin ? <div className={"w-full h-full flex items-end"}
                                style={{backgroundColor: `rgba(150, 150, 150, 0.7)`}}>
                     <div className={"w-full"}>
-                        <button className={"w-50 h-12 bg-amber-300 active:bg-amber-400 p-1"}
-                                onClick={() => navigate("/chatRoom")}>돌아기기
-                        </button>
+                        { !isCommunity && <button className={"w-50 h-12 bg-amber-300 active:bg-amber-400 p-1"}
+                                 onClick={() => navigate("/chatRoom")}>돌아기기
+                        </button>}
                         <div className={"px-5 py-1 text-white"}>
-                            <div className={"font-bold"}>{selectChatRoom.chatRoomName}</div>
+                            <div className={"font-bold"}>{!isCommunity ? selectChatRoom.chatRoomName : '커뮤니티 채팅방'}</div>
                             <div>참여자 : {selectChatRoom.UserNumber}/1500</div>
                             <div>개설일 : {selectChatRoom.createdAt}</div>
                         </div>
@@ -73,7 +73,7 @@ export const ChatRoom = (props) => {
                             </div>
                         </div>
                     </div>
-                </div> : <ChatComponentmk2 id={selectChatRoom.uuid}/>}
+                </div> : <ChatComponentmk2 id={selectChatRoom.uuid} setIsJoin={setIsJoin}/>}
             </div>
         </div>
     );
