@@ -77,12 +77,12 @@ function MainScreen() {
     //         const userMessage = {type: "user", text: inputValue};
     //         setChatHistory((prev) => [...prev, userMessage]);
     //         setLlmTyping(true);
-    //         navigate("/ChatBot");
+    //         navigate("/ChatBot", {state : {chatHistory: [ ...chatHistory, userMessage]}});
     //
     //         try {
     //             const response = await axios.get(`http://localhost:8080/generate-text?keyword=${inputValue} search result`);
     //             console.log(response.data);
-    //             const generatedText = response.data[0].generated_text;
+    //             const generatedText = response.data[0]?.generated_text;
     //             const words = generatedText.split(" ");
     //             let currentText = "";
     //             for (let i = 0; i < words.length; i++) {
@@ -115,16 +115,29 @@ function MainScreen() {
     //
     // };
 
-    const handleSendRequest = async () =>{
-        if(userMessage.trim() !== ""){
-            const userMessage = { type: "user", text: inputValue};
+    const handleSendRequest = async () => {
+        if (inputValue.trim() !== "") {
+            const userMessage = { type: "user", text: inputValue };
             setChatHistory((prev) => [...prev, userMessage]);
-            navigate("/ChatBot", {state : userMessage});
-            setInputValue("");
-        }else{
-            alert("챗봇 내용 입력하삼");
+            navigate("/ChatBot", { state: { chatHistory: [...chatHistory, userMessage] } });
+
+            try {
+                const response = await axios.get(
+                    `http://localhost:8080/generate-text?keyword=${inputValue} search result`
+                );
+                const generatedText = response.data[0]?.generated_text || "LLM의 응답을 가져오지 못했습니다.";
+                const llmMessage = { type: "llm", text: generatedText };
+
+                setChatHistory((prev) => [...prev, llmMessage]);
+            } catch (error) {
+                console.error("Failed to fetch data from server", error);
+            }
+        } else {
+            alert("내용을 입력해주세요!");
         }
+        setInputValue("");
     };
+
 
     const handleEnterKey = (event) => {
         if (event.key === "Enter") {
@@ -215,7 +228,6 @@ function MainScreen() {
                         {chatHistory.map((chat, index) => (
                             <div
                                 key={index}
-                                className={chat.type === "user" ? "userMessage" : "llmMessage"}
                                 style={chat.type === "user" ? {textAlign: "right", marginTop: `20px`} : {
                                     textAlign: "left",
                                     marginTop: `20px`
@@ -232,8 +244,8 @@ function MainScreen() {
                             <input
                                 className="chatInput rounded-2xl border border-black flex justify-between"
                                 placeholder="쳇봇에게 질문"
-                                value={userMessage}
-                                onChange={(e) => setUserMessage(e.target.value)}
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={handleEnterKey}
                             />
                             <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
