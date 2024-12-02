@@ -8,6 +8,14 @@ export const api = axios.create({
     }
 });
 
+export const commentApi = axios.create({
+    baseURL: 'http://localhost:9001/api/v1/posts', // 댓글 서버 url
+    timeout: 5000,
+    headers:{
+        'Content-Type' : 'application/json'
+    }
+})
+
 export const usersApi = axios.create({
     baseURL: 'http://localhost:8080/api/v1', // user
     headers: {
