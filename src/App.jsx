@@ -6,7 +6,7 @@ import MainScreen from "./page/MainScreen.jsx";
 import Header from "./layout/Header.jsx";
 import {Route, Routes} from "react-router-dom";
 import Community from "./page/Community.jsx";
-import CommunityDetail from "./page/CommunityDetail.jsx";
+import PostDetail from "./page/PostDetail.jsx";
 import {RecoilRoot} from "recoil";
 import MyPage from "./page/MyPage.jsx";
 import ReportPage from "./page/ReportPage.jsx";
@@ -33,7 +33,7 @@ function App() {
                 <Route path="/" element={<MainScreen/>}/>
                 <Route path="/community" element={<Community/>}/>
                 <Route path="/createpost" element={<CreatePost/>}/>
-                <Route path="/posts/:id" element={<CommunityDetail/>}/>
+                <Route path="/posts/:id" element={<PostDetail/>}/>
                 <Route path="/reportpage" element={<ReportPage/>}/>
                 <Route path="/mypage" element={<MyPage/>}/>
                 <Route path="/chatroom/" element={<ChatRoomList/>}/>
