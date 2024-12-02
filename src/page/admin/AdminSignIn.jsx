@@ -36,6 +36,12 @@ function AdminSignIn({ setIsAdminSignInOpen }) {
             });
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleAdminLogin(); // 엔터 키로 로그인 동작
+        }
+    };
+
     return (
         <div className="modal-overlay" onClick={() => setIsAdminSignInOpen(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -47,6 +53,7 @@ function AdminSignIn({ setIsAdminSignInOpen }) {
                         type="text"
                         value={adminCode}
                         onChange={(e) => setAdminCode(e.target.value)}
+                        onKeyDown={handleKeyDown} // 엔터 키 감지
                     />
                 </div>
                 <div className="input-container">
@@ -55,6 +62,7 @@ function AdminSignIn({ setIsAdminSignInOpen }) {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        onKeyDown={handleKeyDown} // 엔터 키 감지
                     />
                 </div>
                 <button onClick={handleAdminLogin}>로그인</button>
