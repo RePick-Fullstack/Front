@@ -4,8 +4,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../data/testMainCommunity.js";
 import ChatComponent from "./ChatComponent.jsx";
 import {useEffect, useState} from "react";
-import {createPost, getPosts, getPostsByCategory} from "../api/postApi.js";
-import {randomPostGenerator} from "../data/randomPostGenerator.js";
+import { getPosts, getPostsByCategory} from "../api/postApi.js";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
 import {ChatRoom} from "./ChatRoom.jsx";
 
