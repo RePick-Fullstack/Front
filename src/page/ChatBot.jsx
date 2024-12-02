@@ -1,35 +1,35 @@
-import {useLocation} from "react-router-dom";
-import {useState, useEffect} from "react";
+import { useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import '../css/ChatBot.css'
+import '../css/ChatBot.css';
 
 function ChatBot() {
     const location = useLocation();
-    const [inputValue, setInputValue] = useState(location.state?.userMessage || []); // MainScreen에서 받은 메시지
+    const [inputValue, setInputValue] = useState(location.state?.userMessage || []);
     const [chatHistory, setChatHistory] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
-    const [llmResponse, setLlmResponse] = useState(""); // 챗봇 응답
+    const [llmResponse, setLlmResponse] = useState("");
     const [enterDelay, setEnterDelay] = useState(false);
     const [animation, setAnimation] = useState(false);
+
+    // chatBox DOM을 참조하기 위한 ref 추가
+    const chatBoxRef = useRef(null);
 
     useEffect(() => {
         setAnimation(true);
     }, []);
 
     useEffect(() => {
-        if(location.state?.chatHistory){
+        if (location.state?.chatHistory) {
             setChatHistory(location.state.chatHistory);
         }
     }, [location.state?.chatHistory]);
 
     // 챗봇 응답 요청 및 타이핑 효과 적용
-    // 사용자가 입력한 메시지를 추가
     const addChatEntry = (type, text) => {
-        setChatHistory((prev) => [...prev, {type, text}]);
-        console.log(chatHistory)
+        setChatHistory((prev) => [...prev, { type, text }]);
     };
 
-    // 타이핑 효과를 시뮬레이션
     const simulateTypingEffect = async (text) => {
         const words = text.split(" ");
         let currentText = "";
@@ -42,7 +42,7 @@ function ChatBot() {
                 if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
                     updatedHistory[updatedHistory.length - 1].text = currentText + "_";
                 } else {
-                    updatedHistory.push({type: "llm", text: currentText + "_"});
+                    updatedHistory.push({ type: "llm", text: currentText + "_" });
                 }
                 return updatedHistory;
             });
@@ -60,13 +60,19 @@ function ChatBot() {
         setIsTyping(false);
     };
 
-    // 챗봇 응답 요청 및 타이핑 효과 적용
-    useEffect(() => {
+    const handleSendRequest = async () => {
         const fetchChatBotResponse = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/generate-text?keyword=${inputValue} search result`);
-                const generatedText = response.data[0].generated_text || "챗봇 응답 없음";
-                simulateTypingEffect(generatedText);
+                const response = await axios.post(`http://localhost:8001/api/v1/chatbot/message/3784f905-bef5-46e6-b58a-69ee72d414cd`,
+                    {
+                        message: inputValue,
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                const text = JSON.parse(response.data.response).response;
+                simulateTypingEffect(text);
             } catch (error) {
                 console.error("챗봇 응답 실패", error);
                 addChatEntry("error", "챗봇 응답을 불러오지 못했습니다.");
@@ -75,33 +81,70 @@ function ChatBot() {
 
         if (inputValue) {
             addChatEntry("user", inputValue); // 사용자가 입력한 메시지 추가
-            fetchChatBotResponse();
+            await fetchChatBotResponse();
         }
-    }, [inputValue]);
+    };
 
     const handleEnterKey = (event) => {
         if (event.key === "Enter" && inputValue.trim() !== "") {
-            //handleSendRequest();
+            handleSendRequest();
             setInputValue(""); // 입력 필드 초기화
         }
     };
 
+    useEffect(() => {
+        if (chatBoxRef.current) {
+            // ul 요소의 부모 컨테이너에만 스크롤이 발생하도록 설정
+            chatBoxRef.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest', // 부모 컨테이너 내부에서만 스크롤
+            });
+        }
+    }, [chatHistory]);
+
+    // MutationObserver를 사용하여 chatBox의 자식 변화 감지
+    useEffect(() => {
+        const chatBoxElement = chatBoxRef.current;
+
+        if (chatBoxElement) {
+            const observer = new MutationObserver(() => {
+                scrollToBottom(); // 자식 요소가 변할 때마다 스크롤을 아래로 내림
+            });
+
+            // chatBox의 자식 요소 변화(자식 추가)를 감지하도록 설정
+            observer.observe(chatBoxElement, {
+                childList: true,
+                subtree: true,
+            });
+
+            // 컴포넌트가 unmount 될 때 observer를 해제
+            return () => {
+                observer.disconnect();
+            };
+        }
+    }, []);
+
+    // 스크롤을 맨 아래로 내리는 함수
+    const scrollToBottom = () => {
+        if (chatBoxRef.current) {
+            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+        }
+    };
 
     return (
         <>
             <div className="chatBot-container">
                 <div className="chatBox">
                     <h1>ChatBot</h1>
-                    {chatHistory.map((message, index) => (
-                        <div
-                            key={index}
-                            className={`slide-up ${message.type === "user" ? "user-message" : "llm-message"}`}
-                        >
-                            {/* <strong>{message.type === "user" ? "사용자: " : "LLM: "}</strong> */}
-                            <span>{message.text}</span>
-                            {message.type === "user" && <hr/>}
-                        </div>
-                    ))}
+                        {chatHistory.map((message, index) => (
+                            <div
+                                key={index}
+                                className={`slide-up ${message.type === "user" ? "user-message" : "llm-message"}`}
+                            >
+                                <span>{message.text}</span>
+                                {message.type === "user" && <hr/>}
+                            </div>
+                        ))}
                 </div>
                 <div className="reportBox">
                     <h2>Report Section</h2>
@@ -109,8 +152,8 @@ function ChatBot() {
                 </div>
             </div>
             <div className={"flex justify-center"}>
-                <div className="inputContainer flex w-full justify-center">
-                    <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
+                <div className="inputContainer flex w-full justify-center pb-5">
+                    <div className={"relative w-full flex"} style={{ maxWidth: `744px` }}>
                         <input
                             className="chatInput rounded-2xl border border-black flex justify-between"
                             placeholder="쳇봇에게 질문"
@@ -119,10 +162,9 @@ function ChatBot() {
                             onKeyPress={handleEnterKey}
                         />
                         <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
-                             style={{left: 'calc(100% - 30px)'}}
+                             style={{ left: 'calc(100% - 30px)' }}
                         >
-                            <button className="inputButton"
-                                    disabled={enterDelay}> {/* enterDelay 상태에 따라 버튼 비활성화 */}
+                            <button className="inputButton" disabled={enterDelay}>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                      className="input-svg">
                                     <path
@@ -135,8 +177,7 @@ function ChatBot() {
                 </div>
             </div>
         </>
-    )
-        ;
+    );
 };
 
 export default ChatBot;
