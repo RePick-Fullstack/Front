@@ -23,6 +23,18 @@ export const usersApi = axios.create({
     }
 });
 
+usersApi.interceptors.request.use((config) => {
+    const accessToken = localStorage.getItem("adminAccessToken");
+    const refreshToken = localStorage.getItem("adminRefreshToken");
+
+    // 특정 URL에만 refreshToken을 사용
+    if (config.url === "/admin/refresh-token" && refreshToken) {
+        config.headers.Authorization = `Bearer ${refreshToken}`;
+    } else if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+});
 export const newsApi = axios.create({
     baseURL: 'http://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:8400/api/v1/news', // spring 서버 url
     headers: {
