@@ -17,10 +17,8 @@ export const getMyPosts = async () => {
     return response.data;
 };
 // 게시글 상세 조회
-export const getPostById = async (idx) => {
-    const response = await api.get(`/${idx}`,{
-    params : { idx : idx}
-    });
+export const getPostById = async (id) => {
+    const response = await api.get(`${id}`);
     return response.data;
 };
 // 게시글 생성
