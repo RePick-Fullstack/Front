@@ -3,27 +3,22 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {realTimeChatApi} from "../api/api.js";
 
+const defaultData = {
+    uuid: "454ccca4-c2d0-4cf3-b46b-086fae57226a",
+    chatRoomName: "testChatRoom 1494",
+    ownerName: "가나다",
+    UserNumber: 1,
+    hashTags: [],
+    createdAt: "2024-11-26T20:49:23.173148"
+}
+
 export const ChatRoomList = () => {
     const navigate = useNavigate();
     const [inputHashTag, setInputHashTag] = useState([]);
     const [isHashTagRight, setIsHashTagRight] = useState(true)
     const [isJoin, setIsJoin] = useState(true)
-    const [ChatRoomList, setChatRoomList] = useState([{
-        uuid: "454ccca4-c2d0-4cf3-b46b-086fae57226a",
-        chatRoomName: "testChatRoom 1494",
-        ownerName: "가나다",
-        UserNumber: 1,
-        hashTags: [],
-        createdAt: "2024-11-26T20:49:23.173148"
-    }])
-    const [selectChatRoom, setSelectChatRoom] = useState({
-        uuid: "454ccca4-c2d0-4cf3-b46b-086fae57226a",
-        chatRoomName: "testChatRoom 1494",
-        ownerName: "가나다",
-        UserNumber: 1,
-        hashTags: [],
-        createdAt: "2024-11-26T20:49:23.173148"
-    })
+    const [ChatRoomList, setChatRoomList] = useState([defaultData])
+    const [selectChatRoom, setSelectChatRoom] = useState(defaultData)
 
     useEffect(() => {
         ChatRoomLoad()
@@ -52,13 +47,8 @@ export const ChatRoomList = () => {
     const handleHashTag = async (e) => {
         const input = e.target.value;
         console.log(input);
-
-        // 쉼표로 해시태그 분리
-        const hashtags = input.split(",").map(tag => tag.trim()); // 각 해시태그 앞뒤 공백 제거
-
-        // 모든 해시태그 검증
+        const hashtags = input.split(",").map(tag => tag.trim());
         const isValid = hashtags.every(tag => /^#[\w가-힣]+$/.test(tag));
-
         if (isValid) {
             console.log("All hashtags are valid.");
             setIsHashTagRight(true)
@@ -66,7 +56,6 @@ export const ChatRoomList = () => {
             console.log("Invalid hashtag(s) detected.");
             setIsHashTagRight(false)
         }
-
         setInputHashTag(hashtags);
     };
 

@@ -45,7 +45,7 @@ function MainScreen() {
     };
     const handleCommunity = async () => {
         try {
-            const getCommunity = await axios.get("http://localhost:9000/posts");
+            const getCommunity = await axios.get("http://localhost:9000/api/v1/posts");
             console.log("=============================");
             console.log(getCommunity);
             console.log("=============================");
@@ -122,12 +122,17 @@ function MainScreen() {
             navigate("/ChatBot", { state: { chatHistory: [...chatHistory, userMessage] } });
 
             try {
-                const response = await axios.get(
-                    `http://localhost:8080/generate-text?keyword=${inputValue} search result`
-                );
-                const generatedText = response.data[0]?.generated_text || "LLM의 응답을 가져오지 못했습니다.";
+                const response = await axios.post(`http://localhost:8001/api/v1/chatbot/message/3784f905-bef5-46e6-b58a-69ee72d414cd`,
+                    {
+                        message: inputValue,
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    });
+                const generatedText = JSON.parse(response.data.response).response || "LLM의 응답을 가져오지 못했습니다.";
                 const llmMessage = { type: "llm", text: generatedText };
-
+                console.log(llmMessage);
                 setChatHistory((prev) => [...prev, llmMessage]);
             } catch (error) {
                 console.error("Failed to fetch data from server", error);
