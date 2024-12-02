@@ -5,9 +5,7 @@ import MainScreen from "./page/MainScreen.jsx";
 import Header from "./layout/Header.jsx";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Community from "./page/Community.jsx";
-
 import {RecoilRoot} from "recoil";
-
 import MyPage from "./page/MyPage.jsx";
 import ReportPage from "./page/ReportPage.jsx";
 import MainKakaoSignUp from "./page/mainuser/MainKakaoSignUp.jsx";
