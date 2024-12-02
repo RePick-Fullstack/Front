@@ -15,16 +15,6 @@
     justify-content: space-between;
 }
 
-.submit_button {
-    position: relative;
-    right: 0;
-    height: 30px;
-    margin-top: 10px;
-    caret-color: transparent;
-    cursor: pointer;
-    background-color: #f5f5f5;
-}
-
 .category_select {
     position: relative;
     display: inline-block;
