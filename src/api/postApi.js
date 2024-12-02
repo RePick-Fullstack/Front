@@ -1,4 +1,6 @@
 import api from './api';
+import commentApi from "./api";
+
 // 카테고리별 게시글 목록 조회
 export const getPostsByCategory = async (category) => {
     const response = await api.get(``, {
@@ -34,4 +36,14 @@ export const updatePost = async (id, postRequest) => {
 // 게시글 삭제
 export const deletePost = async (id) => {
     await api.delete(`/${id}`);
+};
+// 게시글 댓글 조회
+export const getCommentByPostId = async (id) => {
+    const response = await commentApi.get(`${id}`);
+    return response.data;
+};
+//게시글 댓글 작성
+export const createComment = async (commentRequest)=>{
+    const response = await commentApi.post('', commentRequest);
+    return response.data
 };
