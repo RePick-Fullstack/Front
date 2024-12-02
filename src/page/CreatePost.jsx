@@ -27,7 +27,7 @@ const CreatePost = () => {
             if (token) {
                 setAuthHeader(token);
             }
-            const response = await axios.post('http://localhost:9000/posts', {
+            const response = await axios.post('http://localhost:9000/api/v1/posts', {
                 title,
                 content,
                 category,
