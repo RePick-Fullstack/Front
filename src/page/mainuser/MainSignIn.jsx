@@ -81,7 +81,7 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
                 </div>
                 <h6>소셜 미디어 로그인</h6>
                 <h6 className="hr" style={{ paddingBottom: '20px' }}>SNS LOGIN</h6>
-                <div className="oauth-buttons" style={{ marginBottom: '20px' }}>
+                <div className="oauth-buttons" style={{marginBottom: '20px'}}>
                     <button className="oauth-button kakao" onClick={handleKakaoLogin}>
                         {/* 카카오 버튼 */}
                     </button>
