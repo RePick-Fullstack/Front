@@ -46,6 +46,10 @@ function Community() {
         navigate(`/community?category=${selected.title}`); // URL 업데이트
     };
 
+    const handlePostClick = (post) =>{
+        navigate(`/posts/${post.id}`, { state: { category: post.category } });
+    }
+
     // // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
     // useEffect(() => {
     //     fetchPosts("ENERGY");
@@ -97,7 +101,7 @@ function Community() {
                                 {posts.map((post) => (
                                     <li key={post.id}>
                                         <h3 className={"hover:cursor-pointer hover:underline"} onClick={() => {
-                                            navigate(`/posts/${post.id}`)
+                                            handlePostClick(post)
                                         }}>{post.title}</h3>
                                     </li>
                                 ))}
@@ -114,7 +118,7 @@ function Community() {
                     {/*        height: "450px",*/}
                     {/*        overflow: `auto`*/}
                     {/*    }}>*/}
-                    <ChatRoom isCommunity={isCommunity}/>
+                    { /*   <ChatRoom isCommunity={isCommunity}/>  버그임. 고치면 주석 풀어야됨*/}
                     {/*</div>*/}
                     {/*</div>*/}
                 </div>
