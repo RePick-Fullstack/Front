@@ -89,7 +89,7 @@ const CreatePost = () => {
                         required
                     />
                 </div>
-                <div className={"caret-transparent"}>
+                <div>
                     <textarea
                         value={content}
                         className="content_write"
