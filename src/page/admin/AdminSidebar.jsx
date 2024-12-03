@@ -16,7 +16,7 @@ const AdminSidebar = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        height: "200vh", // 자동으로 맞추기 위한 설정
+        height: "200vh",
     };
 
     const buttonStyle = {
@@ -43,7 +43,6 @@ const AdminSidebar = () => {
         width: "100%",
     };
 
-    // JWT 디코더
     const decodeJWT = (token) => {
         try {
             const base64Url = token.split(".")[1];
@@ -61,7 +60,6 @@ const AdminSidebar = () => {
         }
     };
 
-    // 남은 시간 포맷터
     const formatRemainingTime = (seconds) => {
         const hrs = Math.floor(seconds / 3600);
         const mins = Math.floor((seconds % 3600) / 60);
@@ -71,7 +69,6 @@ const AdminSidebar = () => {
             .join(":");
     };
 
-    // 토큰 남은 시간 업데이트
     const updateTokenRemainingTime = () => {
         const adminAccessToken = localStorage.getItem("adminAccessToken");
         if (!adminAccessToken) {
@@ -87,7 +84,6 @@ const AdminSidebar = () => {
         }
     };
 
-    // 토큰 연장 함수
     const extendToken = async () => {
         const adminRefreshToken = localStorage.getItem("adminRefreshToken");
         if (!adminRefreshToken) {
@@ -101,7 +97,6 @@ const AdminSidebar = () => {
                 headers: { Authorization: `Bearer ${adminRefreshToken}` },
             });
 
-            // 응답에서 새 토큰 두 개를 저장
             const accessToken = response.data.accessToken?.token;
             const refreshToken = response.data.refreshToken?.token;
 
@@ -110,7 +105,7 @@ const AdminSidebar = () => {
                 localStorage.setItem("adminRefreshToken", refreshToken);
 
                 alert("토큰이 성공적으로 연장되었습니다!");
-                updateTokenRemainingTime(); // 새로 갱신된 토큰 시간 반영
+                updateTokenRemainingTime();
             } else {
                 throw new Error("토큰 정보가 응답에 없습니다.");
             }
@@ -123,9 +118,17 @@ const AdminSidebar = () => {
 
     useEffect(() => {
         updateTokenRemainingTime();
-        const interval = setInterval(updateTokenRemainingTime, 1000); // 1초마다 남은 시간 업데이트
+        const interval = setInterval(() => {
+            updateTokenRemainingTime();
+
+            // 만료 시 로그아웃 처리
+            if (tokenRemainingTime === 0) {
+                logoutHandler(navigate, "토큰이 만료되어 로그아웃되었습니다.");
+            }
+        }, 1000);
+
         return () => clearInterval(interval);
-    }, []);
+    }, [tokenRemainingTime, navigate]);
 
     return (
         <div style={sidebarStyle}>
