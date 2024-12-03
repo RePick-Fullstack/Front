@@ -1,20 +1,45 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { usersApi } from '../api/api.js'; // usersApi 임포트
+import { useNavigate, useLocation } from 'react-router-dom';
+import { usersApi } from '../api/api.js'; // API 연결
 import { decodeJWT, formatRemainingTime } from '../page/mainuser/MainUtils.jsx'; // 유틸리티 함수
 import MainSignIn from '../page/mainuser/MainSignIn.jsx'; // 로그인 컴포넌트
 import MainSignUp from '../page/mainuser/MainSignUp.jsx'; // 회원가입 컴포넌트
+import AdminSignIn from '../page/admin/AdminSignIn.jsx'; // 관리자 로그인 컴포넌트
 import '../css/header.css';
 
 function Header() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isSignInOpen, setIsSignInOpen] = useState(false);
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+    const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
     const [userName, setUserName] = useState('');
     const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
 
-    // 남은 토큰 시간 업데이트
+    // URL에서 토큰 추출 및 저장
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const accessToken = queryParams.get('accessToken');
+        const refreshToken = queryParams.get('refreshToken');
+
+        if (accessToken && refreshToken) {
+            console.log('카카오 로그인 토큰:', { accessToken, refreshToken });
+
+            // 토큰 저장
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+
+            // 로그인 상태 및 사용자 이름 업데이트
+            updateTokenRemainingTime();
+            fetchUserName(accessToken); // 매개변수로 전달
+
+            // URL에서 토큰 제거
+            navigate(location.pathname, { replace: true });
+        }
+    }, [location, navigate]);
+
+    // 토큰 남은 시간 업데이트
     const updateTokenRemainingTime = () => {
         const accessToken = localStorage.getItem('accessToken');
         if (!accessToken) return;
@@ -27,7 +52,27 @@ function Header() {
         }
     };
 
-    // 로그아웃 핸들러
+    // 사용자 이름 가져오기
+    const fetchUserName = async (accessToken) => {
+        const token = accessToken || localStorage.getItem('accessToken');
+        if (!token) return;
+
+        try {
+            const response = await usersApi.get('/users/name', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            console.log('사용자 이름 응답:', response.data);
+            const name = response.data.userName || response.data.username || response.data.name || '사용자';
+            setUserName(name);
+            setIsLoggedIn(true);
+        } catch (error) {
+            console.error('사용자 이름 가져오기 실패:', error);
+            setUserName('사용자'); // 기본값 설정
+        }
+    };
+
+    // 로그아웃 처리
     const handleLogout = () => {
         const refreshToken = localStorage.getItem('refreshToken');
         localStorage.removeItem('accessToken');
@@ -38,108 +83,45 @@ function Header() {
             .get('/users/logout', {
                 headers: { Authorization: `Bearer ${refreshToken}` },
             })
-            .then(() => window.location.reload())
+            .then(() => {
+                setIsLoggedIn(false);
+                setUserName('');
+                window.location.reload();
+            })
             .catch((error) => {
                 console.error('로그아웃 실패:', error.response || error.message);
+                setIsLoggedIn(false);
+                setUserName('');
                 window.location.reload();
             });
     };
 
-    // 로그인 연장
-    const handleExtendLogin = () => {
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (!refreshToken) {
-            alert('리프레시 토큰이 없습니다. 다시 로그인하세요.');
-            return;
-        }
-
-        usersApi
-            .post('/users/refresh-token', {}, {
-                headers: { Authorization: `Bearer ${refreshToken}` },
-            })
-            .then((response) => {
-                const accessToken = response?.data?.accessToken?.token || response?.data?.accessToken;
-                const newRefreshToken = response?.data?.refreshToken?.token || response?.data?.refreshToken;
-
-                if (accessToken && newRefreshToken) {
-                    localStorage.setItem('accessToken', accessToken);
-                    localStorage.setItem('refreshToken', newRefreshToken);
-                    alert('로그인 세션이 연장되었습니다!');
-                } else {
-                    throw new Error('유효한 액세스 토큰 또는 리프레시 토큰이 응답되지 않았습니다.');
-                }
-            })
-            .catch((error) => {
-                console.error('로그인 연장 실패:', error);
-                if (error.response?.status === 401) {
-                    alert('인증이 만료되었습니다. 다시 로그인하세요.');
-                    handleLogout();
-                } else {
-                    alert('로그인 연장에 실패했습니다. 다시 시도해주세요.');
-                }
-            });
-    };
-
-    // 사용자 이름 가져오기
-    const fetchUserName = () => {
-        const accessToken = localStorage.getItem('accessToken');
-        if (!accessToken) return;
-
-        usersApi
-            .get('/users/name', {
-                headers: { Authorization: `Bearer ${accessToken}` },
-            })
-            .then((response) => setUserName(response.data.userName || '사용자'))
-            .catch((error) => console.error('사용자 이름 가져오기 실패:', error));
-    };
-
-    // 쿼리 파라미터 확인
-    const checkQueryParams = () => {
-        const params = new URLSearchParams(window.location.search);
-        const accessToken = params.get('accessToken');
-        const refreshToken = params.get('refreshToken');
-
-        if (accessToken && refreshToken) {
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-            setIsLoggedIn(true);
-            fetchUserName();
-            window.history.replaceState({}, document.title, '/');
-        } else if (localStorage.getItem('accessToken')) {
-            setIsLoggedIn(true);
-        }
-    };
-
-    // Hooks
+    // 초기화
     useEffect(() => {
         if (localStorage.getItem('accessToken')) {
             updateTokenRemainingTime();
-            fetchUserName();
+            fetchUserName(); // 매개변수 없이 호출하여 기본값 처리
         }
     }, []);
 
+    // 토큰 남은 시간 주기적 업데이트
     useEffect(() => {
         const interval = setInterval(updateTokenRemainingTime, 1000);
         return () => clearInterval(interval);
     }, []);
 
+    // 토큰 만료 시 로그아웃
     useEffect(() => {
         if (tokenRemainingTime === 0) {
             alert('토큰이 만료되었습니다. 다시 로그인하세요.');
             handleLogout();
         }
-
-        if (tokenRemainingTime === 30) {
-            const userConfirmed = window.confirm('로그인 세션이 곧 만료됩니다. 연장하시겠습니까?');
-            if (userConfirmed) {
-                handleExtendLogin();
-            } else {
-                handleLogout();
-            }
-        }
     }, [tokenRemainingTime]);
 
-    useEffect(checkQueryParams, []);
+    // 관리자 로그인 버튼
+    const handleAdminLoginRedirect = () => {
+        setIsAdminLoginOpen(true);
+    };
 
     return (
         <div className="w-full flex justify-end">
@@ -161,11 +143,19 @@ function Header() {
                                 <button onClick={() => setIsSignUpOpen(true)}>회원가입</button>
                             </>
                         )}
+                        {!isAdminLoginOpen && (
+                            <button onClick={handleAdminLoginRedirect}>관리자 로그인</button>
+                        )}
                     </div>
                 </div>
             </header>
-            {isSignInOpen && <MainSignIn setIsSignInOpen={setIsSignInOpen} setIsLoggedIn={setIsLoggedIn} setUserName={setUserName} />}
-            {isSignUpOpen && <MainSignUp setIsSignUpOpen={setIsSignUpOpen} setIsLoggedIn={setIsLoggedIn}/>}
+            {isSignInOpen && (
+                <MainSignIn setIsSignInOpen={setIsSignInOpen} setIsLoggedIn={setIsLoggedIn} setUserName={setUserName} />
+            )}
+            {isSignUpOpen && <MainSignUp setIsSignUpOpen={setIsSignUpOpen} setIsLoggedIn={setIsLoggedIn} />}
+            {isAdminLoginOpen && (
+                <AdminSignIn setIsAdminSignInOpen={setIsAdminLoginOpen} onLoginSuccess={() => navigate('/AdminMain')} />
+            )}
         </div>
     );
 }

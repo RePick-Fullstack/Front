@@ -4,8 +4,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../data/testMainCommunity.js";
 import ChatComponent from "./ChatComponent.jsx";
 import {useEffect, useState} from "react";
-import {createPost, getPosts, getPostsByCategory} from "../api/postApi.js";
-import {randomPostGenerator} from "../data/randomPostGenerator.js";
+import { getPosts, getPostsByCategory} from "../api/postApi.js";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
 import {ChatRoom} from "./ChatRoom.jsx";
 
@@ -46,6 +45,10 @@ function Community() {
         fetchPosts(selected.title);
         navigate(`/community?category=${selected.title}`); // URL 업데이트
     };
+
+    const handlePostClick = (post) =>{
+        navigate(`/posts/${post.id}`, { state: { category: post.category } });
+    }
 
     // // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
     // useEffect(() => {
@@ -98,7 +101,7 @@ function Community() {
                                 {posts.map((post) => (
                                     <li key={post.id}>
                                         <h3 className={"hover:cursor-pointer hover:underline"} onClick={() => {
-                                            navigate(`/posts/${post.id}`)
+                                            handlePostClick(post)
                                         }}>{post.title}</h3>
                                     </li>
                                 ))}
@@ -115,7 +118,7 @@ function Community() {
                     {/*        height: "450px",*/}
                     {/*        overflow: `auto`*/}
                     {/*    }}>*/}
-                    <ChatRoom isCommunity={isCommunity}/>
+                    { /*   <ChatRoom isCommunity={isCommunity}/>  버그임. 고치면 주석 풀어야됨*/}
                     {/*</div>*/}
                     {/*</div>*/}
                 </div>

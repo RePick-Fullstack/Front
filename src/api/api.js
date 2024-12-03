@@ -8,6 +8,14 @@ export const api = axios.create({
     }
 });
 
+export const commentApi = axios.create({
+    baseURL: 'http://localhost:9001/api/v1/posts', // 댓글 서버 url
+    timeout: 5000,
+    headers:{
+        'Content-Type' : 'application/json'
+    }
+})
+
 export const usersApi = axios.create({
     baseURL: 'http://localhost:8080/api/v1', // user
     headers: {
@@ -15,6 +23,18 @@ export const usersApi = axios.create({
     }
 });
 
+usersApi.interceptors.request.use((config) => {
+    const accessToken = localStorage.getItem("adminAccessToken");
+    const refreshToken = localStorage.getItem("adminRefreshToken");
+
+    // 특정 URL에만 refreshToken을 사용
+    if (config.url === "/admin/refresh-token" && refreshToken) {
+        config.headers.Authorization = `Bearer ${refreshToken}`;
+    } else if (accessToken) {
+        config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+});
 export const newsApi = axios.create({
     baseURL: 'http://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:8400/api/v1/news', // spring 서버 url
     headers: {
@@ -35,7 +55,7 @@ export const realTimeChatApi = axios.create({
 
 export const setAuthHeader = (token) => {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+    commentApi.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
 export default api;
