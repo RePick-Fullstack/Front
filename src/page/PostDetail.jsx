@@ -2,7 +2,7 @@
 import {useParams} from "react-router-dom";
 import {createComment, getPostById} from "../api/postApi.js";
 import {getCommentByPostId} from "../api/postApi.js";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {setAuthHeader} from "../api/api.js";
 import ReLoad from "../assets/reload.svg"
 import {useLocation} from "react-router-dom";
@@ -14,13 +14,15 @@ function PostDetail() {
     const [post, setPost] = useState([]); //게시글
     const [comments, setComments] = useState([]); //등록된 댓글들
     const [content, setContent] = useState(""); //댓글창
-
     const {id} = useParams();
+    const textareaRef = useRef(null);
+
 
     useEffect(() => {
         handlePost()
         handleComment()
     }, []);
+
 
     const handlePost = async () => {
         console.log(" 클릭한 게시글 id " + id)
@@ -33,6 +35,18 @@ function PostDetail() {
         console.log("fetchedComment" + JSON.stringify(fetchedComment, null, 2));
         setComments(fetchedComment);
     }
+    const handleInputChange = (e) => {
+        setContent(e.target.value);
+        autoResize();
+    }
+    const autoResize = () => {
+        const textarea = textareaRef.current;
+        if (textarea) {
+            textarea.style.height = "auto"; // 높이 초기화
+            textarea.style.minHeight = "100px";
+            textarea.style.height = `${textarea.scrollHeight}px`; // 컨텐츠 크기에 맞게 조정
+        }
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!content) {
@@ -86,16 +100,18 @@ function PostDetail() {
                             <span>댓글 0 <img onClick={() => {
                                 location.reload();
                             }} className={"cursor-pointer"} src={ReLoad} alt="ReLoad Logo"/> </span>
-                            <button className={"h-10 bg-orange-50 text-right"} type="submit" onClick={handleSubmit}>등록
+                            <button className={"h-10 bg-orange-50 text-right"} type="submit"
+                                    onClick={handleSubmit}>등록
                             </button>
                         </div>
-                        <div className={"bg-emerald-50 rounded-l p-5 mb-5"}>따뜻한 댓글을 남겨주세요 :)
+                        <div className={"bg-emerald-100 rounded-l p-5 mb-5"}>따뜻한 댓글을 남겨주세요 :)
                             <div>
                                 <textarea
+                                    ref={textareaRef}
                                     value={content}
                                     placeholder="댓글을 입력해주세요 :)"
-                                    onChange={(e) => setContent(e.target.value)}
-                                    className={"bg-white rounded-l outline-0 resize-none w-2/5 h-auto block m-3"}
+                                    onChange={handleInputChange}
+                                    className={"bg-white rounded-l outline-0 resize-none w-2/5 h-auto block m-3 min-h-[100px]"}
                                     required
                                 />
 
@@ -106,7 +122,8 @@ function PostDetail() {
                                 {comments.map((comment) => (
                                     <div>
                                         <div className={"text-xl"}>{comment.userNickname}</div>
-                                        <div>{comment.content}</div>
+                                        <div className={"text-right"}>본인의 댓글에만 수정이 떠야됨</div>
+                                        <div className={"w-3/5"}>{comment.content}</div>
                                         <hr className={"border-2"}/>
                                     </div> //대충 ㅋㅋ
                                 ))}
