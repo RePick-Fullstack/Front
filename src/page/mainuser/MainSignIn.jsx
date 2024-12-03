@@ -5,6 +5,7 @@ import { usersApi } from '../../api/api.js'; // usersApi 사용
 function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지 상태 추가
 
     const fetchUserName = async (accessToken) => {
         try {
@@ -20,7 +21,7 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
 
     const handleLogin = async () => {
         if (!email || !password) {
-            alert('이메일과 비밀번호를 입력해주세요.');
+            setErrorMessage('이메일과 비밀번호를 입력해주세요.');
             return;
         }
 
@@ -38,10 +39,26 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
                 setIsLoggedIn(true); // 로그인 상태 업데이트
 
                 fetchUserName(accessToken.token); // 사용자 이름 가져오기
+                setErrorMessage(''); // 에러 메시지 초기화
             }
         } catch (error) {
-            console.error('로그인 실패:', error);
-            alert(error.response?.data?.message || '로그인 실패. 다시 시도해주세요.');
+            if (error.response && error.response.data) {
+                const { errorCode, message } = error.response.data;
+
+                switch (errorCode) {
+                    case 'USER_DELETED':
+                        setErrorMessage('정지된 사용자입니다. 관리자에게 문의하세요.');
+                        break;
+                    case 'INVALID_CREDENTIALS':
+                        setErrorMessage('잘못된 이메일 또는 비밀번호입니다.');
+                        break;
+                    default:
+                        setErrorMessage(message || '알 수 없는 오류가 발생했습니다.');
+                        break;
+                }
+            } else {
+                setErrorMessage('서버와 통신할 수 없습니다. 네트워크 상태를 확인하세요.');
+            }
         }
     };
 
@@ -70,7 +87,7 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                <div className="input-container" style={{ paddingBottom: '20px' }}>
+                <div className="input-container">
                     <label>Password</label>
                     <input
                         type="password"
@@ -79,11 +96,19 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+                {errorMessage && (
+                    <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>
+                        {errorMessage}
+                    </div>
+                )}
                 <h6>소셜 미디어 로그인</h6>
                 <h6 className="hr" style={{ paddingBottom: '20px' }}>SNS LOGIN</h6>
                 <div className="oauth-buttons" style={{ marginBottom: '20px' }}>
                     <button className="oauth-button kakao" onClick={handleKakaoLogin}>
                         {/* 카카오 버튼 */}
+                    </button>
+                    <button className="oauth-button naver" onClick={handleNaverLogin}>
+                        {/* 네이버 버튼 */}
                     </button>
                 </div>
                 <button onClick={handleLogin}>로그인</button>
@@ -103,6 +128,11 @@ MainSignIn.propTypes = {
 const handleKakaoLogin = () => {
     const kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=http://localhost:8080/api/v1/oauth/kakao/callback';
     window.location.href = kakaoAuthUrl;
+};
+
+const handleNaverLogin = () => {
+    const naverAuthUrl = 'https://nid.naver.com/oauth2.0/authorize?client_id=A_aQx4dtFzTavl7L6lVf&response_type=code&redirect_uri=http://localhost:8080/api/v1/oauth/naver/callback';
+    window.location.href = naverAuthUrl;
 };
 
 export default MainSignIn;
