@@ -43,7 +43,6 @@ export const getCommentByPostId = async (id) => {
 };
 //게시글 댓글 작성
 export const createComment = async (id,commentRequest)=>{
-    const response = await commentApi.post(`${id}/comments`, commentRequest
-        );
+    const response = await commentApi.post(`${id}/comments`, commentRequest);
     return response.data
 };
