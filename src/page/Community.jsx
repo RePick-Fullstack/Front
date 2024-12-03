@@ -4,7 +4,7 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../data/testMainCommunity.js";
 import ChatComponent from "./ChatComponent.jsx";
 import {useEffect, useState} from "react";
-import { getPosts, getPostsByCategory} from "../api/postApi.js";
+import {getPosts, getPostsByCategory, increaseViewCount} from "../api/postApi.js";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
 import {ChatRoom} from "./ChatRoom.jsx";
 
@@ -46,8 +46,15 @@ function Community() {
         navigate(`/community?category=${selected.title}`); // URL 업데이트
     };
 
-    const handlePostClick = (post) =>{
-        navigate(`/posts/${post.id}`, { state: { category: post.category } });
+    const handlePostClick = async (post) => {
+        try {
+            await increaseViewCount(post.id);
+            navigate(`/posts/${post.id}`,
+                {state: {category: post.category}}
+            );
+        } catch {
+            console.log("server is not running");
+        }
     }
 
     // // 컴포넌트가 처음 렌더링될 때 초기 데이터 로드
