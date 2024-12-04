@@ -48,7 +48,7 @@ function Community() {
 
     const handlePostClick = async (post) => {
         try {
-            await increaseViewCount(post.id);
+            //await increaseViewCount(post.id);
             navigate(`/posts/${post.id}`,
                 {state: {category: post.category}}
             );
