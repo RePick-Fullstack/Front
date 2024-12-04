@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // 리다이렉트용
-import PropTypes from 'prop-types';
-import { usersApi } from '../../api/api.js'; // API 설정 사용
+import { useNavigate } from 'react-router-dom';
+import { usersApi } from '../../api/api.js';
+import './AdminSignIn.css'; // 스타일 파일 추가
 
-function AdminSignIn({ setIsAdminSignInOpen }) {
+function AdminSignIn() {
     const [adminCode, setAdminCode] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
     const navigate = useNavigate();
 
     const handleAdminLogin = () => {
@@ -14,65 +15,65 @@ function AdminSignIn({ setIsAdminSignInOpen }) {
             return;
         }
 
+        setIsLoading(true); // 로딩 시작
         usersApi
-            .post('/admin/login', { adminCode, password }) // 관리자 로그인 API 호출
+            .post('/admin/login', { adminCode, password })
             .then((response) => {
                 if (response.status === 200) {
                     const { accessToken, refreshToken } = response.data;
 
-                    // 토큰 저장
                     localStorage.setItem('adminAccessToken', accessToken.token);
                     localStorage.setItem('adminRefreshToken', refreshToken.token);
 
                     alert('관리자 로그인 성공!');
-                    setIsAdminSignInOpen(false);
-
                     navigate('/admin/main');
                 }
             })
             .catch((error) => {
                 console.error('관리자 로그인 실패:', error);
                 alert(error.response?.data?.message || '로그인에 실패했습니다.');
+            })
+            .finally(() => {
+                setIsLoading(false); // 로딩 종료
             });
     };
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            handleAdminLogin(); // 엔터 키로 로그인 동작
+            handleAdminLogin();
         }
     };
 
     return (
-        <div className="modal-overlay" onClick={() => setIsAdminSignInOpen(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="admin-login-container">
+            <div className="login-box">
                 <h2>관리자 로그인</h2>
-                <button className="close-modal" onClick={() => setIsAdminSignInOpen(false)}>⊗</button>
                 <div className="input-container">
                     <label>아이디</label>
                     <input
                         type="text"
+                        placeholder="아이디를 입력하세요"
                         value={adminCode}
                         onChange={(e) => setAdminCode(e.target.value)}
-                        onKeyDown={handleKeyDown} // 엔터 키 감지
+                        onKeyDown={handleKeyDown}
                     />
                 </div>
                 <div className="input-container">
                     <label>비밀번호</label>
                     <input
                         type="password"
+                        placeholder="비밀번호를 입력하세요"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        onKeyDown={handleKeyDown} // 엔터 키 감지
+                        onKeyDown={handleKeyDown}
                     />
                 </div>
-                <button onClick={handleAdminLogin}>로그인</button>
+                <button className="login-button" onClick={handleAdminLogin} disabled={isLoading}>
+                    {isLoading ? '로그인 중...' : '로그인'}
+                </button>
             </div>
         </div>
     );
 }
-
-AdminSignIn.propTypes = {
-    setIsAdminSignInOpen: PropTypes.func.isRequired,
-};
 
 export default AdminSignIn;

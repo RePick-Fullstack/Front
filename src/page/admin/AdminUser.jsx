@@ -20,8 +20,8 @@ function AdminUser() {
     useEffect(() => {
         const adminAccessToken = localStorage.getItem("adminAccessToken");
         if (!adminAccessToken) {
-            alert("관리자 인증이 필요합니다.");
-            navigate("/");
+            alert("관리자 로그인이 필요합니다.");
+            navigate("/admin/login-xXx");
         } else {
             fetchUsers(adminAccessToken, page);
         }
@@ -140,7 +140,6 @@ function AdminUser() {
         <div className="admin-layout">
             <AdminSidebar />
             <div className="admin-content">
-                <h1>유저 관리</h1>
                 {error && <p className="error-message">{error}</p>}
 
                 <div className="search-container">

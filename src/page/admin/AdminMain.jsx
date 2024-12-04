@@ -19,12 +19,9 @@ import { usersApi } from "../../api/api.js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
-/**
- * StatsOverview Component: 총 유저 수
- */
 const StatsOverview = ({ totalUsers, isLoading }) => (
     <div className="stats-overview">
-        <h1>총 유저 수</h1>
+        <h2>총 유저 수</h2>
         {isLoading ? <p>로딩 중...</p> : <p>{totalUsers ? `총 ${totalUsers}명` : "데이터가 없습니다."}</p>}
     </div>
 );
@@ -176,8 +173,8 @@ function AdminMain() {
     useEffect(() => {
         const adminAccessToken = localStorage.getItem("adminAccessToken");
         if (!adminAccessToken) {
-            alert("관리자 인증이 필요합니다.");
-            navigate("/");
+            alert("관리자 로그인이 필요합니다.");
+            navigate("/admin/login-xXx");
         } else {
             initializePage(adminAccessToken);
             return setupAutoRefresh(adminAccessToken);
