@@ -6,9 +6,12 @@ import React, {useEffect, useRef, useState} from "react";
 import {setAuthHeader} from "../api/api.js";
 import ReLoad from "../assets/reload.svg"
 import {useLocation} from "react-router-dom";
+import EmptyLike from "../assets/emptylike.svg"
+import FullLike from "../assets/fulllike.svg"
 
 function PostDetail() {
 
+    const [isLike, setIsLike] = useState(false);
     const location = useLocation();
     const categoryDescription = location.state?.category || "카테고리 없음";
     const [post, setPost] = useState([]); //게시글
@@ -34,6 +37,9 @@ function PostDetail() {
         const fetchedComment = await getCommentByPostId(id);
         console.log("fetchedComment" + JSON.stringify(fetchedComment, null, 2));
         setComments(fetchedComment);
+    }
+    const handleLike = async (commentId) => {
+
     }
     const handleInputChange = (e) => {
         setContent(e.target.value);
@@ -78,6 +84,17 @@ function PostDetail() {
             setContent('');
         }
     }
+    const formatDateTime = (dateTime) => {
+        const date = new Date(dateTime);
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours() + 9).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
 
     return (
         <>
@@ -87,7 +104,7 @@ function PostDetail() {
                     <div className={"border-amber-100 mb-5"}>
                         <div>{categoryDescription}</div>
                         <div className={"bg-white mt-5 text-2xl"}> {post.title}
-                            <div className={"text-sm"}>{post.createdAt}</div>
+                            <div className={"text-sm"}>{formatDateTime(post.createdAt)}</div>
                             <p className={"mb-5 text-right text-sm"}>조회 {post.viewCount}</p>
                             <hr className={"mb-5"}/>
                             {/* <p>게시글 id : {post.id}</p> */}
@@ -121,8 +138,16 @@ function PostDetail() {
                             <div className={"bg-white"}>
                                 {comments.map((comment) => (
                                     <div>
-                                        <div className={"text-xl"}>{comment.userNickname}</div>
-                                        <div className={"text-right"}>본인의 댓글에만 수정이 떠야됨</div>
+                                        <div className={"text-xl flex flex-row"}>{comment.userNickname}
+                                            {
+                                                isLike ?
+                                                <img onClick={() => {setIsLike(false)}} className={"cursor-pointer ml-5"}
+                                                     src={FullLike} alt="Like Logo"/>
+                                                : <img onClick={() => {setIsLike(true)}} className={"text-right cursor-pointer ml-5"}
+                                                       src={EmptyLike} alt="Like Logo"/>
+                                            }
+                                            <div className={"text-xs"}>{comment.likeCount}</div>
+                                        </div>
                                         <div className={"w-3/5"}>{comment.content}</div>
                                         <hr className={"border-2"}/>
                                     </div> //대충 ㅋㅋ
