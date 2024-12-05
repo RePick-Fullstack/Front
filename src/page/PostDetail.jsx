@@ -22,40 +22,64 @@ function PostDetail() {
 
 
     useEffect(() => {
-        handlePost()
-        handleComment()
+        handlePost();
     }, []);
+
+    useEffect(() => {
+        handleComment();
+    }, [id]);
 
 
     const handlePost = async () => {
         console.log(" 클릭한 게시글 id " + id)
         const fetchedPost = await getPostById(id);
-        console.log("fetchedPost 찍음 " + JSON.stringify(fetchedPost, null, 2))
+        //console.log("fetchedPost 찍음 " + JSON.stringify(fetchedPost, null, 2))
         setPost(fetchedPost);
     }
     const handleComment = async () => {
         const fetchedComment = await getCommentByPostId(id);
         console.log("fetchedComment" + JSON.stringify(fetchedComment, null, 2));
-        setComments(fetchedComment);
+        setComments(fetchedComment.map((comment) => ({
+            ...comment,
+            isLike: localStorage.getItem(`isLike_${comment.userId}_${comment.id}`) === 'true', //서버에서 isLike값 가져오기 못가져오면 false
+        })));
     }
-    const handleLike = async (id,commentId) => {
-       try{
-           const token = localStorage.getItem("accessToken");
-           if (!token) {
-               alert("좋아요를 누르려면 로그인이 필요합니다.");
-               return;
-           }
-           setAuthHeader(token);
-        await clickLike(id, commentId); // 서버에 좋아요 요청
-        setComments((prevComments) =>
-            prevComments.map((comment) =>
-                comment.id === commentId
-                    ? {...comment, isLike: !comment.isLike}  //좋아요 상태 변화
-                    : comment));
-       }catch(error){
-           alert("좋아요 실패 ㅋ")
-       }
+
+    const handleLike = async (id, commentId) => {
+
+        try {
+            const token = localStorage.getItem("accessToken");
+            if (!token) {
+                alert("좋아요를 누르려면 로그인이 필요합니다.");
+                return;
+            }
+            setAuthHeader(token);
+            await clickLike(id, commentId); // 서버에 좋아요 요청
+
+            setComments(prevComments => {
+                const updatedComments = prevComments.map((comment) =>
+                    comment.id === commentId
+                        ? {
+                            ...comment,
+                            isLike: !comment.isLike,
+                            likeCount: comment.isLike
+                                ? comment.likeCount - 1 //좋아요 2번째 클릭 시 감소
+                                : comment.likeCount + 1, //좋아요 클릭시 증가
+                        }  //좋아요 상태 변화
+                        : comment);
+                // 해당 댓글의 isLike 상태를 localStorage에 저장
+                const updatedComment = updatedComments.find(comment => comment.id === commentId);
+
+                if (updatedComment) {
+                    localStorage.setItem(`isLike_${updatedComment.userId}_${commentId}`, updatedComment.isLike);
+                }
+                return updatedComments;
+            });
+        } catch (error) {
+            alert("좋아요 실패 ㅋ")
+        }
     }
+
     const handleInputChange = (e) => {
         setContent(e.target.value);
         autoResize();
@@ -116,7 +140,7 @@ function PostDetail() {
     return (
         <>
             {post ? (
-                <div className={"rounded-xl font-bold p-10 w-4/5"} style={{margin: "50px 100px -50px 150px"}}>
+                <div className={"rounded-xl font-bold p-10 w-4/5"} style={{margin: "-50px 100px -50px 150px"}}>
                     {/*<span> {category[0].title}</span> /!* 해당하는 category 뜨게 할 예정 *!/*/}
                     <div className={"border-amber-100 mb-5"}>
                         <div>{categoryDescription}</div>
@@ -156,15 +180,10 @@ function PostDetail() {
                                     <div>
                                         <hr className={"border-1"}/>
                                         <div className={"text-xl flex flex-row"}>{comment.userNickname}
-                                            {
-                                                isLike ?
-                                                    <img onClick={() => handleLike(id, comment.id)}
-                                                         className={"cursor-pointer ml-5"}
-                                                         src={FullLike} alt="Like Logo"/>
-                                                    : <img onClick={() => handleLike(id, comment.id)}
-                                                           className={"text-right cursor-pointer ml-5"}
-                                                           src={EmptyLike} alt="Like Logo"/>
-                                            }
+                                            <img onClick={() => handleLike(id, comment.id)}
+                                                 className={"cursor-pointer ml-5"}
+                                                 src={comment.isLike ? FullLike : EmptyLike}
+                                                 alt={comment.isLike ? "좋아요 누름" : "좋아요 취소"}/>
                                             <div className={"text-xs"}>{comment.likeCount}</div>
                                         </div>
                                         <div className={"w-3/5"}>{comment.content}</div>
