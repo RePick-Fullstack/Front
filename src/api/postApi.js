@@ -50,7 +50,7 @@ export const increaseViewCount = async(id)=>{
     const response = await commentApi.put(`${id}/viewCount`);
     return response.data;
 }
-export const clickLike = async (id) =>{
-    const response = await commentApi.post(`{id}/like`);
+export const clickLike = async (id,commentId) =>{
+    const response = await commentApi.post(`${id}/comments/${commentId}/like`);
     return response.data;
 }
