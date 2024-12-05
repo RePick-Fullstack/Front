@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {useParams} from "react-router-dom";
-import {createComment, getPostById} from "../api/postApi.js";
+import {clickLike, createComment, getPostById} from "../api/postApi.js";
 import {getCommentByPostId} from "../api/postApi.js";
 import React, {useEffect, useRef, useState} from "react";
 import {setAuthHeader} from "../api/api.js";
@@ -38,8 +38,23 @@ function PostDetail() {
         console.log("fetchedComment" + JSON.stringify(fetchedComment, null, 2));
         setComments(fetchedComment);
     }
-    const handleLike = async (commentId) => {
-
+    const handleLike = async (id,commentId) => {
+       try{
+           const token = localStorage.getItem("accessToken");
+           if (!token) {
+               alert("좋아요를 누르려면 로그인이 필요합니다.");
+               return;
+           }
+           setAuthHeader(token);
+        await clickLike(id, commentId); // 서버에 좋아요 요청
+        setComments((prevComments) =>
+            prevComments.map((comment) =>
+                comment.id === commentId
+                    ? {...comment, isLike: !comment.isLike}  //좋아요 상태 변화
+                    : comment));
+       }catch(error){
+           alert("좋아요 실패 ㅋ")
+       }
     }
     const handleInputChange = (e) => {
         setContent(e.target.value);
@@ -61,9 +76,11 @@ function PostDetail() {
         }
         try {
             const token = localStorage.getItem("accessToken");
-            if (token) {
-                setAuthHeader(token);
+            if (!token) {
+                alert("댓글 작성하려면 로그인이 필요합니다.");
+                return;
             }
+            setAuthHeader(token);
             console.log(token)
             const commentRequest = {content};
             console.log(commentRequest);
@@ -107,7 +124,6 @@ function PostDetail() {
                             <div className={"text-sm"}>{formatDateTime(post.createdAt)}</div>
                             <p className={"mb-5 text-right text-sm"}>조회 {post.viewCount}</p>
                             <hr className={"mb-5"}/>
-                            {/* <p>게시글 id : {post.id}</p> */}
                             <div className={"text-lg font-normal w-4/5 ml-5"}>내용 : {post.content}</div>
                         </div>
 
@@ -138,18 +154,20 @@ function PostDetail() {
                             <div className={"bg-white"}>
                                 {comments.map((comment) => (
                                     <div>
+                                        <hr className={"border-1"}/>
                                         <div className={"text-xl flex flex-row"}>{comment.userNickname}
                                             {
                                                 isLike ?
-                                                <img onClick={() => {setIsLike(false)}} className={"cursor-pointer ml-5"}
-                                                     src={FullLike} alt="Like Logo"/>
-                                                : <img onClick={() => {setIsLike(true)}} className={"text-right cursor-pointer ml-5"}
-                                                       src={EmptyLike} alt="Like Logo"/>
+                                                    <img onClick={() => handleLike(id, comment.id)}
+                                                         className={"cursor-pointer ml-5"}
+                                                         src={FullLike} alt="Like Logo"/>
+                                                    : <img onClick={() => handleLike(id, comment.id)}
+                                                           className={"text-right cursor-pointer ml-5"}
+                                                           src={EmptyLike} alt="Like Logo"/>
                                             }
                                             <div className={"text-xs"}>{comment.likeCount}</div>
                                         </div>
                                         <div className={"w-3/5"}>{comment.content}</div>
-                                        <hr className={"border-2"}/>
                                     </div> //대충 ㅋㅋ
                                 ))}
                             </div>
