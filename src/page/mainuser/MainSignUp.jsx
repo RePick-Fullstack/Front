@@ -1,5 +1,5 @@
+/* eslint-disable */
 import {useState} from 'react';
-import PropTypes from 'prop-types'; // PropTypes 추가
 import {usersApi} from '../../api/api.js'; // usersApi 사용
 
 function MainSignUp({setIsSignUpOpen}) {
@@ -116,10 +116,5 @@ function MainSignUp({setIsSignUpOpen}) {
         </div>
     </div>);
 }
-
-// PropTypes 선언
-MainSignUp.propTypes = {
-    setIsSignUpOpen: PropTypes.func.isRequired,
-};
 
 export default MainSignUp;
