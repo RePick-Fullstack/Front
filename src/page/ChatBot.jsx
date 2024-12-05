@@ -92,14 +92,18 @@ function ChatBot() {
         }
     };
 
+    // useEffect(() => {
+    //     if (chatBoxRef.current) {
+    //         // ul 요소의 부모 컨테이너에만 스크롤이 발생하도록 설정
+    //         chatBoxRef.current.scrollIntoView({
+    //             behavior: 'smooth',
+    //             block: 'nearest', // 부모 컨테이너 내부에서만 스크롤
+    //         });
+    //     }
+    // }, [chatHistory]);
+
     useEffect(() => {
-        if (chatBoxRef.current) {
-            // ul 요소의 부모 컨테이너에만 스크롤이 발생하도록 설정
-            chatBoxRef.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest', // 부모 컨테이너 내부에서만 스크롤
-            });
-        }
+        scrollToBottom();
     }, [chatHistory]);
 
     // MutationObserver를 사용하여 chatBox의 자식 변화 감지
