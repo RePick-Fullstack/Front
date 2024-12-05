@@ -19,7 +19,7 @@ function MainSignUp({setIsSignUpOpen}) {
         }
 
         try {
-            const response = await usersApi.post('/signup', formData);
+            const response = await usersApi.post('/users/signup', formData);
 
             if (response.status === 200) {
                 alert('회원가입 성공! 이제 로그인하세요.');

@@ -26,7 +26,7 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
         }
 
         try {
-            const response = await usersApi.post('/login', { email, password });
+            const response = await usersApi.post('/users/login', { email, password });
 
             if (response.status === 200) {
                 const { accessToken, refreshToken } = response.data;
