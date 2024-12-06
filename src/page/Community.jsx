@@ -33,7 +33,7 @@ function Community() {
     const fetchPosts = async (selectedCategory) => {
         const data = await getData(selectedCategory);
         if (data) setPosts(data);
-        console.log("data : " + data)
+        console.log("data : " + JSON.stringify(data, null, 2))
     }
 
     const handleCategoryChange = (newCategory) => {
@@ -81,7 +81,7 @@ function Community() {
             <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
                 <div className={"caret-transparent"}
                      style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
-                <div className={"h-auto rounded-xl bg-gray-400 mt-0 items-center flex flex-wrap"}>
+                <div className={"h-8 rounded-xl bg-gray-400 items-center flex flex-wrap relative top-3"}>
                     <span className={"font-semibold text-sm flex gap-8 ml-6"}>
                          {data.map((item, index) => (
                              <span className={"caret-transparent cursor-pointer hover:underline  text-center"}
@@ -94,22 +94,33 @@ function Community() {
             </div>
             <div className="container">
                 <div className="left-container">
-                    <button className={"border-2 border-b-fuchsia bg-white mb-5"}
+                    <button className={"border-2 border-b-fuchsia  bg-white mb-5"}
                             onClick={() => navigate("/CreatePost")}>작성하기
                     </button>
 
-                    <div className={" rounded-xl border-black border-1 bg-white"} style={{
+                    <div className={"rounded-xl border-black border-1 bg-white"} style={{
                         width: "auto",
                         height: "450px",
                         overflow: `auto`
                     }}>
-                        <div className={"border-amber-100"}>
+                        <div className={"border-amber-100 p-2 border-solid"}>
                             <ul>
                                 {posts.map((post) => (
-                                    <li key={post.id}>
-                                        <h3 className={"hover:cursor-pointer hover:underline"} onClick={() => {
+                                    <li key={post.id} className={"border-2 border-gray-200 mb-2 rounded-md"}>
+                                        <h3 className={"hover:cursor-pointer hover:underline hover:font-semibold p-5 text-lg "} onClick={() => {
                                             handlePostClick(post)
                                         }}>{post.title}</h3>
+
+                                        <div className={"relative text-sm"}>
+                                            <h3 className={"inline-block align-middle m-3"}>{post.userNickname}</h3>
+                                            <div className={"absolute top-0 right-0 inline-block align-middle"}>
+                                                <ul className={"list-none mr-2.5 mt-3 p-0 flex"}>
+                                                    <li className={"mr-2"}> 좋아요 : {post.likesCount}</li>
+                                                    <li className={"mr-2"}> 댓글 : {post.commentsCount}</li>
+                                                    <li> 조회 : {post.viewCount}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
