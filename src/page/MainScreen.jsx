@@ -173,7 +173,7 @@ function MainScreen() {
                                             className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 border-t border-gray-300"}>
                                             <span
                                                 className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
-                                            <span className={"text-center"}><a className={"ml-5"}
+                                            <span className={"text-center"}><a className={"ml-5 hover:underline"}
                                                                                href={report.pdf_link}>{report.securities_firm}</a></span>
                                             <span className={"text-right"}>{report.report_date}</span>
                                             <span>{report.report_title}</span>
@@ -196,8 +196,8 @@ function MainScreen() {
                     <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
                         <div>
                             {news.map((item, index) => (
-                                <div key={index}>{index + 1 + ".    "}
-                                    <a href={item.url} style={{color: `black`}}>{item.title}</a>
+                                <div className={"hover:underline"} key={index}>{index + 1 + ".    "}
+                                    <a href={item.url}  style={{color: `black`}}>{item.title}</a>
                                 </div>
                             ))}
                         </div>
