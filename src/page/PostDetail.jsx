@@ -1,7 +1,6 @@
 /* eslint-disable */
 import {useParams} from "react-router-dom";
-import {clickLike, createComment, getPostById} from "../api/postApi.js";
-import {getCommentByPostId} from "../api/postApi.js";
+import {likePost,getCommentByPostId,likeComment, createComment, getPostById} from "../api/postApi.js";
 import React, {useEffect, useRef, useState} from "react";
 import {setAuthHeader} from "../api/api.js";
 import ReLoad from "../assets/reload.svg"
@@ -11,6 +10,7 @@ import FullLike from "../assets/fulllike.svg"
 
 function PostDetail() {
 
+    const [likesCount, setLikesCount] = useState(0);
     const [isLike, setIsLike] = useState(false);
     const location = useLocation();
     const categoryDescription = location.state?.category || "카테고리 없음";
@@ -23,6 +23,7 @@ function PostDetail() {
 
     useEffect(() => {
         handlePost();
+
     }, []);
 
     useEffect(() => {
@@ -33,8 +34,15 @@ function PostDetail() {
     const handlePost = async () => {
         console.log(" 클릭한 게시글 id " + id)
         const fetchedPost = await getPostById(id);
-        //console.log("fetchedPost 찍음 " + JSON.stringify(fetchedPost, null, 2))
+        console.log("fetchedPost 찍음 " + JSON.stringify(fetchedPost, null, 2))
         setPost(fetchedPost);
+    }
+    const fetchPostLikes = async () =>{
+        try{
+//            const postLikes = await ;
+        }catch (error){
+
+        }
     }
     const handleComment = async () => {
         const fetchedComment = await getCommentByPostId(id);
@@ -45,7 +53,7 @@ function PostDetail() {
         })));
     }
 
-    const handleLike = async (id, commentId) => {
+    const handleCommentLike = async (id, commentId) => {
 
         try {
             const token = localStorage.getItem("accessToken");
@@ -54,7 +62,7 @@ function PostDetail() {
                 return;
             }
             setAuthHeader(token);
-            await clickLike(id, commentId); // 서버에 좋아요 요청
+            await likeComment(id, commentId); // 서버에 댓글 좋아요 요청
 
             setComments(prevComments => {
                 const updatedComments = prevComments.map((comment) =>
@@ -76,7 +84,24 @@ function PostDetail() {
                 return updatedComments;
             });
         } catch (error) {
-            alert("좋아요 실패 ㅋ")
+            alert("댓글 좋아요 실패 ㅋ")
+        }
+    }
+    const handlePostLike = async (id)=>{
+        try{
+            const token = localStorage.getItem("accessToken");
+            if (!token) {
+                alert("좋아요를 누르려면 로그인이 필요합니다.");
+                return;
+            }
+            setAuthHeader(token);
+            const fetchedPostLikes = await likePost(id); // 서버에 댓글 좋아요 요청
+            console.log(JSON.stringify(fetchedPostLikes,null,2));
+            console.log("성공하긴함 ㅇㅇ");
+            console.log(fetchedPostLikes.likeCnt);
+            setLikesCount(fetchedPostLikes.likeCnt);
+        }catch(error){
+            alert("게시글 좋아요 실패 ㅋ")
         }
     }
 
@@ -154,7 +179,8 @@ function PostDetail() {
                     </div>
                     <div className={"rounded-l p-5"}>
                         <div className={"bg-white flex justify-between"}>
-                            <span>댓글 0 <img onClick={() => {
+                            <span onClick={()=>{ handlePostLike(id)}}> 좋아요 {likesCount}</span>
+                            <span className={"text-left"}>댓글 {post.commentsCount} <img onClick={() => {
                                 location.reload();
                             }} className={"cursor-pointer"} src={ReLoad} alt="ReLoad Logo"/> </span>
                             <button className={"h-10 bg-orange-50 text-right"} type="submit"
@@ -180,7 +206,7 @@ function PostDetail() {
                                     <div>
                                         <hr className={"border-1"}/>
                                         <div className={"text-xl flex flex-row"}>{comment.userNickname}
-                                            <img onClick={() => handleLike(id, comment.id)}
+                                            <img onClick={() => handleCommentLike(id, comment.id)}
                                                  className={"cursor-pointer ml-5"}
                                                  src={comment.isLike ? FullLike : EmptyLike}
                                                  alt={comment.isLike ? "좋아요 누름" : "좋아요 취소"}/>
