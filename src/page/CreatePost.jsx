@@ -1,10 +1,11 @@
 /* eslint-disable */
 import '../css/CreatePost.css'
 import {testMainCommunity} from "../data/testMainCommunity.js";
-import React, {useState} from 'react';
-import axios from 'axios';
+import {useState} from 'react';
 import {setAuthHeader} from "../api/api.js";
 import {useNavigate} from "react-router-dom";
+import {createPost} from "../api/postApi.js";
+import {translateToEnglish} from "../data/changeCategory.js";
 
 const CreatePost = () => {
     const navigate = useNavigate();
@@ -27,18 +28,12 @@ const CreatePost = () => {
             if (token) {
                 setAuthHeader(token);
             }
-            const response = await axios.post('http://localhost:9000/api/v1/posts', {
-                title,
-                content,
-                category,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const postRequest = {title, content, category: translateToEnglish(category)};
+            console.log("전송데이터 : " + JSON.stringify(postRequest, null, 2));
+            await createPost(postRequest);
             alert('게시글 작성 완료!');
             navigate("/community")
-            console.log('응답 데이터:', response.data);
+            console.log('응답 데이터:', postRequest.data);
         } catch (error) {
             console.log(title);
             console.log(content);
@@ -48,8 +43,9 @@ const CreatePost = () => {
         }
     };
     const handleCategorySelect = (title, description) => {
-        setCategory(title);
-        console.log(title);
+        setCategory(description);
+        console.log("title : " + title);
+        console.log("description : " + description);
         setIsOpen(false);
     }
 
@@ -71,7 +67,7 @@ const CreatePost = () => {
                                             onClick={() => handleCategorySelect(cat.title, cat.description)}
                                             className="dropdown_item"
                                         >
-                                            {cat.title}
+                                            {cat.description}
                                         </li>
                                     ))}
                                 </ul>
