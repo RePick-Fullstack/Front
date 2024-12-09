@@ -1,14 +1,15 @@
 import '../css/report.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
-import {testReport} from "../data/testReport.js";
+import {eksApi} from "../api/api.js";
+//import {testReport} from "../data/testReport.js";
 
 function ReportPage() {
-    const [reports, setReports] = useState(testReport);
+    const [reports, setReports] = useState([]);
 
     const handleReports = async () => {
         try {
-            const getReports = await axios.get("http://localhost:8082/api/v1/reports");
+            const getReports = await eksApi.get("/reports");
             console.log(getReports.data);
             getReports.data && setReports(getReports.data);
         } catch {
