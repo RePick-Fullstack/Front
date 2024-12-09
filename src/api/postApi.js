@@ -46,14 +46,17 @@ export const createComment = async (id,commentRequest)=>{
     const response = await commentApi.post(`${id}/comments`, commentRequest);
     return response.data;
 };
+//게시글 조회수 상승 
 export const increaseViewCount = async(id)=>{
     const response = await commentApi.put(`${id}/viewCount`);
     return response.data;
 }
+//댓글 좋아요 기능
 export const likeComment = async (id,commentId) =>{
     const response = await commentApi.post(`${id}/comments/${commentId}/like`);
     return response.data;
 }
+//게시글 좋아요 기능
 export const likePost = async (id) =>{
     const response = await api.post(`${id}/like`);
     return response.data;
