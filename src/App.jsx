@@ -17,6 +17,8 @@ import { PaymentSuccessPage } from "./page/tosspayment/PaymentSuccess.jsx";
 import { PaymentFailPage } from "./page/tosspayment/PaymentFail.jsx";
 import ChatBot from "./page/ChatBot.jsx";
 import PostDetail from "./page/PostDetail.jsx";
+import NoExistUrl from "./page/NoExistUrl.jsx";
+import ModifyPost from "./page/ModifyPost.jsx";
 
 function App() {
 
@@ -42,9 +44,10 @@ function App() {
                     <Route path="/tosspayment" element={<PaymentCheckoutPage />} />
                     <Route path="/tosspayment/success" element={<PaymentSuccessPage />} />
                     <Route path="/tosspayment/fail" element={<PaymentFailPage />} />
+                    <Route path="/modifypost/:id" element={<ModifyPost/>}/>
 
                     {/* 잘못된 URL 접근 시 리다이렉트 */}
-                    <Route path="*" element={<Navigate to="/" />} />
+                    <Route path="*" element={<NoExistUrl/>} />
                 </Routes>
             </div>
         </RecoilRoot>
