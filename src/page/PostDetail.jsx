@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {useParams} from "react-router-dom";
-import {likePost,getCommentByPostId,likeComment, createComment, getPostById} from "../api/postApi.js";
+import {likePost, getCommentByPostId, likeComment, createComment, getPostById} from "../api/postApi.js";
 import React, {useEffect, useRef, useState} from "react";
 import {setAuthHeader} from "../api/api.js";
 import ReLoad from "../assets/reload.svg"
@@ -8,6 +8,7 @@ import {useLocation} from "react-router-dom";
 import EmptyLike from "../assets/emptylike.svg"
 import FullLike from "../assets/fulllike.svg"
 import {formatDateTime} from "../data/formatTime.js";
+import {translateToKorean} from "../data/changeCategory.js";
 
 function PostDetail() {
 
@@ -83,8 +84,8 @@ function PostDetail() {
             alert("댓글 좋아요 실패 ㅋ")
         }
     }
-    const handlePostLike = async (id)=>{
-        try{
+    const handlePostLike = async (id) => {
+        try {
             const token = localStorage.getItem("accessToken");
             if (!token) {
                 alert("좋아요를 누르려면 로그인이 필요합니다.");
@@ -92,12 +93,12 @@ function PostDetail() {
             }
             setAuthHeader(token);
             const fetchedPostLikes = await likePost(id); // 서버에 댓글 좋아요 요청
-            console.log(JSON.stringify(fetchedPostLikes,null,2));
+            console.log(JSON.stringify(fetchedPostLikes, null, 2));
             console.log("성공하긴함 ㅇㅇ");
             console.log(fetchedPostLikes.likeCnt);
             setLikesCount(fetchedPostLikes.likeCnt);
             alert("게시글의 좋아요를 눌렀습니다.")
-        }catch(error){
+        } catch (error) {
             alert("게시글 좋아요 실패 ㅋ")
         }
     }
@@ -152,34 +153,39 @@ function PostDetail() {
     return (
         <>
             {post ? (
-                <div className={"rounded-xl font-bold p-10 w-4/5"} style={{margin: "-50px 100px -50px 150px"}}>
+                <div className={"rounded-xl font-bold p-10 w-4/5 "} style={{margin: "-50px 100px -50px 150px"}}>
                     {/*<span> {category[0].title}</span> /!* 해당하는 category 뜨게 할 예정 *!/*/}
-                    <div className={"border-amber-100 mb-3"}>
-                        <div>{categoryDescription}</div>
+                    <div className={"mb-3"}>
+                        <div>{translateToKorean(post.category)}</div>
                         <div className={"bg-white mt-5 mb-3 text-2xl"}> {post.title}</div>
-                            <div className={"text-base mb-3"}>작성자 : {post.userNickname}</div>
-                            <div className={"text-sm mb-5"}>{formatDateTime(post.createdAt)} 조회 {post.viewCount}</div>
-                            <hr className={"mb-5"}/>
-                            <div className={"text-lg font-normal w-4/5 ml-5"}>내용 : {post.content}</div>
+                        <div className={"text-base mb-3"}>작성자 : {post.userNickname}</div>
+                        <div className={"text-sm mb-5"}>{formatDateTime(post.createdAt)} 조회 {post.viewCount}</div>
+                        <hr className={"mb-5"}/>
+                        <div className={"text-sm font-light w-4/5 ml-5"}> {post.content}</div>
                     </div>
                     <div className={"rounded-l p-5"}>
-                        <div className={"bg-white flex justify-between"}>
-                            <span onClick={()=>{ handlePostLike(id)}}> 좋아요 {likesCount}</span>
-                            <span className={"text-left"}>댓글 {post.commentsCount} <img onClick={() => {
-                                window.location.reload();
-                            }} className={"cursor-pointer"} src={ReLoad} alt="ReLoad Logo"/> </span>
-                            <button className={"h-10 bg-orange-50 text-right"} type="submit"
-                                    onClick={handleSubmit}>등록
-                            </button>
+                        <div className={"bg-white flex flex-nowrap justify-between mb-10"}>
+                            <div className={"flex flex-row justify-between"}>
+                            <span className={"flex flex-row"} onClick={() => {
+                                handlePostLike(id)
+                            }}> 좋아요 {likesCount}</span>
+                                <span className={"text-left ml-5"}>댓글 {post.commentsCount}</span>
+                                <div><img onClick={() => {
+                                    window.location.reload();
+                                }} className={"cursor-pointer ml-5"} src={ReLoad} alt="ReLoad Logo"></img></div>
+                            </div>
+                                <button className={"h-10 bg-orange-50"} type="submit"
+                                        onClick={handleSubmit}>등록
+                                </button>
                         </div>
-                        <div className={"bg-emerald-100 rounded-l p-5 mb-5"}>따뜻한 댓글을 남겨주세요 :)
+                        <div className={"rounded-l p-5 mb-5"}>따뜻한 댓글을 남겨주세요 :)
                             <div>
                                 <textarea
                                     ref={textareaRef}
                                     value={content}
                                     placeholder="댓글을 입력해주세요 :)"
                                     onChange={handleInputChange}
-                                    className={"bg-white rounded-l outline-0 resize-none w-2/5 h-auto block m-3 min-h-[100px]"}
+                                    className={"rounded-lg border-2 bg-white rounded-l outline-0 resize-none w-4/5 h-auto block mt-5 min-h-[100px] p-3  "}
                                     required
                                 />
 
