@@ -129,16 +129,15 @@ function Community() {
                     </div>
                 </div>
                 <div className="right-container w-auto p-0">
-                    {/*<p className={"text-3xl  font-bold"}>실시간 채팅</p>*/}
-                    {/*<div className={"bg-white mt-5"}>*/}
-                    {/*    <div style={{*/}
-                    {/*        width: "auto",*/}
-                    {/*        height: "450px",*/}
-                    {/*        overflow: `auto`*/}
-                    {/*    }}>*/}
-                    { /*   <ChatRoom isCommunity={isCommunity}/>  버그임. 고치면 주석 풀어야됨*/}
-                    {/*</div>*/}
-                    {/*</div>*/}
+                    <p className={"text-3xl  font-bold"}>실시간 채팅</p>
+                    <div className={"bg-white mt-5"}>
+                        <div style={{
+                        width: "auto",
+                        height: "450px",
+                        overflow: `auto`
+                        }}><ChatRoom isCommunity={isCommunity}/>
+                        </div>
+                    </div>
                 </div>
             </div>
 
