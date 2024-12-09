@@ -27,34 +27,30 @@
 }
 
 .chatBox {
-    border: 1px solid #ccc;
     padding: 20px;
     width: 700px;
     margin: 0 0 0 100px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
 }
 
 .user-message {
     margin: 50px;
-    font-size: 40px;
+    font-size: 25px;
 }
-
+hr{
+    border-width: 3px 0 0 0;
+}
 .llm-message {
     margin: 35px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
-.user-message strong,
-.llm-message strong {
-    color: #4A90E2;
-}
 
 .reportBox {
     border: 1px solid #ccc;
     padding: 20px;
-    width: 400px;
-    margin: 0 auto;
+    width: 500px;
+    max-height: 450px;
+    margin: 30px auto;
     background-color: #f9f9f9;
     border-radius: 8px;
 }
