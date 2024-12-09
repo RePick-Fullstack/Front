@@ -52,7 +52,7 @@ function Header() {
             const { data } = await usersApi.get('/users/name', {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const name = data.userName || data.username || data.name || '사용자';
+            const name = data.userNickName || data.username || data.name || '사용자';
             setUserName(name);
             setIsLoggedIn(true);
         } catch (error) {
