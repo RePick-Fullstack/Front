@@ -1,5 +1,5 @@
-import { useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import {useLocation} from "react-router-dom";
+import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import '../css/ChatBot.css';
 
@@ -27,7 +27,7 @@ function ChatBot() {
 
     // 챗봇 응답 요청 및 타이핑 효과 적용
     const addChatEntry = (type, text) => {
-        setChatHistory((prev) => [...prev, { type, text }]);
+        setChatHistory((prev) => [...prev, {type, text}]);
     };
 
     const simulateTypingEffect = async (text) => {
@@ -42,7 +42,7 @@ function ChatBot() {
                 if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
                     updatedHistory[updatedHistory.length - 1].text = currentText + "_";
                 } else {
-                    updatedHistory.push({ type: "llm", text: currentText + "_" });
+                    updatedHistory.push({type: "llm", text: currentText + "_"});
                 }
                 return updatedHistory;
             });
@@ -137,9 +137,10 @@ function ChatBot() {
 
     return (
         <>
-            <div className="chatBot-container">
-                <div className="chatBox">
-                    <h1>ChatBot</h1>
+            <div className={"flex flex-row"}>
+                <div className="chatBot-container">
+                    <div className="chatBox">
+                        <h1>챗봇에게 질문하세요</h1>
                         {chatHistory.map((message, index) => (
                             <div
                                 key={index}
@@ -149,6 +150,7 @@ function ChatBot() {
                                 {message.type === "user" && <hr/>}
                             </div>
                         ))}
+                    </div>
                 </div>
                 <div className="reportBox">
                     <h2>Report Section</h2>
@@ -157,7 +159,7 @@ function ChatBot() {
             </div>
             <div className={"flex justify-center"}>
                 <div className="inputContainer flex w-full justify-center pb-5">
-                    <div className={"relative w-full flex"} style={{ maxWidth: `744px` }}>
+                    <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
                         <input
                             className="chatInput rounded-2xl border border-black flex justify-between"
                             placeholder="쳇봇에게 질문"
@@ -166,7 +168,7 @@ function ChatBot() {
                             onKeyPress={handleEnterKey}
                         />
                         <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
-                             style={{ left: 'calc(100% - 30px)' }}
+                             style={{left: 'calc(100% - 30px)'}}
                         >
                             <button className="inputButton" disabled={enterDelay}>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
