@@ -61,6 +61,42 @@ function Header() {
         }
     };
 
+    // 토큰 연장 처리
+    const handleTokenRefresh = async () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) {
+            console.error('Refresh Token이 없습니다.');
+            return;
+        }
+
+        try {
+            const { data } = await usersApi.post(
+                '/users/refresh-token',
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${refreshToken}`,
+                    },
+                }
+            );
+            console.log(data)
+            if (data) {
+                localStorage.setItem('accessToken', data.accessToken.token);
+                localStorage.setItem('refreshToken', data.refreshToken.token);
+
+                updateTokenRemainingTime();
+                alert('토큰이 연장되었습니다.');
+            } else {
+                throw new Error('서버로부터 유효한 accessToken을 받지 못했습니다.');
+            }
+        } catch (error) {
+            console.error('토큰 연장 실패:', error);
+            alert('토큰 연장에 실패했습니다. 다시 로그인하세요.');
+            handleLogout();
+        }
+    };
+
+
     // 로그아웃 처리
     const handleLogout = async () => {
         try {
@@ -117,6 +153,7 @@ function Header() {
                             <>
                                 <button onClick={() => navigate('/tosspayment')}>결제하기</button>
                                 <button onClick={handleLogout}>로그아웃</button>
+                                <button onClick={handleTokenRefresh}>토큰 연장</button> {/* 토큰 연장 버튼 */}
                                 <div className="user-greeting">안녕하세요, {userName}님!</div>
                                 <div className="token-timer">
                                     토큰 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}

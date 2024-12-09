@@ -174,7 +174,6 @@ button.close-modal:hover {
     z-index: 1000; /* 우선순위 높임 */
 }
 
-
 .kakao {
     background-image: url("https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/social/icon_1/Kakao.png");
 }

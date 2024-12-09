@@ -7,13 +7,13 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지 상태 추가
 
-    const fetchUserName = async (accessToken) => {
+    const fetchUserNickName = async (accessToken) => {
         try {
             const response = await usersApi.get('/users/name', {
                 headers: { Authorization: `Bearer ${accessToken}` },
             });
-            const userName = response.data.userName || '사용자';
-            setUserName(userName); // 사용자 이름 업데이트
+            const userNickName = response.data.userNickName || '사용자';
+            setUserName(userNickName); // 사용자 이름 업데이트
         } catch (error) {
             console.error('사용자 이름 가져오기 실패:', error);
         }
@@ -38,7 +38,7 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
                 setIsSignInOpen(false); // 로그인 모달 닫기
                 setIsLoggedIn(true); // 로그인 상태 업데이트
 
-                fetchUserName(accessToken.token); // 사용자 이름 가져오기
+                fetchUserNickName(accessToken.token); // 사용자 이름 가져오기
                 setErrorMessage(''); // 에러 메시지 초기화
             }
         } catch (error) {
