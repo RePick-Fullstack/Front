@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
 import {realTimeChatApi} from "../api/api.js";
+import {formatDateTime} from "../data/formatTime.js";
 
 export const ChatRoom = (props) => {
     const isCommunity = props.isCommunity || false;
@@ -43,20 +44,20 @@ export const ChatRoom = (props) => {
 
 
     return (
-        <div className={`${!isCommunity ? `ml-[50px]` : `h-[450px]`} flex justify-center p-5 gap-5`}>
-            <div className={"w-full max-w-[400px] border"}
+        <div className={`${!isCommunity ? `ml-[50px]` : `h-[450px]`} flex justify-center p-5 gap-5 `}>
+            <div className={"w-full max-w-[400px] border rounded-xl"}
                  //style={{height: `calc(100vh - 180px)`}}> 밑으로 빠져나감
-                 style={{height: `calc(550px)`}}>
-                {isJoin ? <div className={`w-full ${ isCommunity ? `h-[400px]` : `h-full`} flex items-end`}
+                 style={{height: `calc(420px)`}}>
+                {isJoin ? <div className={`w-full ${ isCommunity ? `h-[400px]` : `h-full`} flex items-end rounded-xl`}
                                style={{backgroundColor: `rgba(150, 150, 150, 0.7)`}}>
                     <div className={"w-full"}>
                         { !isCommunity && <button className={"w-50 h-12 bg-amber-300 active:bg-amber-400 p-1"}
                                  onClick={() => navigate("/chatRoom")}>돌아기기
                         </button>}
-                        <div className={"px-5 py-1 text-white"}>
+                        <div className={"px-5 py-1 text-white rounded-xl"}>
                             <div className={"font-bold"}>{!isCommunity ? selectChatRoom.chatRoomName : '커뮤니티 채팅방'}</div>
                             <div>참여자 : {selectChatRoom.UserNumber}/1500</div>
-                            <div>개설일 : {selectChatRoom.createdAt}</div>
+                            <div>개설일 : {formatDateTime(selectChatRoom.createdAt)}</div>
                         </div>
                         <div className={"p-5 rounded-t bg-white w-full"}>
                             <div>{selectChatRoom.ownerName}</div>
