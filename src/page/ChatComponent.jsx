@@ -98,7 +98,7 @@ function ChatComponent() {
                         <button className={`${buttonUi} bg-amber-300 active:bg-amber-500`}
                                 onClick={() => {
                                     setLoading(true);
-                                    connectWebSocket('ws://localhost:8081/websocket/2f977970-d0be-4224-97e0-bc71ba8ed67b')
+                                    connectWebSocket('ws://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com/websocket/2f977970-d0be-4224-97e0-bc71ba8ed67b')
                                 }}>채팅방 입장
                         </button>
                     </div>
