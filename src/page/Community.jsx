@@ -107,9 +107,10 @@ function Community() {
                             <ul>
                                 {posts.map((post) => (
                                     <li key={post.id} className={"border-2 border-gray-200 mb-2 rounded-md"}>
-                                        <h3 className={"hover:cursor-pointer hover:underline hover:font-semibold p-5 text-lg "} onClick={() => {
-                                            handlePostClick(post)
-                                        }}>{post.title}</h3>
+                                        <h3 className={"hover:cursor-pointer hover:underline hover:font-semibold p-5 text-lg "}
+                                            onClick={() => {
+                                                handlePostClick(post)
+                                            }}>{post.title}</h3>
 
                                         <div className={"relative text-sm"}>
                                             <h3 className={"inline-block align-middle m-3"}>{post.userNickname}</h3>
@@ -128,13 +129,13 @@ function Community() {
 
                     </div>
                 </div>
-                  <div className="right-container p-0 rounded-xl">
+                <div className="right-container p-0 rounded-xl">
                     <p className={"text-3xl font-bold p-2"}>실시간 채팅</p>
                     <div className={"bg-white mt-5"}>
                         <div style={{
-                        width: "auto",
-                        height: "450px",
-                        overflow: `auto`
+                            width: "auto",
+                            height: "450px",
+                            overflow: `auto`
                         }}><ChatRoom isCommunity={isCommunity}/>
                         </div>
                     </div>
