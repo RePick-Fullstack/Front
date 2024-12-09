@@ -164,7 +164,7 @@ button.close-modal:hover {
 .token-timer {
     position: absolute;
     top: 10px; /* 화면 아래에서 10px 위로 */
-    right: 250px; /* 화면 오른쪽에서 10px 왼쪽으로 */
+    right: 320px; /* 화면 오른쪽에서 10px 왼쪽으로 */
     background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
     color: white; /* 글자 색상 */
     padding: 10px 15px; /* 패딩 */
