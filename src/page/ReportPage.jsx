@@ -25,7 +25,7 @@ function ReportPage() {
         <div className="report_container">
 
 
-            <ul className={" font-semibold"}>
+            <ul className={"font-semibold"}>
                 <li className={"grid grid-cols-[4fr_3fr_3fr_3fr] px-4 py-2 bg-gray-100"}>
                     <span className="text-left">리포트 제목</span>
                     <span className="text-center">회사</span>
