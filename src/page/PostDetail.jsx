@@ -7,6 +7,7 @@ import ReLoad from "../assets/reload.svg"
 import {useLocation} from "react-router-dom";
 import EmptyLike from "../assets/emptylike.svg"
 import FullLike from "../assets/fulllike.svg"
+import {formatDateTime} from "../data/formatTime.js";
 
 function PostDetail() {
 
@@ -34,16 +35,11 @@ function PostDetail() {
     const handlePost = async () => {
         console.log(" 클릭한 게시글 id " + id)
         const fetchedPost = await getPostById(id);
-        console.log("fetchedPost 찍음 " + JSON.stringify(fetchedPost, null, 2))
+        console.log("fetchedPost 찍음 " + JSON.stringify(fetchedPost, null, 2));
+        setLikesCount(fetchedPost.likesCount);
         setPost(fetchedPost);
     }
-    const fetchPostLikes = async () =>{
-        try{
-//            const postLikes = await ;
-        }catch (error){
 
-        }
-    }
     const handleComment = async () => {
         const fetchedComment = await getCommentByPostId(id);
         console.log("fetchedComment" + JSON.stringify(fetchedComment, null, 2));
@@ -100,6 +96,7 @@ function PostDetail() {
             console.log("성공하긴함 ㅇㅇ");
             console.log(fetchedPostLikes.likeCnt);
             setLikesCount(fetchedPostLikes.likeCnt);
+            alert("게시글의 좋아요를 눌렀습니다.")
         }catch(error){
             alert("게시글 좋아요 실패 ㅋ")
         }
@@ -150,38 +147,26 @@ function PostDetail() {
             setContent('');
         }
     }
-    const formatDateTime = (dateTime) => {
-        const date = new Date(dateTime);
 
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작
-        const day = String(date.getDate()).padStart(2, "0");
-        const hours = String(date.getHours() + 9).padStart(2, "0");
-        const minutes = String(date.getMinutes()).padStart(2, "0");
-
-        return `${year}-${month}-${day} ${hours}:${minutes}`;
-    };
 
     return (
         <>
             {post ? (
                 <div className={"rounded-xl font-bold p-10 w-4/5"} style={{margin: "-50px 100px -50px 150px"}}>
                     {/*<span> {category[0].title}</span> /!* 해당하는 category 뜨게 할 예정 *!/*/}
-                    <div className={"border-amber-100 mb-5"}>
+                    <div className={"border-amber-100 mb-3"}>
                         <div>{categoryDescription}</div>
-                        <div className={"bg-white mt-5 text-2xl"}> {post.title}
-                            <div className={"text-sm"}>{formatDateTime(post.createdAt)}</div>
-                            <p className={"mb-5 text-right text-sm"}>조회 {post.viewCount}</p>
+                        <div className={"bg-white mt-5 mb-3 text-2xl"}> {post.title}</div>
+                            <div className={"text-base mb-3"}>작성자 : {post.userNickname}</div>
+                            <div className={"text-sm mb-5"}>{formatDateTime(post.createdAt)} 조회 {post.viewCount}</div>
                             <hr className={"mb-5"}/>
                             <div className={"text-lg font-normal w-4/5 ml-5"}>내용 : {post.content}</div>
-                        </div>
-
                     </div>
                     <div className={"rounded-l p-5"}>
                         <div className={"bg-white flex justify-between"}>
                             <span onClick={()=>{ handlePostLike(id)}}> 좋아요 {likesCount}</span>
                             <span className={"text-left"}>댓글 {post.commentsCount} <img onClick={() => {
-                                location.reload();
+                                window.location.reload();
                             }} className={"cursor-pointer"} src={ReLoad} alt="ReLoad Logo"/> </span>
                             <button className={"h-10 bg-orange-50 text-right"} type="submit"
                                     onClick={handleSubmit}>등록
