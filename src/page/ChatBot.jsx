@@ -63,7 +63,7 @@ function ChatBot() {
     const handleSendRequest = async () => {
         const fetchChatBotResponse = async () => {
             try {
-                const response = await axios.post(`http://k8s-repick-59dd78f5ea-980331128.us-east-1.elb.amazonaws.com/api/v1/chatbot/message/3784f905-bef5-46e6-b58a-69ee72d414cd`,
+                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/3784f905-bef5-46e6-b58a-69ee72d414cd`,
                     {
                         message: inputValue,
                     }, {
