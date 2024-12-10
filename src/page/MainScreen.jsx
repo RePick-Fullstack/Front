@@ -160,17 +160,21 @@ function MainScreen() {
                 <div className="left_container">
                     <div className="report_header">
                         <p className={"font-bold text-2xl ml-11"}>리포트</p>
+
                         {enterDelay || <div className="hotReport">
-                            <ul className={"h-full overflow-y-scroll font-semibold"}>
-                                <li className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 bg-gray-100"}>
+
+                            <ul className={"h-full font-semibold"}>
+                                <hr/>
+                                <li className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2"}>
                                     <span className="text-left">리포트 제목</span>
                                     <span className="text-center">회사</span>
                                     <span className="text-right">발행 일자</span>
                                 </li>
+                                <hr className={"border-1 h-[1px]"}/>
                                 {reports.map((report, index) =>
                                     <li key={index}>
                                         <div
-                                            className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 border-t border-gray-300"}>
+                                            className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 "}>
                                             <span
                                                 className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
                                             <span className={"text-center"}><a className={"ml-5 hover:underline"}
@@ -188,9 +192,6 @@ function MainScreen() {
                 </div>
                 {enterDelay || <div className="right-column">
                     <p className={"font-bold text-2xl ml-11"}>뉴스
-                        <button className={"border border-black text-xs pl-2 pr-2 w-32 ml-5"}
-                                onClick={handleNewNews}>뉴스
-                            새로받아오기</button>
                     </p>
 
                     <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
