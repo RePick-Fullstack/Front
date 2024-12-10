@@ -106,10 +106,31 @@ function PostDetail() {
         }
     }
 
+    const editPost = async (postId) =>{
+        const confirmEdit = window.confirm("게시글을 수정 하시겠습니까?");
+        if (!confirmEdit) return;
+        try{
+            const token = localStorage.getItem("accessToken");
+            if(!token){
+                alert("수정 권한이 없습니다");
+                return;
+            }setAuthHeader(token);
+
+            navigate(`/editpost/${postId}`);
+        }catch(error){
+
+        }
+    }
+
     const deletePost = async (postId) => {
         const confirmDelete = window.confirm("게시글을 삭제 하시겠습니까?");
         if (!confirmDelete) return;
         try {
+            const token = localStorage.getItem("accessToken");
+            if(!token){
+                alert("삭제 권한이 없습니다");
+                return;
+            }setAuthHeader(token);
             await api.delete(`${postId}`)
             alert("게시글이 삭제 되었습니다.");
             navigate("/community");
@@ -179,7 +200,7 @@ function PostDetail() {
                 <div className={"rounded-xl font-bold p-10 w-4/5 "} style={{margin: "-50px 100px -50px 150px"}}>
                     <div className={"mb-3"}>
                         <div className={"float-right"}>
-                            <button onClick={() => navigate(`/modifypost/${id}`)}
+                            <button onClick={() => editPost(id)}
                                     className={"h-7 px-2 mb-5 mr-4 bg-orange-50 text-base font-black  rounded-md shadow-md"}>수정
                             </button>
                             <button onClick={() => deletePost(id)}
