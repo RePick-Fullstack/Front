@@ -78,7 +78,7 @@ function Community() {
     }, [searchParams]); // searchParams 변경 시 실행
     return (
         <>
-            <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 100px"}}>
+            <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 120px"}}>
                 <div className={"caret-transparent"}
                      style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
                 <div className={"h-8 rounded-xl bg-gray-400 items-center flex flex-wrap relative top-3"}>
