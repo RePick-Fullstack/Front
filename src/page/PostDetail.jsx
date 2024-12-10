@@ -2,9 +2,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {likePost, getCommentByPostId, likeComment, createComment, getPostById, deletePost} from "../api/postApi.js";
 import React, {useEffect, useRef, useState} from "react";
-import {setAuthHeader} from "../api/api.js";
+import {api, setAuthHeader} from "../api/api.js";
 import ReLoad from "../assets/reload.svg"
-import {useLocation} from "react-router-dom";
 import EmptyLike from "../assets/emptylike.svg"
 import FullLike from "../assets/fulllike.svg"
 import {formatDateTime} from "../data/formatTime.js";
@@ -14,8 +13,6 @@ function PostDetail() {
 
     const navigate = useNavigate();
     const [likesCount, setLikesCount] = useState(0);
-    const location = useLocation();
-    const categoryDescription = location.state?.category || "카테고리 없음";
     const [post, setPost] = useState([]); //게시글
     const [comments, setComments] = useState([]); //등록된 댓글들
     const [content, setContent] = useState(""); //댓글창
@@ -33,7 +30,7 @@ function PostDetail() {
     }, [id]);
 
 
-    const handlePost = async () => {
+    const handlePost = async () => { //게시글 가져오는 함수
         console.log(" 클릭한 게시글 id " + id)
         const fetchedPost = await getPostById(id)
             .catch((error) => {
@@ -45,6 +42,7 @@ function PostDetail() {
         setLikesCount(fetchedPost.likesCount);
         setPost(fetchedPost);
     }
+
 
     const handleComment = async () => {
         const fetchedComment = await getCommentByPostId(id);
@@ -108,6 +106,23 @@ function PostDetail() {
         }
     }
 
+    const deletePost = async (postId) => {
+        const confirmDelete = window.confirm("게시글을 삭제 하시겠습니까?");
+        if (!confirmDelete) return;
+        try {
+            await api.delete(`${postId}`)
+            alert("게시글이 삭제 되었습니다.");
+            navigate("/community");
+
+        } catch (error) {
+            if (error.response.status === 400)
+                alert("???");
+            if(error.response.status ===500)
+                alert("본인 게시글이 아닙니다.")
+        }
+
+    }
+
     const handleInputChange = (e) => {
         setContent(e.target.value);
         autoResize();
@@ -158,74 +173,80 @@ function PostDetail() {
     return (
         <>
             {post ? (<>
-                <div className={"p-10 w-4/5  caret-transparent"} style={{margin: "-50px 100px -50px 150px"}}>
-                    <button onClick={()=> navigate(`/modifypost/${id}`)} className={"h-10 mb-5 mr-4 px-4 bg-orange-50 text-base font-black  rounded-md shadow-md"}>수정</button>
-                    <button onClick={()=> deletePost(id)} className={"h-10 px-4 bg-orange-50 text-base font-black rounded-md shadow-md"}>삭제</button>
+                <div className={"p-10 w-4/5  caret-transparent"} style={{margin: "0px 100px -50px 150px"}}>
                     <hr/>
                 </div>
-                    <div className={"rounded-xl font-bold p-10 w-4/5 "} style={{margin: "-50px 100px -50px 150px"}}>
-                        <div className={"mb-3"}>
-                            <div>{translateToKorean(post.category)}</div>
-                            <div className={"bg-white mt-5 mb-3 text-2xl"}> {post.title}</div>
-                            <div className={"text-base mb-3"}>작성자 : {post.userNickname}</div>
-                            <div className={"text-sm mb-5"}>{formatDateTime(post.createdAt)} 조회 {post.viewCount}</div>
-                            <hr className={"mb-5"}/>
-                            <div className={"text-sm font-light w-4/5 ml-5"}> {post.content}</div>
+                <div className={"rounded-xl font-bold p-10 w-4/5 "} style={{margin: "-50px 100px -50px 150px"}}>
+                    <div className={"mb-3"}>
+                        <div className={"float-right"}>
+                            <button onClick={() => navigate(`/modifypost/${id}`)}
+                                    className={"h-7 px-2 mb-5 mr-4 bg-orange-50 text-base font-black  rounded-md shadow-md"}>수정
+                            </button>
+                            <button onClick={() => deletePost(id)}
+                                    className={"h-7 px-2 bg-orange-50 text-base font-black rounded-md shadow-md"}>삭제
+                            </button>
                         </div>
-                        <div className={"rounded-l p-5"}>
-                            <div className={"bg-white flex flex-nowrap justify-between mb-10"}>
-                                <div className={"flex flex-row justify-between"}>
+                        <div>{translateToKorean(post.category)}</div>
+                        <div className={"bg-white mt-5 mb-3 text-2xl"}> {post.title}</div>
+                        <div className={"text-base mb-3"}>작성자 : {post.userNickname}</div>
+                        <div className={"text-sm mb-5"}>{formatDateTime(post.createdAt)} 조회 {post.viewCount}</div>
+                        <hr className={"mb-5"}/>
+                        <div className={"text-sm font-light w-4/5 ml-5"}> {post.content}</div>
+                    </div>
+                    <div className={"rounded-l p-5"}>
+                        <div className={"bg-white flex flex-nowrap justify-between mb-10"}>
+                            <div className={"flex flex-row justify-between"}>
                             <span className={"flex flex-row"} onClick={() => {
                                 handlePostLike(id)
                             }}> 좋아요 {likesCount}</span>
-                                    <span className={"text-left ml-5"}>댓글 {post.commentsCount}</span>
-                                    <div><img onClick={() => {
-                                        window.location.reload();
-                                    }} className={"cursor-pointer ml-5"} src={ReLoad} alt="ReLoad Logo"></img></div>
-                                </div>
-
-                            </div>
-                            <div className={"relative rounded-l p-5 mb-5"}>
-                                따뜻한 댓글을 남겨주세요 :)
-                                <div className="relative w-4/5">
-                                    {/* 텍스트 입력 영역 */}
-                                    <textarea
-                                        ref={textareaRef}
-                                        value={content}
-                                        placeholder="댓글을 입력해주세요 :)"
-                                        onChange={handleInputChange}
-                                        className={"rounded-lg border-2 bg-white outline-0 resize-none w-full min-h-[100px] p-3 pr-20"}
-                                        required
-                                    />
-                                    {/* 버튼 */}
-                                    <button
-                                        className={"absolute right-4 bottom-4 h-10 px-4 bg-orange-50 text-sm font-medium rounded-md shadow-md"}
-                                        type="submit"
-                                        onClick={handleSubmit}> 등록
-                                    </button>
-                                </div>
-                            </div>
-                            <div className={"bg-white "}>
-                                <div className={"bg-white"}>
-                                    {comments.map((comment) => (
-                                        <div>
-                                            <hr className={"border-1 mb-5 mt-5 w-[700px]"}/>
-                                            <div className={"text-xl flex flex-row"}>{comment.userNickname}
-                                                <img onClick={() => handleCommentLike(id, comment.id)}
-                                                     className={"cursor-pointer ml-5"}
-                                                     src={comment.isLike ? FullLike : EmptyLike}
-                                                     alt={comment.isLike ? "좋아요 누름" : "좋아요 취소"}/>
-                                                <div className={"text-xs"}>{comment.likeCount}</div>
-                                            </div>
-                                            <div className={"w-[700px]"}>{comment.content}</div>
-                                        </div> //대충 ㅋㅋ
-                                    ))}
-                                </div>
+                                <span className={"text-left ml-5"}>댓글 {post.commentsCount}</span>
+                                <div><img onClick={() => {
+                                    window.location.reload();
+                                }} className={"cursor-pointer ml-5"} src={ReLoad} alt="ReLoad Logo"></img></div>
                             </div>
 
                         </div>
+                        <div className={"relative rounded-l p-5 mb-5"}>
+                            따뜻한 댓글을 남겨주세요 :)
+                            <div className="relative w-4/5">
+                                {/* 텍스트 입력 영역 */}
+                                <textarea
+                                    ref={textareaRef}
+                                    value={content}
+                                    placeholder="댓글을 입력해주세요 :)"
+                                    onChange={handleInputChange}
+                                    className={"rounded-lg border-2 bg-white outline-0 resize-none w-full min-h-[100px] p-3 pr-20 mt-5"}
+                                    required
+                                />
+                                {/* 버튼 */}
+                                <button
+                                    className={"absolute right-4 bottom-4 h-10 px-4 bg-orange-50 text-sm font-medium rounded-md shadow-md"}
+                                    type="submit"
+                                    onClick={handleSubmit}> 등록
+                                </button>
+                            </div>
+                        </div>
+                        <div className={"bg-white "}>
+                            <div className={"bg-white"}>
+                                {comments.map((comment) => (
+                                    <div>
+                                        <hr className={"border-1 mb-5 mt-5 w-[700px]"}/>
+                                        <div className={"text-xl flex flex-row"}>{comment.userNickname}
+                                            <img onClick={() => handleCommentLike(id, comment.id)}
+                                                 className={"cursor-pointer ml-5"}
+                                                 src={comment.isLike ? FullLike : EmptyLike}
+                                                 alt={comment.isLike ? "좋아요 누름" : "좋아요 취소"}/>
+                                            <div className={"text-xs"}>{comment.likeCount}</div>
+                                        </div>
+                                        <div className={"w-[700px]"}>{comment.content}</div>
+                                    </div> //대충 ㅋㅋ
+                                ))}
+                            </div>
+                        </div>
+
                     </div>
-                </>) : ""
+                </div>
+            </>) : ""
             }
         </>
     )
