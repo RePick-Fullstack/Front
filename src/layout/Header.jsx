@@ -34,15 +34,24 @@ function Header() {
         const refreshToken = queryParams.get('refreshToken');
 
         if (accessToken && refreshToken) {
+            // 토큰 저장
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
 
+            // 토큰 처리 로직
             updateTokenRemainingTime();
             fetchUserName(accessToken);
 
-            navigate(location.pathname, { replace: true });
+            // 저장된 state로 리다이렉션
+            const redirectUrl = localStorage.getItem("state");
+            if (redirectUrl) {
+                window.location.href = redirectUrl; // 리다이렉트
+            } else {
+                navigate("/", { replace: true }); // 기본 경로로 이동
+            }
         }
     }, [location, navigate]);
+
 
     // 토큰 남은 시간 계산
     const updateTokenRemainingTime = () => {

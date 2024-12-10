@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import PropTypes from 'prop-types';
-import { usersApi } from '../../api/api.js'; // usersApi 사용
+import {usersApi} from '../../api/api.js';
 
-function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
+function MainSignIn({setIsSignInOpen, setIsLoggedIn, setUserName}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지 상태 추가
@@ -10,7 +10,7 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
     const fetchUserNickName = async (accessToken) => {
         try {
             const response = await usersApi.get('/users/name', {
-                headers: { Authorization: `Bearer ${accessToken}` },
+                headers: {Authorization: `Bearer ${accessToken}`},
             });
             const userNickName = response.data.userNickName || '사용자';
             setUserName(userNickName); // 사용자 이름 업데이트
@@ -26,24 +26,27 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
         }
 
         try {
-            const response = await usersApi.post('/users/login', { email, password });
+            const response = await usersApi.post('/users/login', {email, password});
 
             if (response.status === 200) {
-                const { accessToken, refreshToken } = response.data;
+                const {accessToken, refreshToken} = response.data;
 
                 // 토큰 저장
                 localStorage.setItem('accessToken', accessToken.token);
                 localStorage.setItem('refreshToken', refreshToken.token);
 
+                window.location.href;
+
                 setIsSignInOpen(false); // 로그인 모달 닫기
                 setIsLoggedIn(true); // 로그인 상태 업데이트
+
 
                 fetchUserNickName(accessToken.token); // 사용자 이름 가져오기
                 setErrorMessage(''); // 에러 메시지 초기화
             }
         } catch (error) {
             if (error.response && error.response.data) {
-                const { errorCode, message } = error.response.data;
+                const {errorCode, message} = error.response.data;
 
                 switch (errorCode) {
                     case 'USER_DELETED':
@@ -97,12 +100,12 @@ function MainSignIn({ setIsSignInOpen, setIsLoggedIn, setUserName }) {
                     />
                 </div>
                 {errorMessage && (
-                    <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>
+                    <div className="error-message" style={{color: 'red', marginBottom: '10px'}}>
                         {errorMessage}
                     </div>
                 )}
                 <h6>소셜 미디어 로그인</h6>
-                <h6 className="hr" style={{ paddingBottom: '20px' }}>SNS LOGIN</h6>
+                <h6 className="hr" style={{paddingBottom: '20px'}}>SNS LOGIN</h6>
                 <div className="oauth-buttons" style={{marginBottom: '20px'}}>
                     <button className="oauth-button kakao" onClick={handleKakaoLogin}>
                         {/* 카카오 버튼 */}
@@ -126,13 +129,15 @@ MainSignIn.propTypes = {
 
 // 카카오 로그인
 const handleKakaoLogin = () => {
-    const kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=https://repick.site/api/v1/oauth/kakao/callback';
-    window.location.href = kakaoAuthUrl;
+    const currentUrl = window.location.href;
+    localStorage.setItem("state", currentUrl);
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=https://repick.site/api/v1/oauth/kakao/callback`;
 };
 
 const handleNaverLogin = () => {
-    const naverAuthUrl = 'https://nid.naver.com/oauth2.0/authorize?client_id=A_aQx4dtFzTavl7L6lVf&response_type=code&redirect_uri=https://repick.site/api/v1/oauth/naver/callback';
-    window.location.href = naverAuthUrl;
+    const currentUrl = window.location.href;
+    localStorage.setItem("state", currentUrl);
+    window.location.href = 'https://nid.naver.com/oauth2.0/authorize?client_id=A_aQx4dtFzTavl7L6lVf&response_type=code&redirect_uri=https://repick.site/api/v1/oauth/naver/callback';
 };
 
 export default MainSignIn;

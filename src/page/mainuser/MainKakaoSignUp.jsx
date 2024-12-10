@@ -28,14 +28,16 @@ const MainKakaoSignUp = () => {
 
         try {
             // '/oauth/kakao/login'으로 추가 정보를 전송
+            const state = localStorage.getItem("state");
+
             const response = await usersApi.post('/oauth/kakao/login', additionalInfo);
 
-            // 응답 데이터에서 accessToken, refreshToken을 추출
-            const { accessToken, refreshToken } = response.data;
+            const {accessToken, refreshToken} = response.data;
 
             // 실제 토큰 값을 추출하여 저장
             const accessTokenValue = accessToken.token; // accessToken에서 token 값 추출
             const refreshTokenValue = refreshToken.token; // refreshToken에서 token 값 추출
+            const stateUrl = state; // refreshToken에서 token 값 추출
 
             // 토큰이 없으면 오류 처리
             if (!accessTokenValue || !refreshTokenValue) {
@@ -46,14 +48,16 @@ const MainKakaoSignUp = () => {
             // 토큰을 localStorage에 저장
             localStorage.setItem('accessToken', accessTokenValue);
             localStorage.setItem('refreshToken', refreshTokenValue);
-
-            // URL을 인코딩하여 리다이렉트
-            window.location.href = encodeURI('https://repick.site/'); // 리다이렉트할 URL
+            // state 값이 있으면 해당 URL로 리다이렉트, 없으면 기본 URL로 리다이렉트
+            if (stateUrl) {
+                window.location.href = decodeURIComponent(stateUrl); // state 값으로 이동
+            }
         } catch (error) {
             console.error('회원가입 실패:', error);
             alert(`회원가입에 실패했습니다: ${error.response?.data?.message || error.message}`);
         }
     };
+
 
     return (<div className="modal-overlay" onClick={() => navigate('/')}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
