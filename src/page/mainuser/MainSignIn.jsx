@@ -126,12 +126,12 @@ MainSignIn.propTypes = {
 
 // 카카오 로그인
 const handleKakaoLogin = () => {
-    const kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=http://localhost:8080/api/v1/oauth/kakao/callback';
+    const kakaoAuthUrl = 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=425177266f9081ed665e51bd34048cc9&redirect_uri=https://repick.site/api/v1/oauth/kakao/callback';
     window.location.href = kakaoAuthUrl;
 };
 
 const handleNaverLogin = () => {
-    const naverAuthUrl = 'https://nid.naver.com/oauth2.0/authorize?client_id=A_aQx4dtFzTavl7L6lVf&response_type=code&redirect_uri=http://localhost:8080/api/v1/oauth/naver/callback';
+    const naverAuthUrl = 'https://nid.naver.com/oauth2.0/authorize?client_id=A_aQx4dtFzTavl7L6lVf&response_type=code&redirect_uri=https://repick.site/api/v1/oauth/naver/callback';
     window.location.href = naverAuthUrl;
 };
 
