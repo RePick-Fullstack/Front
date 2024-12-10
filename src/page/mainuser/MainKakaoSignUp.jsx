@@ -48,7 +48,7 @@ const MainKakaoSignUp = () => {
             localStorage.setItem('refreshToken', refreshTokenValue);
 
             // URL을 인코딩하여 리다이렉트
-            window.location.href = encodeURI('http://localhost:5173'); // 리다이렉트할 URL
+            window.location.href = encodeURI('https://repick.site/'); // 리다이렉트할 URL
         } catch (error) {
             console.error('회원가입 실패:', error);
             alert(`회원가입에 실패했습니다: ${error.response?.data?.message || error.message}`);

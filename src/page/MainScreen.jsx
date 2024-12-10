@@ -45,7 +45,7 @@ function MainScreen() {
     };
     const handleCommunity = async () => {
         try {
-            const getCommunity = await axios.get("http://localhost:9000/api/v1/posts");
+            const getCommunity = await axios.get("https://repick.site/api/v1/posts");
             console.log("=============================");
             console.log(getCommunity);
             console.log("=============================");

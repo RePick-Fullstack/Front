@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { usersApi } from '../api/api.js'; // API 연결
+import {tosspaymentsApi, usersApi} from '../api/api.js'; // API 연결
 import { decodeJWT, formatRemainingTime } from '../page/mainuser/MainUtils.jsx'; // 유틸리티 함수
 import MainSignIn from '../page/mainuser/MainSignIn.jsx'; // 로그인 컴포넌트
 import MainSignUp from '../page/mainuser/MainSignUp.jsx'; // 회원가입 컴포넌트
@@ -13,6 +13,19 @@ function Header() {
     const [modalState, setModalState] = useState({ signIn: false, signUp: false });
     const [userName, setUserName] = useState('');
     const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
+    const [isBilling, setIsBilling] = useState(false);
+
+    const handleUserIsBilling = async () => {
+        const token = localStorage.getItem('accessToken')
+        if(token === null ) {return;}
+        const {data: data } = await tosspaymentsApi.get("/remaining",
+            {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        setIsBilling(data);
+    }
 
     // URL에서 토큰 추출 및 처리
     useEffect(() => {
@@ -52,6 +65,7 @@ function Header() {
             const { data } = await usersApi.get('/users/name', {
                 headers: { Authorization: `Bearer ${token}` },
             });
+            console.log(data);
             const name = data.userNickName || data.username || data.name || '사용자';
             setUserName(name);
             setIsLoggedIn(true);
@@ -122,11 +136,13 @@ function Header() {
             updateTokenRemainingTime();
             fetchUserName();
         }
+        handleUserIsBilling()
     }, []);
 
     useEffect(() => {
         const interval = setInterval(updateTokenRemainingTime, 1000);
         return () => clearInterval(interval);
+
     }, []);
 
     useEffect(() => {
@@ -151,17 +167,20 @@ function Header() {
                     <div className="auth-buttons">
                         {isLoggedIn ? (
                             <>
+                                <div>결제여부 : {isBilling ? `결재` : `미결재`}</div>
                                 <button onClick={() => navigate('/tosspayment')}>결제하기</button>
                                 <button onClick={handleLogout}>로그아웃</button>
-                                <button onClick={handleTokenRefresh}>토큰 연장</button> {/* 토큰 연장 버튼 */}
+                                <button onClick={handleTokenRefresh}>토큰 연장</button>
+                                {/* 토큰 연장 버튼 */}
                                 <div className="user-greeting">안녕하세요, {userName}님!</div>
                                 <div className="token-timer">
-                                    토큰 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                                    토큰 남은
+                                    시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                 </div>
                             </>
                         ) : (
                             <>
-                                <button onClick={() => setModalState({ signIn: true, signUp: false })}>로그인</button>
+                            <button onClick={() => setModalState({ signIn: true, signUp: false })}>로그인</button>
                                 <button onClick={() => setModalState({ signIn: false, signUp: true })}>회원가입</button>
                             </>
                         )}

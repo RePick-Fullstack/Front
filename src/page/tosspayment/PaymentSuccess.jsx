@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import './Payment.css'
 
-const url = `http://k8s-repick-59dd78f5ea-980331128.us-east-1.elb.amazonaws.com/api/v1/tosspayments`
+const url = `https://repick.site/api/v1/tosspayments`;
 
 export function PaymentSuccessPage() {
   const navigate = useNavigate();
