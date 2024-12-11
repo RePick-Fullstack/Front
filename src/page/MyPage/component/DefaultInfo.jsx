@@ -72,16 +72,13 @@ export const DefaultInfo = () => {
                     setIsEditModalOpen(true); // 수정 모달 열기
                     setPasswordError(""); // 에러 초기화
                 }
-            })
-            .catch((error) => {
-                if (error.response && error.response.status === 401) {
-                    // 비밀번호 불일치
+                if (response.data === "UNAUTHORIZED") {
                     setPasswordError("비밀번호가 일치하지 않습니다.");
                 } else {
-                    // 그 외 오류 처리
                     setPasswordError("서버 오류가 발생했습니다. 다시 시도해 주세요.");
                 }
-            });
+            })
+
     };
 
     const handleDeleteAccount = () => {
@@ -156,7 +153,6 @@ export const DefaultInfo = () => {
                     value={password}
                     onChange={(e) => {
                         setPassword(e.target.value);
-                        setPasswordError(""); // 에러 초기화
                     }}
                     className="border px-2 py-1 w-full mb-4"
                 />
