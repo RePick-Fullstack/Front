@@ -48,9 +48,11 @@
 
 .hotReport {
     width: 750px; /* 박스의 너비 */
-    margin-top: 20px;
+    margin-top: 10px;
     overflow: auto;
     scrollbar-width: none;
+    background-color: #F9FAFB;
+    border-radius: 10px;
 }
 
 .report_header {
@@ -72,19 +74,25 @@
     width: 75%;
     padding: 15px;
     margin-left: 50px;
+    margin-bottom: 10px;
     border: 1px solid #F9FAFB;
     border-radius: 10px;
     background-color: #F9FAFB;
-    height: 175px;
+    height: 225px;
     overflow: auto;
     scrollbar-width: none;
 }
+.communityOrder{
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
 
+}
 .community {
     width: 75%;
     padding: 15px;
     margin-left: 50px;
-    border: 1px solid black;
+    border: 1px solid #F9FAFB;
+    background-color: #F9FAFB;
     border-radius: 10px;
     height: 175px;
     overflow: auto;
@@ -94,7 +102,7 @@
 .right-column {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* 위아래 간격 */
+    gap: 10px; /* 위아래 간격 */
 }
 
 .inputContainer {
