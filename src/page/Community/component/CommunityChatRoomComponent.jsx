@@ -132,7 +132,7 @@ function ChatComponent() {
                                     <div>
                                         <div className={`text-${isMe ? `right` : 'left'}`}>{message.nickName}</div>
                                         <div
-                                            className={`border ${isMe ? `bg-amber-300` : `white`} rounded-b p-2`}>{`${message.message}`}</div>
+                                            className={`border ${isMe ? `bg-[#2c3e50] text-white` : `white`} rounded-b p-2`}>{`${message.message}`}</div>
                                     </div>
                                 </li>
                             )
