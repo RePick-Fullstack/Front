@@ -35,7 +35,7 @@ function MainSignIn({setIsSignInOpen, setIsLoggedIn, setUserName}) {
                 localStorage.setItem('accessToken', accessToken.token);
                 localStorage.setItem('refreshToken', refreshToken.token);
 
-                window.location.href;
+                window.location.reload();
 
                 setIsSignInOpen(false); // 로그인 모달 닫기
                 setIsLoggedIn(true); // 로그인 상태 업데이트
