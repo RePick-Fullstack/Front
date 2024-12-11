@@ -28,7 +28,7 @@ export const eksApi = axios.create({
 });
 
 export const realTimeChatApi = axios.create({
-    baseURL: 'http://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:8402/api/v1/chatroom', // spring 서버 url
+    baseURL: 'https://repick.site/api/v1/chatroom', // spring 서버 url
 });
 
 export const tosspaymentsApi = axios.create({
