@@ -246,7 +246,7 @@ function MainScreen() {
                         <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
                             <input
                                 className="chatInput rounded-2xl border border-black flex justify-between"
-                                placeholder="쳇봇에게 질문"
+                                placeholder="챗봇에게 질문"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={handleEnterKey}
