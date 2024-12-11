@@ -6,7 +6,7 @@ import Header from "./layout/Header.jsx";
 import { Route, Routes, Navigate } from "react-router-dom"; // Navigate 추가
 import Community from "./page/Community.jsx";
 import { RecoilRoot } from "recoil";
-import MyPage from "./page/MyPage.jsx";
+import MyPage from "./page/MyPage/MyPage.jsx";
 import ReportPage from "./page/ReportPage.jsx";
 import MainKakaoSignUp from "./page/mainuser/MainKakaoSignUp.jsx";
 import { ChatRoom } from "./page/ChatRoom.jsx";
