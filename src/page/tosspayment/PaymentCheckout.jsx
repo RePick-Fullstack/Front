@@ -1,6 +1,7 @@
 import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
 import { useEffect, useState } from "react";
 import './Payment.css'
+import {useNavigate} from "react-router-dom";
 
 // ------  SDK 초기화 ------
 // TODO: clientKey는 개발자센터의 API 개별 연동 키 > 결제창 연동에 사용하려할 MID > 클라이언트 키로 바꾸세요.
@@ -14,8 +15,8 @@ export function PaymentCheckoutPage() {
   const [payment, setPayment] = useState(null);
   const [amount, setAmount] = useState({currency: "KRW", value: 5900,});
   const [isSelected, setIsSelected] = useState(false);
-
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const navigate = useNavigate();
 
   function selectPaymentMethod(method) {
     setSelectedPaymentMethod(method);
@@ -25,6 +26,13 @@ export function PaymentCheckoutPage() {
     setIsSelected(true);
     setAmount({currency: "KRW", value: value,});
   }
+
+  useEffect(() => {
+    if(localStorage.getItem("accessToken") === null){
+      alert("결재기능을 이용하기 위해 로그인 하여 주시기 바랍니다.")
+      navigate("/");
+    }
+  })
 
   useEffect(() => {
     async function fetchPayment() {

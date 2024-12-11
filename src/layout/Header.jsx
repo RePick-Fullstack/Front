@@ -15,17 +15,17 @@ function Header() {
     const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
     const [isBilling, setIsBilling] = useState(false);
 
-    const handleUserIsBilling = async () => {
-        const token = localStorage.getItem('accessToken')
-        if(token === null ) {return;}
-        const {data: data } = await tosspaymentsApi.get("/remaining",
-            {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
-        setIsBilling(data);
-    }
+    // const handleUserIsBilling = async () => {
+    //     const token = localStorage.getItem('accessToken')
+    //     if(token === null ) {return;}
+    //     const {data: data } = await tosspaymentsApi.get("/remaining",
+    //         {
+    //         headers: {
+    //             Authorization: `Bearer ${token}`,
+    //         }
+    //     })
+    //     setIsBilling(data);
+    // }
 
     // URL에서 토큰 추출 및 처리
     useEffect(() => {
@@ -145,7 +145,6 @@ function Header() {
             updateTokenRemainingTime();
             fetchUserName();
         }
-        handleUserIsBilling()
     }, []);
 
     useEffect(() => {
@@ -176,7 +175,7 @@ function Header() {
                     <div className="auth-buttons">
                         {isLoggedIn ? (
                             <>
-                                <div>결제여부 : {isBilling ? `결재` : `미결재`}</div>
+                                {/*<div>결제여부 : {isBilling ? `결재` : `미결재`}</div>*/}
                                 <button onClick={() => navigate('/tosspayment')}>결제하기</button>
                                 <button onClick={handleLogout}>로그아웃</button>
                                 <button onClick={handleTokenRefresh}>토큰 연장</button>
