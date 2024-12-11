@@ -23,7 +23,7 @@ function ChatComponent(props) {
 
     const connectWebSocket = () => {
         console.log(`charRoom uuid :` + (id === undefined ? props.id : id));
-        socket = new WebSocket(`ws://ec2-15-168-229-141.ap-northeast-3.compute.amazonaws.com:8402/websocket/${id === undefined ? props.id : id}`);
+        socket = new WebSocket(`wss://repick.site/api/v1/chatroom/websocket/${id === undefined ? props.id : id}`);
         let myUuid = '';
         let isJoined = false;
         socket.onopen = async () => {
