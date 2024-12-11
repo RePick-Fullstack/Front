@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import "../css/sidebar.css";
 import SideBarOpen from "../assets/sideBarOpen.svg"
@@ -8,15 +8,49 @@ import Home from "../assets/home.svg"
 import ReportDownload from "../assets/reportDownload.svg"
 import Community from "../assets/community.svg"
 import ChatHistory from "./ChatHistory.jsx";
+import MainSignIn from "../page/mainuser/MainSignIn.jsx";
+import MainSignUp from "../page/mainuser/MainSignUp.jsx";
+import {usersApi} from "../api/api.js";
 
 function SideBar() {
-    let navigate = useNavigate();
-    let [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [modalState, setModalState] = useState({signIn: false, signUp: false});
+    const [userName, setUserName] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
 
     const handleNavigation = (path) => {
         setMenuOpen(false);
         navigate(path);
     }
+
+    useEffect(() => {
+        if (tokenRemainingTime === 0) {
+            alert('토큰이 만료되었습니다. 다시 로그인하세요.');
+            handleLogout();
+        }
+    }, [tokenRemainingTime]);
+
+    const handleLogout = async () => {
+        try {
+            const refreshToken = localStorage.getItem('refreshToken');
+            if (refreshToken) {
+                await usersApi.get('/users/logout', {
+                    headers: {Authorization: `Bearer ${refreshToken}`},
+                });
+            }
+        } catch (error) {
+            console.error('로그아웃 실패:', error.response || error.message);
+        } finally {
+            localStorage.clear();
+            setIsLoggedIn(false);
+            setUserName('');
+            window.location.reload();
+        }
+    };
+
+
 
 
     return (
@@ -55,12 +89,30 @@ function SideBar() {
                                 onClick={() => {
                                     handleNavigation("/ChatBot")
                                 }}>새 질문</h4>
-                            <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"} onClick={() => { //사이드바 열렸을때
-                                handleNavigation("/myPage")
-                            }}>마이 페이지</h4>
+                            <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
+                                onClick={() => { //사이드바 열렸을때
+                                    handleNavigation("/myPage")
+                                }}>마이 페이지</h4>
                             <h3 className={"bg-white h-2/4 w-3/4 p-2 rounded-xl"}>
                                 <ChatHistory/> {/* 여기다가 chatHIstory map 써서 나오게 하면 될듯 */}
                             </h3>
+                            {!localStorage.getItem("accessToken") ? (
+                                <>
+                                    <button className={"bg-white w-[225px] mt-5"}
+                                            onClick={() => setModalState({signIn: true, signUp: false})}>로그인
+                                    </button>
+                                    <button className={"bg-white w-[225px] mt-5"}
+                                            onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
+                                    </button>
+
+                                </>
+                            ) : (
+                                <>
+                                    <button className={"bg-white w-[225px] mt-5"} onClick={handleLogout}>로그아웃</button>
+                                </>
+                            )}
+
+
                         </>
                     ) : (
                         <>
@@ -77,6 +129,23 @@ function SideBar() {
                         </>
                     )}
                 </nav>
+
+
+                {modalState.signIn && (
+                    <MainSignIn
+                        setIsSignInOpen={(isOpen) => setModalState({...modalState, signIn: isOpen})}
+                        setIsLoggedIn={setIsLoggedIn}
+                        setUserName={setUserName}
+                    />
+                )
+                }
+                {modalState.signUp && (
+                    <MainSignUp
+                        setIsSignUpOpen={(isOpen) => setModalState({...modalState, signUp: isOpen})}
+                        setIsLoggedIn={setIsLoggedIn}/>
+                )}
+
+
             </div>
         </>
     )
