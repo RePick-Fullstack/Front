@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {tosspaymentsApi, usersApi} from '../api/api.js'; // API 연결
 import { decodeJWT, formatRemainingTime } from '../page/mainuser/MainUtils.jsx'; // 유틸리티 함수
-import MainSignIn from '../page/mainuser/MainSignIn.jsx'; // 로그인 컴포넌트
-import MainSignUp from '../page/mainuser/MainSignUp.jsx'; // 회원가입 컴포넌트
-import '../css/header.css';
+
+import '../css/header.css'
 
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [modalState, setModalState] = useState({ signIn: false, signUp: false });
     const [userName, setUserName] = useState('');
     const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
     const [isBilling, setIsBilling] = useState(false);
@@ -53,17 +51,7 @@ function Header() {
     }, [location, navigate]);
 
 
-    // 토큰 남은 시간 계산
-    const updateTokenRemainingTime = () => {
-        const accessToken = localStorage.getItem('accessToken');
-        if (!accessToken) return;
 
-        const decodedToken = decodeJWT(accessToken);
-        if (decodedToken?.exp) {
-            const remainingTime = decodedToken.exp - Math.floor(Date.now() / 1000);
-            setTokenRemainingTime(Math.max(remainingTime, 0));
-        }
-    };
 
     // 사용자 이름 가져오기
     const fetchUserName = async (accessToken) => {
@@ -83,7 +71,6 @@ function Header() {
             setUserName('사용자');
         }
     };
-
     // 토큰 연장 처리
     const handleTokenRefresh = async () => {
         const refreshToken = localStorage.getItem('refreshToken');
@@ -93,7 +80,7 @@ function Header() {
         }
 
         try {
-            const { data } = await usersApi.post(
+            const {data} = await usersApi.post(
                 '/users/refresh-token',
                 {},
                 {
@@ -118,15 +105,24 @@ function Header() {
             handleLogout();
         }
     };
+// 토큰 남은 시간 계산
+    const updateTokenRemainingTime = () => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) return;
 
+        const decodedToken = decodeJWT(accessToken);
+        if (decodedToken?.exp) {
+            const remainingTime = decodedToken.exp - Math.floor(Date.now() / 1000);
+            setTokenRemainingTime(Math.max(remainingTime, 0));
+        }
+    };
 
-    // 로그아웃 처리
     const handleLogout = async () => {
         try {
             const refreshToken = localStorage.getItem('refreshToken');
             if (refreshToken) {
                 await usersApi.get('/users/logout', {
-                    headers: { Authorization: `Bearer ${refreshToken}` },
+                    headers: {Authorization: `Bearer ${refreshToken}`},
                 });
             }
         } catch (error) {
@@ -154,12 +150,7 @@ function Header() {
 
     }, []);
 
-    useEffect(() => {
-        if (tokenRemainingTime === 0) {
-            alert('토큰이 만료되었습니다. 다시 로그인하세요.');
-            handleLogout();
-        }
-    }, [tokenRemainingTime]);
+
 
     // 관리자 페이지 접근 제어
     useEffect(() => {
@@ -174,42 +165,27 @@ function Header() {
             <header className="header">
                 <div className="header-content">
                     <div className="auth-buttons">
-                        {isLoggedIn ? (
+                        {localStorage.getItem("accessToken") !== null ? (
                             <>
-                                <div>결제여부 : {isBilling ? `결재` : `미결재`}</div>
+                                <div>결제여부 : {isBilling ? `결제` : `미결제`}</div>
                                 <button onClick={() => navigate('/tosspayment')}>결제하기</button>
-                                <button onClick={handleLogout}>로그아웃</button>
                                 <button onClick={handleTokenRefresh}>토큰 연장</button>
                                 {/* 토큰 연장 버튼 */}
                                 <div className="user-greeting">안녕하세요, {userName}님!</div>
                                 <div className="token-timer">
-                                    토큰 남은
-                                    시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                                    토큰 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                 </div>
                             </>
                         ) : (
                             <>
-                            <button onClick={() => setModalState({ signIn: true, signUp: false })}>로그인</button>
-                                <button onClick={() => setModalState({ signIn: false, signUp: true })}>회원가입</button>
+                                <div>로그인 후 이용해 주세요</div>
                             </>
                         )}
                     </div>
                 </div>
             </header>
 
-            {modalState.signIn && (
-                <MainSignIn
-                    setIsSignInOpen={(isOpen) => setModalState({ ...modalState, signIn: isOpen })}
-                    setIsLoggedIn={setIsLoggedIn}
-                    setUserName={setUserName}
-                />
-            )}
-            {modalState.signUp && (
-                <MainSignUp
-                    setIsSignUpOpen={(isOpen) => setModalState({ ...modalState, signUp: isOpen })}
-                    setIsLoggedIn={setIsLoggedIn}
-                />
-            )}
+
         </div>
     );
 }
