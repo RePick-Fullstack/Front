@@ -3,6 +3,5 @@
     margin-right: auto;
     width: 700px;
     height: 550px;
-    border: 1px solid black;
-    overflow-y: scroll;
+    background-color: #F9FAFB;
 }

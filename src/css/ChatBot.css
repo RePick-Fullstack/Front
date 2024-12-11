@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
 .chatBot-container {
     width: auto;
     margin: auto;
@@ -31,10 +37,18 @@
     width: 700px;
     margin: 0 0 0 100px;
 }
+.chatBox h1{
+    margin: 50px;
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+    font-size: 25px;
+    text-align:  center;
+}
 
 .user-message {
     margin: 50px;
-    font-size: 25px;
+    font-size: 17px;
+    text-align: center;
 }
 hr{
     border-width: 3px 0 0 0;
