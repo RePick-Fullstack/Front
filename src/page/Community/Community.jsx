@@ -33,6 +33,15 @@ function Community() {
         if (data) setPosts(data);
         console.log("data : " + JSON.stringify(data, null, 2))
     }
+    const createButton = () =>{
+        const token = localStorage.getItem("accessToken");
+        if(!token){
+            alert("로그인 후 게시글을 작성할 수 있습니다.");
+
+        }else{
+            navigate("/CreatePost")
+        }
+    }
 
     const handleCategoryChange = (newCategory) => {
         console.log(`categorychange :`, newCategory)
@@ -76,13 +85,13 @@ function Community() {
     }, [searchParams]); // searchParams 변경 시 실행
     return (
         <>
-            <div className={"bg-gray-300 rounded-xl font-bold p-10"} style={{margin: "50px 100px -50px 120px"}}>
-                <div className={"caret-transparent"}
-                     style={{fontSize: "25px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
-                <div className={"h-8 rounded-xl bg-gray-400 items-center flex flex-wrap relative top-3"}>
-                    <span className={"font-semibold text-sm flex gap-8 ml-6"}>
+            <div className={" rounded-xl font-bold p-10 w-[65.5vw]"} style={{margin: "50px 100px 0px 120px"}}>
+                <div className={"community_font caret-transparent"}
+                     style={{fontSize: "30px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
+                <div className={"h-auto min-h-10 rounded-xl items-center flex flex-wrap relative top-3"}> { /*  카테고리 클릭 태그*/}
+                    <span className={"font-semibold text-sm flex gap-6 flex-wrap"}>
                          {data.map((item, index) => (
-                             <span className={"caret-transparent cursor-pointer hover:underline  text-center"}
+                             <span className={"caret-transparent cursor-pointer hover:underline hover:text-xl hover:text-slate-700 text-center"}
                                    key={index}
                                    onClick={() => handleCategoryChange(item.title)}>
                                  {item.description}</span>
@@ -93,12 +102,12 @@ function Community() {
             <div className="container">
                 <div className="left-container">
                     <button className={"border-2 border-b-fuchsia  bg-white mb-5"}
-                            onClick={() => navigate("/CreatePost")}>작성하기
+                            onClick={() => createButton() }>작성하기
                     </button>
 
-                    <div className={"rounded-xl border-black border-1 bg-white"} style={{
-                        width: "auto",
-                        height: "450px",
+                    <div className={"rounded-xl border-black border-1 bg-[rgb(132,116,216)]"} style={{
+
+                        height: "45vh",
                         overflow: `auto`
                     }}>
                         <div className={"border-amber-100 p-2 border-solid"}>
@@ -127,12 +136,11 @@ function Community() {
 
                     </div>
                 </div>
-                <div className="right-container p-0 rounded-xl bg-[#2c3e50]">
-                    <p className={"text-[25px] text-white font-bold p-2"}>커뮤니티 채팅방</p>
-                    <div className={"bg-white mt-5"}>
+                <div className="right-container p-1 rounded-xl ">
+                    <p className={"chatRoom_font text-[25px] font-bold p-2"}>커뮤니티 채팅방</p>
+                    <div className={"bg-white mt-2"}>
                         <div style={{
-                            width: "auto",
-                            height: "450px",
+                            height: "48vh",
                             overflow: `auto`
                         }}><CommunityChatRoomComponent/>
                         </div>
