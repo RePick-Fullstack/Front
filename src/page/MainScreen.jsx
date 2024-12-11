@@ -2,13 +2,13 @@ import '../css/Main.css'
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {testNews} from "../data/testNews.js";
+//import {testNews} from "../data/testNews.js";
 //import {testReport} from "../data/testReport.js";
 import {eksApi} from "../api/api.js";
 
 function MainScreen() {
     let navigate = useNavigate();
-    const [news, setNews] = useState(testNews);
+    const [news, setNews] = useState([]);
     const [reports, setReports] = useState([]);
     const [community, setCommunity] = useState([]);
     const [inputValue, setInputValue] = useState("");
@@ -109,9 +109,9 @@ function MainScreen() {
 
     const handleSendRequest = async () => {
         if (inputValue.trim() !== "") {
-            const userMessage = { type: "user", text: inputValue };
+            const userMessage = {type: "user", text: inputValue};
             setChatHistory((prev) => [...prev, userMessage]);
-            navigate("/ChatBot", { state: { chatHistory: [...chatHistory, userMessage] } });
+            navigate("/ChatBot", {state: {chatHistory: [...chatHistory, userMessage]}});
 
             try {
                 const response = await axios.post(`https://repick.site/api/v1/chatbot/message/3784f905-bef5-46e6-b58a-69ee72d414cd`,
@@ -123,7 +123,7 @@ function MainScreen() {
                         }
                     });
                 const generatedText = JSON.parse(response.data.response).response || "LLM의 응답을 가져오지 못했습니다.";
-                const llmMessage = { type: "llm", text: generatedText };
+                const llmMessage = {type: "llm", text: generatedText};
                 console.log(llmMessage);
                 setChatHistory((prev) => [...prev, llmMessage]);
             } catch (error) {
@@ -157,22 +157,24 @@ function MainScreen() {
 
                             <ul className={"h-full font-semibold"}>
                                 <hr/>
-                                <li className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2"}>
-                                    <span className="text-left">리포트 제목</span>
-                                    <span className="text-center">회사</span>
+                                <li className={"grid grid-cols-[2fr_5fr_2fr_2fr] px-4 py-2"}>
+                                    <span className="text-left">기업</span>
+                                    <span className="text-left">제목</span>
+                                    <span className="text-center">증권사</span>
                                     <span className="text-right">발행 일자</span>
                                 </li>
                                 <hr className={"border-1 h-[1px]"}/>
                                 {reports.map((report, index) =>
                                     <li key={index}>
                                         <div
-                                            className={"report_data grid grid-cols-[5fr_3fr_2fr] px-4 py-2"}>
+                                            className={"report_data grid grid-cols-[2fr_5fr_2fr_2fr] px-4 py-2"}>
                                             <span
-                                                className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
+                                                className={"text-left"}>{`${report.company_name}`}</span>
+                                            <span>{report.report_title}</span>
                                             <span className={"text-center"}><a className={"ml-5 hover:underline"}
                                                                                href={report.pdf_link}>{report.securities_firm}</a></span>
                                             <span className={"text-right"}>{report.report_date}</span>
-                                            <span>{report.report_title}</span>
+
                                             {/*여기에 리포트 내용의 요약이 들어가야됨*/}
                                         </div>
 
@@ -183,30 +185,33 @@ function MainScreen() {
                     </div>
                 </div>
                 {enterDelay || <div className="right-column">
-                    <p className={"news_title font-bold text-2xl ml-11 "} >뉴스
+                    <p className={"news_title font-bold text-2xl ml-11 "}>뉴스
                     </p>
 
                     <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
                         <div>
                             {news.map((item, index) => (
-                                <div className={"hover:underline"} key={index}>{index + 1 + ".    "}
-                                    <a href={item.url} target="_blank" rel="noopener noreferrer"  style={{color: `black`}}>{item.title}</a>
+                                <div className={" hover:bg-gray-200 rounded-xl mb-2"} key={index}>
+                                    <a href={item.url} target="_blank" rel="noopener noreferrer"
+                                       style={{color: `black`}}>{item.title}</a>
+                                    <hr/>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className={"justify-items-start"}>   {/*  커뮤니티 컴포넌트   */}
+                    <div className={"communityOrder"}>   {/*  커뮤니티 컴포넌트   */}
                         <span className={"font-bold text-2xl ml-11"}>커뮤니티</span>
                         {/* 페이지 시작은 조회순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
-                        <button onClick={() => {
-                            console.log("조회순 누름")
-                        }}>조회순
-                        </button>
-                        <button onClick={() => {
-                            console.log("추천순 누름")
-                        }}>추천순
-                        </button>
-
+                        <div className={"float-right mr-24  "}>
+                            <button className={"mr-5"} onClick={() => {
+                                console.log("조회순 누름")
+                            }}>조회순
+                            </button>
+                            <button onClick={() => {
+                                console.log("추천순 누름")
+                            }}>추천순
+                            </button>
+                        </div>
 
                     </div>
                     <div className="community">
