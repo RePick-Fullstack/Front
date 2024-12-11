@@ -26,7 +26,7 @@ function ChatComponent() {
             setSessionUUID(uuid)
             console.log(`user uuid :` + uuid)
             console.log(`WebSocket connection opened`);
-            await delay(2000);
+            await delay(250);
             const initData = {token: localStorage.getItem('accessToken'), uuid: uuid};
             socket.send(JSON.stringify(initData));
             await delay(250);
@@ -106,6 +106,7 @@ function ChatComponent() {
                         setIsJoin(false)
                         setLoading(false)
                         socket.close();
+                        setMessages([]);
                     }}>채팅방 나가기
                 </button>
                 }
