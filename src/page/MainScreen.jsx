@@ -108,7 +108,10 @@ function MainScreen() {
     // };
 
     const handleSendRequest = async () => {
-        if(localStorage.getItem("accessToken") === null) {alert("먼저 로그인 하여 주시기 바랍니다."); return;}
+        if (localStorage.getItem("accessToken") === null) {
+            alert("먼저 로그인 하여 주시기 바랍니다.");
+            return;
+        }
         if (inputValue.trim() !== "") {
             const userMessage = {type: "user", text: inputValue};
             setChatHistory((prev) => [...prev, userMessage]);
@@ -152,47 +155,64 @@ function MainScreen() {
             <div className="main_container justify-center">
                 <div className="left_container">
                     <div className="report_header">
-                        <p className={"font-bold text-2xl ml-11"}>Reports</p>
-
                         {enterDelay || <div className="hotReport">
-
-                            <ul className={"h-full font-semibold"}>
-                                <hr/>
-                                <li className={"grid grid-cols-[2fr_5fr_2fr_2fr] px-4 py-2"}>
+                            <p className={"font-bold text-2xl ml-11 p-3"}>종목분석 레포트</p>
+                            <ul className={"font-extrabold"}>
+                                <hr className={"border-black border-[1px]"}/>
+                                <li className={"grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 gap-4 px-4 py-2"}>
                                     <span className="text-left">기업</span>
                                     <span className="text-left">제목</span>
-                                    <span className="text-center">증권사</span>
-                                    <span className="text-right">발행 일자</span>
+                                    <span className="text-left ml-3">증권사</span>
+                                    <span className="text-left">발행 일자</span>
                                 </li>
-                                <hr className={"border-1 h-[1px]"}/>
-                                {reports.map((report, index) =>
-                                    <li key={index}>
-                                        <div
-                                            className={"report_data grid grid-cols-[2fr_5fr_2fr_2fr] px-4 py-2"}>
+                            </ul>
+                            <hr className={"border-black border-[1px]"}/>
+                            <div className="report_scroll">
+                                <ul> {/*     종목분석 레포트     */}
+                                    {reports.map((report, index) =>
+                                        <li key={index}>
+                                            <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-4 px-4 py-2"}>
                                             <span
                                                 className={"text-left"}>{`${report.company_name}`}</span>
-                                            <span>{report.report_title}</span>
-                                            <span className={"text-center"}><a className={"ml-5 hover:underline"}
-                                                                               href={report.pdf_link}>{report.securities_firm}</a></span>
-                                            <span className={"text-right"}>{report.report_date}</span>
-
-                                            {/*여기에 리포트 내용의 요약이 들어가야됨*/}
-                                        </div>
-
-                                    </li>
-                                )}
-                            </ul>
+                                                <span>{report.report_title}</span>
+                                                <span className={"text-left"}><a className={"ml-5 hover:underline"}
+                                                                                   href={report.pdf_link}>{report.securities_firm}</a></span>
+                                                <span className={"text-left"}>{report.report_date}</span>
+                                                {/*여기에 리포트 내용의 요약이 들어가야됨*/}
+                                            </div>
+                                        </li>
+                                    )}
+                                </ul>
+                            </div>
                         </div>}
                     </div>
+                    {enterDelay || <div className="industryReport">
+                        <p className={"font-bold text-2xl ml-11 p-3"}>산업분석 레포트</p>
+                        <ul className={"font-extrabold"}>
+                            <hr className={"border-black border-[1px]"}/>
+                            <li className={"grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4 py-2"}>
+                                <span className="text-left">기업</span>
+                                <span className="text-left">제목</span>
+                                <span className="text-center">증권사</span>
+                                <span className="text-right">발행 일자</span>
+                            </li>
+                        </ul>
+                        <hr className={"border-black border-[1px]"}/>
+                        <div className="industry_scroll">
+                            <ul>       {/*    여기에 산업분석 레포트 나오는거 넣기  */}
+                                <li></li>
+                            </ul>
+                        </div>
+                    </div>}
                 </div>
                 {enterDelay || <div className="right-column">
-                    <p className={"news_title font-bold text-2xl ml-11 "}>뉴스
-                    </p>
 
                     <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
                         <div>
+                            <p className={"news_title font-bold text-2xl p-3"}>뉴스</p>
+                            <hr className={"border-black border-[1px]"}/>
                             {news.map((item, index) => (
-                                <div className={" hover:bg-gray-200 rounded-xl mb-2"} key={index}>
+                                <div className={"hover:bg-gray-200 rounded-xl p-2"} key={index}>
                                     <a href={item.url} target="_blank" rel="noopener noreferrer"
                                        style={{color: `black`}}>{item.title}</a>
                                     <hr/>
@@ -201,9 +221,11 @@ function MainScreen() {
                         </div>
                     </div>
                     <div className={"communityOrder"}>   {/*  커뮤니티 컴포넌트   */}
-                        <span className={"font-bold text-2xl ml-11"}>커뮤니티</span>
+                    </div>
+                    <div className="community">
+                        <span className={"font-bold text-2xl"}>커뮤니티</span>
                         {/* 페이지 시작은 조회순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
-                        <div className={"float-right mr-24  "}>
+                        <div className={"float-right active:border-black"}>
                             <button className={"mr-5"} onClick={() => {
                                 console.log("조회순 누름")
                             }}>조회순
@@ -213,9 +235,6 @@ function MainScreen() {
                             }}>추천순
                             </button>
                         </div>
-
-                    </div>
-                    <div className="community">
                         {community.map((item, index) => (
                             <button className={"flex flex-col gap-y-2"}
                                     key={index} onClick={() => {
@@ -246,8 +265,8 @@ function MainScreen() {
                     <div className="inputContainer flex w-full justify-center">
                         <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
                             <input
-                                className="chatInput rounded-2xl border border-black flex justify-between"
-                                placeholder="챗봇에게 질문"
+                                className="chatInput rounded-2xl border border-black flex"
+                                placeholder="어떤 레포트가 궁금하신가요?"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={handleEnterKey}
