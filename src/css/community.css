@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
 .container {
     display: flex;
     gap: 20px;
@@ -8,18 +15,42 @@
 }
 
 .left-container {
-    margin: 50px 100px;
-    height: 600px;
-    padding: 20px; /* 콘텐츠가 편하게 들어갈 수 있도록 여백 추가 */
+    margin: 50px 0 0 90px;
+    height: auto;
+    padding: 20px 50px 10px 50px; /* 콘텐츠가 편하게 들어갈 수 있도록 여백 추가 */
     border-radius: 10px;
-    background-color: #2c3e50;
-    width: 50%;
+    width: 65vw;
+}
+
+.community_font {
+    margin: 0; /* 불필요한 여백 제거 */
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+    animation: slideAnimation 0.5s ease-out forwards;
+}
+
+@keyframes slideAnimation {
+    0% {
+        transform: translateY(20px); /* 시작 위치 */
+        opacity: 0; /* 투명도 */
+        background-color: rgba(255, 255, 255, 0.1); /* 배경색 초기 상태 */
+    }
+    100% {
+        transform: translateY(0px); /* 최종 위치 */
+        opacity: 1; /* 완전한 불투명 */
+        background-color: rgba(255, 255, 255, 1); /* 최종 배경색 */
+    }
 }
 
 .right-container {
-    border: 1px solid black;
-    margin: 50px 10px;
-    padding: 50px;
-    height: 600px;
-    width: 25%;
+    margin: 50px 10px 0 10px;
+    padding: 10px;
+    height: auto;
+    width: 35vw;
+    z-index: 1;
+}
+.chatRoom_font{
+    margin: 0; /* 불필요한 여백 제거 */
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
 }
