@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 
 export const PaymentInfo = () => {
+    const navigate = useNavigate();
     const [payments, setPayments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isView, setIsView] = useState(false);
@@ -34,7 +35,7 @@ export const PaymentInfo = () => {
         setLoading(true);
     }
 
-    const navigate = useNavigate();
+
     return (
         <div>
             <div className={"font-bold text-2xl mb-2 mt-5"}>구독정보</div>
