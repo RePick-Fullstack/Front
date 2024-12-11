@@ -1,6 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
 import {realTimeChatApi} from "../api/api.js";
 import {formatDateTime} from "../data/formatTime.js";

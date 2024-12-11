@@ -1,12 +1,10 @@
 /* eslint-disable */
-import "../css/community.css"
+import "../../css/community.css"
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {testMainCommunity} from "../data/testMainCommunity.js";
-import ChatComponent from "./ChatComponent.jsx";
+import {testMainCommunity} from "../../data/testMainCommunity.js";
 import {useEffect, useState} from "react";
-import {getPosts, getPostsByCategory, increaseViewCount} from "../api/postApi.js";
-import ChatComponentmk2 from "./ChatComponentmk2.jsx";
-import {ChatRoom} from "./ChatRoom.jsx";
+import {getPosts, getPostsByCategory, increaseViewCount} from "../../api/postApi.js";
+import CommunityChatRoomComponent from "./component/CommunityChatRoomComponent.jsx";
 
 function Community() {
     const isCommunity = true;
@@ -129,14 +127,14 @@ function Community() {
 
                     </div>
                 </div>
-                <div className="right-container p-0 rounded-xl">
-                    <p className={"text-3xl font-bold p-2"}>실시간 채팅</p>
+                <div className="right-container p-0 rounded-xl bg-[#2c3e50]">
+                    <p className={"text-[25px] text-white font-bold p-2"}>커뮤니티 채팅방</p>
                     <div className={"bg-white mt-5"}>
                         <div style={{
                             width: "auto",
                             height: "450px",
                             overflow: `auto`
-                        }}><ChatRoom isCommunity={isCommunity}/>
+                        }}><CommunityChatRoomComponent/>
                         </div>
                     </div>
                 </div>
