@@ -108,6 +108,7 @@ function MainScreen() {
     // };
 
     const handleSendRequest = async () => {
+        if(localStorage.getItem("accessToken") === null) {alert("먼저 로그인 하여 주시기 바랍니다."); return;}
         if (inputValue.trim() !== "") {
             const userMessage = {type: "user", text: inputValue};
             setChatHistory((prev) => [...prev, userMessage]);

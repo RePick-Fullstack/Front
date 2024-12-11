@@ -2,16 +2,19 @@ import '../css/report.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {eksApi} from "../api/api.js";
+import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 //import {testReport} from "../data/testReport.js";
 
 function ReportPage() {
     const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const handleReports = async () => {
         try {
             const getReports = await eksApi.get("/reports");
             console.log(getReports.data);
             getReports.data && setReports(getReports.data);
+            setLoading(true);
         } catch {
             console.log("server is not running");
         }
@@ -23,8 +26,6 @@ function ReportPage() {
 
     return (
         <div className="report_container">
-
-
             <ul className={"font-semibold"}>
                 <li className={"grid grid-cols-[4fr_3fr_3fr_3fr] px-4 py-2 bg-gray-100"}>
                     <span className="text-left">리포트 제목</span>
@@ -56,6 +57,7 @@ function ReportPage() {
                     </li>
                 )}
             </ul>
+            {loading && <div className={"w-full h-full flex justify-center items-center"}><LoadingSvg w={64} h={64}/></div>}
         </div>
     )
 }

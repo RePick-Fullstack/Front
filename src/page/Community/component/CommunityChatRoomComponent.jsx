@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {v4 as uuidv4} from 'uuid';
+import {LoadingSvg} from "../../../assets/LoadingSvg.jsx";
 
 let socket = null;
 
@@ -113,12 +114,7 @@ function ChatComponent() {
                     {(!isJoin || !loading) && <div
                         className={"absolute bg-[#dddddd]/40 w-full h-[402px] z-10 flex justify-center items-center"}>
                         {isJoin && <div className={"flex flex-col items-center"}>
-                            <svg className="animate-spin"
-                              width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M27.0156 14.9844C26.4715 14.9844 26.0312 14.5441 26.0312 14C26.0312 12.3758 25.7141 10.8008 25.0852 9.31602C24.4802 7.88664 23.6046 6.58769 22.5066 5.49063C21.4108 4.39118 20.1115 3.51541 18.6813 2.91211C17.1992 2.28594 15.6242 1.96875 14 1.96875C13.4559 1.96875 13.0156 1.52852 13.0156 0.984375C13.0156 0.440234 13.4559 0 14 0C15.8895 0 17.7242 0.369141 19.4496 1.10195C21.1176 1.80469 22.6133 2.81641 23.8984 4.10156C25.1836 5.38672 26.1926 6.88516 26.898 8.55039C27.6281 10.2758 27.9973 12.1105 27.9973 14C28 14.5441 27.5598 14.9844 27.0156 14.9844V14.9844Z"
-                                fill="#007AFF" fillOpacity="0.69"/>
-                        </svg>
+                            <LoadingSvg w={32} h={32}/>
                             로딩중
                         </div>}
                     </div>}
