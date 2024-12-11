@@ -1,6 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
 
 .main_container {
     display: flex;
@@ -9,6 +15,31 @@
     box-sizing: border-box;
     text-align: left;
     height: 550px;
+    position: relative;
+    animation: slideAnimation 1s ease-out forwards;
+}
+@keyframes slideAnimation {
+    0% {
+        transform: translateY(40px); /* 시작 위치 */
+        opacity: 0; /* 투명도 */
+        background-color: rgba(255, 255, 255, 0.1); /* 배경색 초기 상태 */
+    }
+    100% {
+        transform: translateY(0px); /* 최종 위치 */
+        opacity: 1; /* 완전한 불투명 */
+        background-color: rgba(255, 255, 255, 1); /* 최종 배경색 */
+    }
+}
+.report_data{
+    animation: opacityAnimation 1s ease-out forwards;
+}
+@keyframes opacityAnimation {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }
 
 .left_container {
@@ -18,7 +49,8 @@
 .hotReport {
     width: 750px; /* 박스의 너비 */
     margin-top: 20px;
-
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .report_header {
@@ -29,20 +61,27 @@
 
 .report_header p {
     margin: 0; /* 불필요한 여백 제거 */
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
 }
-
+.news_title{
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+}
 .newsCrawling {
-    width: 60%;
+    width: 75%;
     padding: 15px;
     margin-left: 50px;
-    border: 1px solid black;
+    border: 1px solid #F9FAFB;
     border-radius: 10px;
+    background-color: #F9FAFB;
     height: 175px;
     overflow: auto;
+    scrollbar-width: none;
 }
 
 .community {
-    width: 60%;
+    width: 75%;
     padding: 15px;
     margin-left: 50px;
     border: 1px solid black;

@@ -3,13 +3,13 @@ import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {testNews} from "../data/testNews.js";
-import {testReport} from "../data/testReport.js";
+//import {testReport} from "../data/testReport.js";
 import {eksApi} from "../api/api.js";
 
 function MainScreen() {
     let navigate = useNavigate();
     const [news, setNews] = useState(testNews);
-    const [reports, setReports] = useState(testReport);
+    const [reports, setReports] = useState([]);
     const [community, setCommunity] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [userMessage, setUserMessage] = useState("");  // userMessage로 상태 관리
@@ -35,14 +35,6 @@ function MainScreen() {
         }
     };
 
-    const handleNewNews = async () => {
-        try {
-            await eksApi.get("news/crawling");
-            await handleNews()
-        } catch {
-            console.log("server is not running");
-        }
-    };
     const handleCommunity = async () => {
         try {
             const getCommunity = await axios.get("https://repick.site/api/v1/posts");
@@ -58,9 +50,9 @@ function MainScreen() {
 
     const handleReports = async () => {
         try {
-            const getReports = await eksApi.get("/reports");
+            const getReports = await eksApi.get("/reports");  //eksApi로 report 데이터를 받아오고
             console.log(getReports.data);
-            getReports.data && setReports(getReports.data);
+            getReports.data && setReports(getReports.data); //받아온 데이터를 setReports로 바꾸기
         } catch {
             console.log("server is not running");
         }
@@ -159,7 +151,7 @@ function MainScreen() {
             <div className="main_container justify-center">
                 <div className="left_container">
                     <div className="report_header">
-                        <p className={"font-bold text-2xl ml-11"}>리포트</p>
+                        <p className={"font-bold text-2xl ml-11"}>Reports</p>
 
                         {enterDelay || <div className="hotReport">
 
@@ -174,7 +166,7 @@ function MainScreen() {
                                 {reports.map((report, index) =>
                                     <li key={index}>
                                         <div
-                                            className={"grid grid-cols-[5fr_3fr_2fr] px-4 py-2 "}>
+                                            className={"report_data grid grid-cols-[5fr_3fr_2fr] px-4 py-2"}>
                                             <span
                                                 className={"text-left"}>{`${index + 1}. ${report.company_name}`}</span>
                                             <span className={"text-center"}><a className={"ml-5 hover:underline"}
@@ -191,14 +183,14 @@ function MainScreen() {
                     </div>
                 </div>
                 {enterDelay || <div className="right-column">
-                    <p className={"font-bold text-2xl ml-11"}>뉴스
+                    <p className={"news_title font-bold text-2xl ml-11 "} >뉴스
                     </p>
 
                     <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
                         <div>
                             {news.map((item, index) => (
                                 <div className={"hover:underline"} key={index}>{index + 1 + ".    "}
-                                    <a href={item.url}  style={{color: `black`}}>{item.title}</a>
+                                    <a href={item.url} target="_blank" rel="noopener noreferrer"  style={{color: `black`}}>{item.title}</a>
                                 </div>
                             ))}
                         </div>
