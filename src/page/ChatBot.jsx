@@ -140,7 +140,7 @@ function ChatBot() {
             <div className={"flex flex-row"}>
                 <div className="chatBot-container">
                     <div className="chatBox">
-                        <h1>챗봇에게 질문하세요</h1>
+                        <h1>번거로운 자료 조사를 간편하게</h1>
                         {chatHistory.map((message, index) => (
                             <div
                                 key={index}
@@ -152,17 +152,17 @@ function ChatBot() {
                         ))}
                     </div>
                 </div>
-                <div className="reportBox">
-                    <h2>Report Section</h2>
-                    <p>여기에 추가 정보를 표시할 수 있습니다.</p>
-                </div>
+                {/*<div className="reportBox">*/}
+                {/*    <h2>Report Section</h2>*/}
+                {/*    <p>여기에 추가 정보를 표시할 수 있습니다.</p>*/}
+                {/*</div>*/}
             </div>
             <div className={"flex justify-center"}>
                 <div className="inputContainer flex w-full justify-center pb-5">
                     <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
                         <input
                             className="chatInput rounded-2xl border border-black flex justify-between"
-                            placeholder="쳇봇에게 질문"
+                            placeholder="챗봇에게 질문"
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyPress={handleEnterKey}
