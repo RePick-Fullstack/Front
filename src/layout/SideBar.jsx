@@ -18,58 +18,35 @@ function SideBar() {
     const [modalState, setModalState] = useState({signIn: false, signUp: false});
     const [userName, setUserName] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
 
     const handleNavigation = (path) => {
         setMenuOpen(false);
         navigate(path);
     }
 
-    useEffect(() => {
-        if (tokenRemainingTime === 0) {
-            alert('토큰이 만료되었습니다. 다시 로그인하세요.');
-            handleLogout();
+    const handleLogout = () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (refreshToken) {
+            usersApi.get('/users/logout', {
+                headers: {Authorization: `Bearer ${refreshToken}`},
+            })
         }
-    }, [tokenRemainingTime]);
-
-    const handleLogout = async () => {
-        try {
-            const refreshToken = localStorage.getItem('refreshToken');
-            if (refreshToken) {
-                await usersApi.get('/users/logout', {
-                    headers: {Authorization: `Bearer ${refreshToken}`},
-                });
-            }
-        } catch (error) {
-            console.error('로그아웃 실패:', error.response || error.message);
-        } finally {
-            localStorage.clear();
-            setIsLoggedIn(false);
-            setUserName('');
-            window.location.reload();
-        }
+        localStorage.clear();
+        setIsLoggedIn(false);
+        setUserName('');
+        window.location.reload();
     };
 
-
-
-
-    return (
-        <>
+    return (<>
             <div className="icon">
                 <nav className={menuOpen ? "active" : ""}>
-                    {!menuOpen && (
-                        <div>
+                    {!menuOpen && (<div>
                             <button onClick={() => { //사이드바 열기
                                 setMenuOpen(!menuOpen)
                             }}>
-                                {menuOpen ?
-                                    ""
-                                    :
-                                    <img src={SideBarOpen} alt="SideBar Logo"/>
-                                }
+                                {menuOpen ? "" : <img src={SideBarOpen} alt="SideBar Logo"/>}
                             </button>
-                        </div>
-                    )}
+                        </div>)}
                     <div className={"flex justify-between items-center mb-9 w-3/4 ml-1"}>
                         <button onClick={() => {  //홈 버튼
                             navigate('/');
@@ -79,12 +56,10 @@ function SideBar() {
                         </button>
                         <button onClick={() => { //사이드바 열기
                             setMenuOpen(!menuOpen)
-                        }}>{menuOpen ?
-                            <img src={SideBarClose} alt="SideBar Logo"/> : ""}
+                        }}>{menuOpen ? <img src={SideBarClose} alt="SideBar Logo"/> : ""}
                         </button>
                     </div>
-                    {menuOpen ? (
-                        <>
+                    {menuOpen ? (<>
                             <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
                                 onClick={() => {
                                     handleNavigation("/ChatBot")
@@ -96,8 +71,7 @@ function SideBar() {
                             <h3 className={"bg-white h-2/4 w-3/4 p-2 rounded-xl"}>
                                 <ChatHistory/> {/* 여기다가 chatHIstory map 써서 나오게 하면 될듯 */}
                             </h3>
-                            {!localStorage.getItem("accessToken") ? (
-                                <>
+                            {!localStorage.getItem("accessToken") ? (<>
                                     <button className={"bg-white w-[225px] mt-5"}
                                             onClick={() => setModalState({signIn: true, signUp: false})}>로그인
                                     </button>
@@ -105,17 +79,12 @@ function SideBar() {
                                             onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
                                     </button>
 
-                                </>
-                            ) : (
-                                <>
+                                </>) : (<>
                                     <button className={"bg-white w-[225px] mt-5"} onClick={handleLogout}>로그아웃</button>
-                                </>
-                            )}
+                                </>)}
 
 
-                        </>
-                    ) : (
-                        <>
+                        </>) : (<>
                             <span className={"cursor-pointer hover:underline"} onClick={() => { //사이드바 닫혔을때
                                 navigate("/ReportPage")
                             }}>
@@ -126,29 +95,22 @@ function SideBar() {
                             }}>
                                 <img src={Community} alt="Community Logo"/>
                             </div>
-                        </>
-                    )}
+                        </>)}
                 </nav>
 
 
-                {modalState.signIn && (
-                    <MainSignIn
+                {modalState.signIn && (<MainSignIn
                         setIsSignInOpen={(isOpen) => setModalState({...modalState, signIn: isOpen})}
                         setIsLoggedIn={setIsLoggedIn}
                         setUserName={setUserName}
-                    />
-                )
-                }
-                {modalState.signUp && (
-                    <MainSignUp
+                    />)}
+                {modalState.signUp && (<MainSignUp
                         setIsSignUpOpen={(isOpen) => setModalState({...modalState, signUp: isOpen})}
-                        setIsLoggedIn={setIsLoggedIn}/>
-                )}
+                        setIsLoggedIn={setIsLoggedIn}/>)}
 
 
             </div>
-        </>
-    )
+        </>)
 
 }
 

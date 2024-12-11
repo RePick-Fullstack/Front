@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useNavigate, useLocation} from 'react-router-dom';
 import {tosspaymentsApi, usersApi} from '../api/api.js'; // API 연결
-import { decodeJWT, formatRemainingTime } from '../page/mainuser/MainUtils.jsx'; // 유틸리티 함수
+import {decodeJWT, formatRemainingTime} from '../page/mainuser/MainUtils.jsx'; // 유틸리티 함수
 
 import '../css/header.css'
 
@@ -15,13 +15,15 @@ function Header() {
 
     const handleUserIsBilling = async () => {
         const token = localStorage.getItem('accessToken')
-        if(token === null ) {return;}
-        const {data: data } = await tosspaymentsApi.get("/remaining",
+        if (token === null) {
+            return;
+        }
+        const {data: data} = await tosspaymentsApi.get("/remaining",
             {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        })
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })
         setIsBilling(data);
     }
 
@@ -45,12 +47,10 @@ function Header() {
             if (redirectUrl) {
                 window.location.href = redirectUrl; // 리다이렉트
             } else {
-                navigate("/", { replace: true }); // 기본 경로로 이동
+                navigate("/", {replace: true}); // 기본 경로로 이동
             }
         }
     }, [location, navigate]);
-
-
 
 
     // 사용자 이름 가져오기
@@ -59,8 +59,8 @@ function Header() {
         if (!token) return;
 
         try {
-            const { data } = await usersApi.get('/users/name', {
-                headers: { Authorization: `Bearer ${token}` },
+            const {data} = await usersApi.get('/users/name', {
+                headers: {Authorization: `Bearer ${token}`},
             });
             console.log(data);
             const name = data.userNickName || data.username || data.name || '사용자';
@@ -74,10 +74,6 @@ function Header() {
     // 토큰 연장 처리
     const handleTokenRefresh = async () => {
         const refreshToken = localStorage.getItem('refreshToken');
-        if (!refreshToken) {
-            console.error('Refresh Token이 없습니다.');
-            return;
-        }
 
         try {
             const {data} = await usersApi.post(
@@ -89,7 +85,6 @@ function Header() {
                     },
                 }
             );
-            console.log(data)
             if (data) {
                 localStorage.setItem('accessToken', data.accessToken.token);
                 localStorage.setItem('refreshToken', data.refreshToken.token);
@@ -105,6 +100,7 @@ function Header() {
             handleLogout();
         }
     };
+
 // 토큰 남은 시간 계산
     const updateTokenRemainingTime = () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -117,23 +113,26 @@ function Header() {
         }
     };
 
-    const handleLogout = async () => {
-        try {
-            const refreshToken = localStorage.getItem('refreshToken');
-            if (refreshToken) {
-                await usersApi.get('/users/logout', {
-                    headers: {Authorization: `Bearer ${refreshToken}`},
-                });
-            }
-        } catch (error) {
-            console.error('로그아웃 실패:', error.response || error.message);
-        } finally {
-            localStorage.clear();
-            setIsLoggedIn(false);
-            setUserName('');
-            window.location.reload();
+    const handleLogout = () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (refreshToken) {
+             usersApi.get('/users/logout', {
+                headers: {Authorization: `Bearer ${refreshToken}`},
+            })
         }
+        localStorage.clear();
+        setIsLoggedIn(false);
+        setUserName('');
+        window.location.reload();
     };
+
+    useEffect(() => {
+        if (tokenRemainingTime === 0) {
+            alert('토큰이 만료되었습니다. 다시 로그인하세요.');
+            handleLogout();
+        }
+    }, [tokenRemainingTime]);
+
 
     // 초기화 및 주기적 토큰 확인
     useEffect(() => {
@@ -149,7 +148,6 @@ function Header() {
         return () => clearInterval(interval);
 
     }, []);
-
 
 
     // 관리자 페이지 접근 제어
@@ -173,7 +171,8 @@ function Header() {
                                 {/* 토큰 연장 버튼 */}
                                 <div className="user-greeting">안녕하세요, {userName}님!</div>
                                 <div className="token-timer">
-                                    로그인 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                                    로그인 남은
+                                    시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                 </div>
                             </>
                         ) : (
