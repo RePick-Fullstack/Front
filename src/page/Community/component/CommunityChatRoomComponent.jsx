@@ -19,7 +19,8 @@ function ChatComponent() {
     }
 
     const connectWebSocket = () => {
-        if(localStorage.getItem("accessToken")){alert("먼저 로그인 하여 주시기 바랍니다."); return;}
+        if(localStorage.getItem("accessToken")=== null){alert("먼저 로그인 하여 주시기 바랍니다."); return;}
+        setIsJoin(true)
         console.log(`community chatroom join`);
         socket = new WebSocket(`wss://repick.site/api/v1/chatroom/websocket/38e05c99-d5c7-41bd-ae84-4c7f2d0de160`);
 
@@ -98,10 +99,7 @@ function ChatComponent() {
             <div className={"h-full bg-white"}>
                 <div className={"h-full"} style={{maxHeight: `calc(100% - 70px)`}}>
                     {!isJoin ? <button className={"w-full h-12 bg-[#2c3e50] text-white rounded-none border-white"}
-                             onClick={() => {
-                                 connectWebSocket()
-                                 setIsJoin(true)
-                             }}>채팅방 입장
+                             onClick={() => {connectWebSocket()}}>채팅방 입장
                     </button>
                     : <button className={"w-full h-12 bg-[#2c3e50] text-white rounded-none border-white"}
                     onClick={() => {
