@@ -4,19 +4,17 @@ import axios from "axios";
 import '../css/ChatBot.css';
 import {v4 as uuidv4, validate} from "uuid";
 
-function ChatBot(props) {
+function ChatBot() {
+    const navigate = useNavigate();
     const id = useParams();
-    const params = useParams();
     const location = useLocation();
     const [searchParams] = useSearchParams();
     const type = searchParams.get("type");
     const [inputValue, setInputValue] = useState(searchParams.get("message") || "");
     const [chatHistory, setChatHistory] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
-    const [llmResponse, setLlmResponse] = useState("");
     const [enterDelay, setEnterDelay] = useState(false);
     const [animation, setAnimation] = useState(false);
-    const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatroomUuid, setChatroomUuid] = useState("");
     // chatBox DOM을 참조하기 위한 ref 추가
     const chatBoxRef = useRef(null);
@@ -34,10 +32,11 @@ function ChatBot(props) {
                 handleSendRequest()
                 setInputValue("")
             }
+            type && navigate(`/chatbot/${id.id}`)
         } else {
             console.error('Invalid UUID format:', id.id);
         }
-    }, [id]);
+    }, [id.id]);
 
 
 
