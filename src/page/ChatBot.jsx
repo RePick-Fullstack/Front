@@ -186,8 +186,6 @@ function ChatBot() {
             <div className={"flex flex-row"}>
                 <div className="chatBot-container">
                     <div className="chatBox">
-                        <button onClick={handleCreateChat}>쳇룸 생성</button>
-                        <button onClick={handlePullChat}>채팅 불러오기</button>
                         <h1>번거로운 자료 조사를 간편하게</h1>
                         {chatHistory.map((message, index) => (
                             <div
