@@ -189,7 +189,7 @@ function MainScreen() {
                         <ul className={"font-extrabold"}>
                             <hr className={"border-whitesmoke border-[1px]"}/>
                             <li className={"grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 font-black text-[13px] gap-5 px-4 py-2"}>
-                                <span className="text-left ml-6">기업</span>
+                                <span className="text-left ml-6">산업</span>
                                 <span className="text-left">제목</span>
                                 <span className="text-center ml-3">증권사</span>
                                 <span className="text-center">발행 일자</span>
