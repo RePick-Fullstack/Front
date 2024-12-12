@@ -8,18 +8,18 @@
 .container {
     display: flex;
     gap: 20px;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
     text-align: left;
     z-index: 1; /* 콘텐츠가 사이드바, 헤더보다 뒤에 위치하도록 설정 */
 }
 
 .left-container {
-    margin: 50px 0 0 90px;
+    margin: 0 0 0 90px;
     height: auto;
     padding: 20px 50px 10px 50px; /* 콘텐츠가 편하게 들어갈 수 있도록 여백 추가 */
     border-radius: 10px;
-    width: 65vw;
+    width: 45vw;
 }
 
 .community_font {
@@ -43,10 +43,10 @@
 }
 
 .right-container {
-    margin: 50px 10px 0 10px;
+    margin: 0 10px 0 10px;
     padding: 10px;
     height: auto;
-    width: 35vw;
+    width: 25vw;
     z-index: 1;
 }
 .chatRoom_font{
