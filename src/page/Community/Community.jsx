@@ -4,7 +4,8 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../../data/testMainCommunity.js";
 import {useEffect, useState} from "react";
 import {getPosts, getPostsByCategory, increaseViewCount} from "../../api/postApi.js";
-import CommunityChatRoomComponent from "./component/CommunityChatRoomComponent.jsx";
+import {CommunityChatRoomComponentMk2} from "./component/CommunityChatRoomComponentMk2.jsx";
+
 
 function Community() {
     const isCommunity = true;
@@ -136,15 +137,16 @@ function Community() {
 
                     </div>
                 </div>
-                <div className="right-container p-1 rounded-xl ">
-                    <p className={"chatRoom_font text-[25px] font-bold p-2"}>커뮤니티 채팅방</p>
-                    <div className={"bg-white mt-2"}>
-                        <div style={{
-                            height: "60vh",
-                        }}><CommunityChatRoomComponent/>
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="right-container p-1 rounded-xl ">*/}
+                {/*    <p className={"chatRoom_font text-[25px] font-bold p-2"}>커뮤니티 채팅방</p>*/}
+                {/*    <div className={"bg-white mt-2"}>*/}
+                {/*        <div style={{*/}
+                {/*            height: "60vh",*/}
+                {/*        }}><CommunityChatRoomComponent/>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+                <CommunityChatRoomComponentMk2/>
             </div>
 
         </>

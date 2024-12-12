@@ -67,3 +67,15 @@ button:focus-visible {
         background-color: #f9f9f9;
     }
 }
+
+@layer utilities {
+    .scrollbar-custom {}
+
+    .scrollbar-custom::-webkit-scrollbar {width: 8px;}
+
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+        background: rgba(244, 247, 248);
+        border-radius: 10px;
+    }
+    .scrollbar-custom::-webkit-scrollbar-track {}
+}
