@@ -154,14 +154,14 @@ function MainScreen() {
                 <div className="left_container">
                     <div className="report_header">
                         {enterDelay || <div className="hotReport">
-                            <p className={"font-bold text-xl ml-11 p-3"}>종목분석 레포트</p>
+                            <p className={"font-bold text-xl pl-5 p-3"}>종목분석 레포트</p>
                             <ul className={"font-extrabold"}>
                                 <hr className={"border-whitesmoke border-[0.5px]"}/>
                                 <li className={"grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 font-black text-[13px] gap-4 px-4 py-2"}>
-                                    <span className="text-left">기업</span>
+                                    <span className="text-left ml-6">기업</span>
                                     <span className="text-left">제목</span>
                                     <span className="text-center ml-3">증권사</span>
-                                    <span className="text-center">발행 일자</span>
+                                    <span className="text-center ml-2">발행 일자</span>
                                 </li>
                             </ul>
                             <hr className={"border-whitesmoke border-[0.5px]"}/>
@@ -171,11 +171,11 @@ function MainScreen() {
                                         <li key={index}>
                                             <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-4 px-4 py-2"}>
                                             <span
-                                                className={"text-left"}>{`${report.company_name}`}</span>
+                                                className={"text-left ml-4"}>{`${report.company_name}`}</span>
                                                 <span>{report.report_title}</span>
                                                 <span className={"text-left ml-[52px]"}><a className={"ml-5 hover:underline"}
                                                                                    href={report.pdf_link}>{report.securities_firm}</a></span>
-                                                <span className={"text-center ml-[20px]"}>{report.report_date}</span>
+                                                <span className={"text-center ml-[25px]"}>{report.report_date}</span>
                                                 {/*여기에 리포트 내용의 요약이 들어가야됨*/}
                                             </div>
                                         </li>
@@ -185,11 +185,11 @@ function MainScreen() {
                         </div>}
                     </div>
                     {enterDelay || <div className="industryReport">
-                        <p className={"font-bold text-xl ml-11 p-3"}>산업분석 레포트</p>
+                        <p className={"font-bold text-xl pl-5 p-3"}>산업분석 레포트</p>
                         <ul className={"font-extrabold"}>
                             <hr className={"border-whitesmoke border-[1px]"}/>
                             <li className={"grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 font-black text-[13px] gap-5 px-4 py-2"}>
-                                <span className="text-left">기업</span>
+                                <span className="text-left ml-6">기업</span>
                                 <span className="text-left">제목</span>
                                 <span className="text-center ml-3">증권사</span>
                                 <span className="text-center">발행 일자</span>
@@ -202,7 +202,7 @@ function MainScreen() {
                                     <li key={index}>
                                         <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-5 px-4 py-2"}>
                                             <span
-                                                className={"text-left"}>{`${report.sector}`}</span>
+                                                className={"text-left ml-4"}>{`${report.sector}`}</span>
                                             <span>{report.report_title}</span>
                                             <span className={"text-left ml-[52px]"}><a className={"ml-5 hover:underline"}
                                                                              href={report.pdf_link}>{report.securities_firm}</a></span>

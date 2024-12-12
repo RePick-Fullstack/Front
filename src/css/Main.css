@@ -33,6 +33,7 @@
 .report_data{
     animation: opacityAnimation 1s ease-out forwards;
     font-size: 12px;
+    margin-left: 8px;
 }
 @keyframes opacityAnimation {
     0%{
