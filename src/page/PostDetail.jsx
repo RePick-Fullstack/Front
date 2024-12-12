@@ -84,7 +84,7 @@ function PostDetail() {
                 return updatedComments;
             });
         } catch (error) {
-            alert("댓글 좋아요 실패 ㅋ")
+            alert("자신의 댓글에는 좋아요를 누를 수 없습니다.")
         }
     }
     const handlePostLike = async (id) => {
@@ -102,7 +102,7 @@ function PostDetail() {
             setLikesCount(fetchedPostLikes.likeCnt);
             alert("게시글의 좋아요를 눌렀습니다.")
         } catch (error) {
-            alert("게시글 좋아요 실패 ㅋ")
+            alert("자신의 게시글에는 좋아요를 누를 수 없습니다.")
         }
     }
 
