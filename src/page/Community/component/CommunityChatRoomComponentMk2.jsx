@@ -180,7 +180,7 @@ export const CommunityChatRoomComponentMk2 = () => {
                         onChange={(e) => setInput(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="메시지를 입력하세요..."
-                        style={{width: '85%'}}
+                        style={{width: '85%', backgroundColor: `rgb(244, 247 ,248)`}}
                         disabled={connect}
                     />
                     <button onClick={sendMessage}>전송</button>
