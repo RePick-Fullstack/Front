@@ -10,6 +10,7 @@ function MainScreen() {
     let navigate = useNavigate();
     const [news, setNews] = useState([]);
     const [reports, setReports] = useState([]);
+    const [industryReports, setIndustryReports] = useState([]);
     const [community, setCommunity] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const [userMessage, setUserMessage] = useState("");  // userMessage로 상태 관리
@@ -48,19 +49,16 @@ function MainScreen() {
         }
     }
 
-    const handleReports = async () => {
-        try {
-            const getReports = await eksApi.get("/reports");  //eksApi로 report 데이터를 받아오고
-            console.log(getReports.data);
-            getReports.data && setReports(getReports.data); //받아온 데이터를 setReports로 바꾸기
-        } catch {
-            console.log("server is not running");
-        }
+    const handleReports = async (type) => {
+            const {data: {content : reports}} = await eksApi.get(`/reports/${type}`,{params:{page: 0, size: 5}}).catch(() => {console.log("server is not running");});
+            console.log(reports);
+            type === "company" ? setReports(reports) : setIndustryReports(reports);
     };
 
     useEffect(() => {
         handleNews();
-        handleReports()
+        handleReports("company");
+        handleReports("industry");
         handleCommunity()
     }, []);
 
@@ -200,7 +198,19 @@ function MainScreen() {
                         <hr className={"border-whitesmoke border-[1px]"}/>
                         <div className="industry_scroll">
                             <ul>       {/*    여기에 산업분석 레포트 나오는거 넣기  */}
-                                <li></li>
+                                {industryReports.map((report, index) =>
+                                    <li key={index}>
+                                        <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-4 px-4 py-2"}>
+                                            <span
+                                                className={"text-left"}>{`${report.sector}`}</span>
+                                            <span>{report.report_title}</span>
+                                            <span className={"text-left"}><a className={"ml-5 hover:underline"}
+                                                                             href={report.pdf_link}>{report.securities_firm}</a></span>
+                                            <span className={"text-left"}>{report.report_date}</span>
+                                            {/*여기에 리포트 내용의 요약이 들어가야됨*/}
+                                        </div>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                     </div>}

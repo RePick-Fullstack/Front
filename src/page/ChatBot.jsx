@@ -11,12 +11,13 @@ function ChatBot() {
     const [llmResponse, setLlmResponse] = useState("");
     const [enterDelay, setEnterDelay] = useState(false);
     const [animation, setAnimation] = useState(false);
-
+    const [isMainStart, setIsMainStart] = useState(false);
     // chatBox DOM을 참조하기 위한 ref 추가
     const chatBoxRef = useRef(null);
 
     useEffect(() => {
         setAnimation(true);
+
     }, []);
 
     useEffect(() => {

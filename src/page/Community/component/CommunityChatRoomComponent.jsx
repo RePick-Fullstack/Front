@@ -19,6 +19,7 @@ function ChatComponent() {
     }
 
     const connectWebSocket = () => {
+        if(localStorage.getItem("accessToken")){alert("먼저 로그인 하여 주시기 바랍니다."); return;}
         console.log(`community chatroom join`);
         socket = new WebSocket(`wss://repick.site/api/v1/chatroom/websocket/38e05c99-d5c7-41bd-ae84-4c7f2d0de160`);
 

@@ -11,14 +11,10 @@ function ReportPage() {
     const [loading, setLoading] = useState(true);
 
     const handleReports = async () => {
-        try {
-            const getReports = await eksApi.get("/reports");
-            console.log(getReports.data);
-            getReports.data && setReports(getReports.data);
-            setLoading(true);
-        } catch {
-            console.log("server is not running");
-        }
+            const {data: {content:getReports}} = await eksApi.get("/reports/company",{params: {page: 1, size: 10}}).catch(err=>console.log(err));
+            console.log(getReports);
+            setReports(getReports);
+            setLoading(false);
     };
 
     useEffect(() => {
