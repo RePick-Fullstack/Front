@@ -59,6 +59,9 @@ function ChatComponent() {
         socket.onclose = () => {
             setSessionUUID('')
             console.log('WebSocket connection closed');
+            setIsJoin(false)
+            setLoading(false)
+            setMessages([]);
         };
 
         socket.onerror = (error) => {

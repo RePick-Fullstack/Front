@@ -5,6 +5,7 @@ import {DefaultInfo} from "./component/DefaultInfo.jsx";
 import {PaymentInfo} from "./component/PaymentInfo.jsx";
 import {PostInfo} from "./component/PostInfo.jsx";
 import {CommentInfo} from "./component/CommentInfo.jsx";
+import {ReportInfo} from "./component/ReportInfo.jsx";
 
 function MyPage() {
     const navigate = useNavigate();
@@ -22,16 +23,7 @@ function MyPage() {
                 <PaymentInfo/>
                 <PostInfo/>
                 <CommentInfo/>
-
-
-            </div>
-            <div className="retrieveReport">
-                <div>adfasdfa</div>
-                <div>adfasdfa</div>
-                <div>adfasdfa</div>
-            </div>
-            <div className="saveKeyword">
-
+                <ReportInfo/>
             </div>
         </>
     )
