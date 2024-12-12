@@ -7,7 +7,7 @@ export const PaymentInfo = () => {
     const [payments, setPayments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isView, setIsView] = useState(false);
-    const [Remaining, setRemaining] = useState('2024-12-11T12:27:05+09:00');
+    const [Remaining, setRemaining] = useState('');
 
     useEffect(() => {
         const handleRemaining = async () => {
@@ -42,7 +42,7 @@ export const PaymentInfo = () => {
             <hr className="border-t-[2.4px]"/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>구독 여부</div>
-                <div className={"w-64"}>완료</div>
+                <div className={"w-64"}>{Remaining ? `구독` : `미구독`}</div>
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
                     onClick={() => {
@@ -54,7 +54,7 @@ export const PaymentInfo = () => {
             <hr className="border-t-[2.4px]" style={{borderColor: "rgb(229, 231, 235)"}}/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>구독 유효 기간</div>
-                <div className={"w-64"}>{Remaining}까지</div>
+                <div className={"w-64"}>{Remaining}</div>
                 <div className={"h-8 min-w-14 flex items-center justify-center"}/>
             </div>
             <hr className="border-t-[2.4px]"/>
