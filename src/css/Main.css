@@ -32,7 +32,7 @@
 }
 .report_data{
     animation: opacityAnimation 1s ease-out forwards;
-
+    font-size: 12px;
 }
 @keyframes opacityAnimation {
     0%{
@@ -70,19 +70,10 @@
     font-weight: 800;
 }
 .report_scroll{
-    max-height: calc(50vh - 150px); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    max-height: calc(50vh - 200px); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
     overflow-y: auto; /* 스크롤 활성화 */
+    scrollbar-width: none;
     padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
-}
-.report_scroll::-webkit-scrollbar{
-    width: 4px;
-}
-.report_scroll::-webkit-scrollbar-thumb {
-    background: #E6E7EB; /* 스크롤바 색상 */
-    border-radius: 10px; /* 스크롤바 둥글게 */
-}
-.report_scroll::-webkit-scrollbar-thumb:hover {
-    background: darkgray; /* 스크롤바 hover 색상 */
 }
 .industryReport{
     width: 48vw; /* 박스의 너비 */
@@ -92,13 +83,19 @@
     border-radius: 15px;
     border: 3px solid whitesmoke;
     box-shadow: 2px 2px 2px 2px whitesmoke;
-    overflow: hidden;
 }
 .industryReport p {
     margin: 0; /* 불필요한 여백 제거 */
     font-family: 'Pretendard-Bold', sans-serif;
     font-weight: 800;
 }
+.industry_scroll{
+    max-height: calc(50vh - 210px); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
+    overflow: auto;
+    scrollbar-width: none;
+}
+
 .news_title{
     font-family: 'Pretendard-Bold', sans-serif;
     font-weight: 800;
