@@ -1,24 +1,67 @@
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import '../css/ChatBot.css';
+import {v4 as uuidv4, validate} from "uuid";
 
-function ChatBot() {
+function ChatBot(props) {
+    const id = useParams();
+    const params = useParams();
     const location = useLocation();
-    const [inputValue, setInputValue] = useState(location.state?.userMessage || []);
+    const [searchParams] = useSearchParams();
+    const type = searchParams.get("type");
+    const [inputValue, setInputValue] = useState(searchParams.get("message") || "");
     const [chatHistory, setChatHistory] = useState([]);
     const [isTyping, setIsTyping] = useState(false);
     const [llmResponse, setLlmResponse] = useState("");
     const [enterDelay, setEnterDelay] = useState(false);
     const [animation, setAnimation] = useState(false);
-    const [isMainStart, setIsMainStart] = useState(false);
+    const { mainInput } = location.state || {};
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [chatroomUuid, setChatroomUuid] = useState("");
     // chatBox DOM을 참조하기 위한 ref 추가
     const chatBoxRef = useRef(null);
 
     useEffect(() => {
+        console.log(inputValue);
+        setChatHistory([])
+        setChatroomUuid("")
         setAnimation(true);
+        console.log(id);
+        if (validate(id.id)) {
+            setChatroomUuid(id.id);
+            !type && handlePullChat(id.id)
+            searchParams.get("message") && handleSendRequest()
+        } else {
+            console.error('Invalid UUID format:', id.id);
+        }
+    }, [id]);
 
-    }, []);
+
+
+    const handlePullChat = async (uuid) => {
+        const { data: messages } = await axios.get(`http://localhost:8001/api/v1/chatbot/${uuid}`);
+        if(messages.length === 0) {console.log("chat is not found"); return;}
+        console.log(messages);
+        const chats = [];
+            messages.map(message => {
+                chats.push({type: "user", text: message.request});
+                chats.push({type: "llm", text: JSON.parse(message.response).response});
+        })
+        setChatHistory(chats);
+    }
+
+    const handleCreateChat = async () => {
+        const uuid = uuidv4().toString();
+        const chatroom = await axios.post("http://localhost:8001/api/v1/chatbot",{
+                "uuid": `${id.id || uuid}`,
+                "title": `${inputValue}`
+            },
+            {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}}).catch((err) => {console.log(err)});
+        console.log(chatroom.data);
+        setChatroomUuid(uuid);
+        return uuid
+    }
 
     useEffect(() => {
         if (location.state?.chatHistory) {
@@ -62,9 +105,10 @@ function ChatBot() {
     };
 
     const handleSendRequest = async () => {
+        chatHistory.length === 0 && await handleCreateChat()
         const fetchChatBotResponse = async () => {
             try {
-                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/3784f905-bef5-46e6-b58a-69ee72d414cd`,
+                const response = await axios.post(`http://localhost:8001/api/v1/chatbot/message/${id.id}`,
                     {
                         message: inputValue,
                     }, {
@@ -141,6 +185,8 @@ function ChatBot() {
             <div className={"flex flex-row"}>
                 <div className="chatBot-container">
                     <div className="chatBox">
+                        <button onClick={handleCreateChat}>쳇룸 생성</button>
+                        <button onClick={handlePullChat}>채팅 불러오기</button>
                         <h1>번거로운 자료 조사를 간편하게</h1>
                         {chatHistory.map((message, index) => (
                             <div
@@ -179,6 +225,7 @@ function ChatBot() {
                                     ></path>
                                 </svg>
                             </button>
+
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,7 @@ import ChatHistory from "./ChatHistory.jsx";
 import MainSignIn from "../page/mainuser/MainSignIn.jsx";
 import MainSignUp from "../page/mainuser/MainSignUp.jsx";
 import {usersApi} from "../api/api.js";
+import {v4 as uuidv4} from "uuid";
 
 function SideBar() {
     const navigate = useNavigate();
@@ -62,7 +63,7 @@ function SideBar() {
                     {menuOpen ? (<>
                             <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
                                 onClick={() => {
-                                    handleNavigation("/ChatBot")
+                                    handleNavigation(`/ChatBot/${uuidv4().toString()}?type=new`)
                                 }}>새 질문</h4>
                             <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
                                 onClick={() => { //사이드바 열렸을때

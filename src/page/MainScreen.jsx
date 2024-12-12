@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 //import {testNews} from "../data/testNews.js";
 //import {testReport} from "../data/testReport.js";
 import {eksApi} from "../api/api.js";
+import {v4 as uuidv4} from "uuid";
 
 function MainScreen() {
     let navigate = useNavigate();
@@ -112,25 +113,7 @@ function MainScreen() {
         }
         if (inputValue.trim() !== "") {
             const userMessage = {type: "user", text: inputValue};
-            setChatHistory((prev) => [...prev, userMessage]);
-            navigate("/ChatBot", {state: {chatHistory: [...chatHistory, userMessage]}});
-
-            try {
-                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/3784f905-bef5-46e6-b58a-69ee72d414cd`,
-                    {
-                        message: inputValue,
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        }
-                    });
-                const generatedText = JSON.parse(response.data.response).response || "LLM의 응답을 가져오지 못했습니다.";
-                const llmMessage = {type: "llm", text: generatedText};
-                console.log(llmMessage);
-                setChatHistory((prev) => [...prev, llmMessage]);
-            } catch (error) {
-                console.error("Failed to fetch data from server", error);
-            }
+            navigate(`/ChatBot/${uuidv4().toString()}?type=main&message=${inputValue}`);
         } else {
             alert("내용을 입력해주세요!");
         }

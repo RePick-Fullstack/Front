@@ -40,6 +40,7 @@ function App() {
                     <Route path="/mypage" element={<MyPage />} />
                     <Route path="/chatroom/" element={<ChatRoomList />} />
                     <Route path="/chatroom/:id" element={<ChatRoom />} />
+                    <Route path="/chatbot/:id" element={<ChatBot />} />
                     <Route path="/chatbot" element={<ChatBot />} />
                     <Route path="/tosspayment" element={<PaymentCheckoutPage />} />
                     <Route path="/tosspayment/success" element={<PaymentSuccessPage />} />
