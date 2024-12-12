@@ -5,11 +5,14 @@ import {decodeJWT, formatRemainingTime} from '../page/mainuser/MainUtils.jsx'; /
 
 import '../css/header.css'
 import {LoadingSvg} from "../assets/LoadingSvg.jsx";
+import MainSignIn from "../page/mainuser/MainSignIn.jsx";
+import MainSignUp from "../page/mainuser/MainSignUp.jsx";
 
 function Header() {
     const navigate = useNavigate();
     const location = useLocation();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [modalState, setModalState] = useState({signIn: false, signUp: false});
     const [userName, setUserName] = useState('');
     const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
 
@@ -151,23 +154,39 @@ function Header() {
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
                                 <button onClick={() => navigate('/tosspayment')}>결제하기</button>
-                                <button onClick={handleTokenRefresh}>토큰 연장</button>
+                                <button onClick={handleTokenRefresh}>토큰연장</button>
                                 {/* 토큰 연장 버튼 */}
                                 <div className="user-greeting">안녕하세요, {userName}님!</div>
                                 <div className="token-timer">
-                                    로그인 남은
-                                    시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                                    로그인 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                 </div>
                             </>
                         ) : (
                             <>
-                                <div>로그인 후 이용해 주세요</div>
+                                {!localStorage.getItem("accessToken") ? (<>
+                                    <button className={"bg-white w-[55px]"}
+                                            onClick={() => setModalState({signIn: true, signUp: false})}>로그인
+                                    </button>
+                                    <button className={"bg-white w-[65px]"}
+                                            onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
+                                    </button>
+
+                                </>) : (<>
+                                    <button className={"bg-white w-[225px] mt-5"} onClick={handleLogout}>로그아웃</button>
+                                </>)}
                             </>
                         )}
                     </div>
                 </div>
             </header>
-
+            {modalState.signIn && (<MainSignIn
+                setIsSignInOpen={(isOpen) => setModalState({...modalState, signIn: isOpen})}
+                setIsLoggedIn={setIsLoggedIn}
+                setUserName={setUserName}
+            />)}
+            {modalState.signUp && (<MainSignUp
+                setIsSignUpOpen={(isOpen) => setModalState({...modalState, signUp: isOpen})}
+                setIsLoggedIn={setIsLoggedIn}/>)}
 
         </div>
     );
