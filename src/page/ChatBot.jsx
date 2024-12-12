@@ -16,7 +16,6 @@ function ChatBot(props) {
     const [llmResponse, setLlmResponse] = useState("");
     const [enterDelay, setEnterDelay] = useState(false);
     const [animation, setAnimation] = useState(false);
-    const { mainInput } = location.state || {};
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatroomUuid, setChatroomUuid] = useState("");
     // chatBox DOM을 참조하기 위한 ref 추가
@@ -31,7 +30,10 @@ function ChatBot(props) {
         if (validate(id.id)) {
             setChatroomUuid(id.id);
             !type && handlePullChat(id.id)
-            searchParams.get("message") && handleSendRequest()
+            if(searchParams.get("message")) {
+                handleSendRequest()
+                setInputValue("")
+            }
         } else {
             console.error('Invalid UUID format:', id.id);
         }
