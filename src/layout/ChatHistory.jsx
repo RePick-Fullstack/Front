@@ -12,7 +12,7 @@ function ChatHistory(){
     const handleChatRoomList = async () => {
         const token = localStorage.getItem("accessToken");
         if (token === null){return;}
-        const { data: chatBotRooms } = await axios.get(`http://localhost:8001/api/v1/chatbot`,{
+        const { data: chatBotRooms } = await axios.get(`https://repick.site/api/v1/chatbot`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }

@@ -40,7 +40,7 @@ function ChatBot(props) {
 
 
     const handlePullChat = async (uuid) => {
-        const { data: messages } = await axios.get(`http://localhost:8001/api/v1/chatbot/${uuid}`);
+        const { data: messages } = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`);
         if(messages.length === 0) {console.log("chat is not found"); return;}
         console.log(messages);
         const chats = [];
@@ -53,7 +53,7 @@ function ChatBot(props) {
 
     const handleCreateChat = async () => {
         const uuid = uuidv4().toString();
-        const chatroom = await axios.post("http://localhost:8001/api/v1/chatbot",{
+        const chatroom = await axios.post("https://repick.site/api/v1/chatbot",{
                 "uuid": `${id.id || uuid}`,
                 "title": `${inputValue}`
             },
@@ -108,7 +108,7 @@ function ChatBot(props) {
         chatHistory.length === 0 && await handleCreateChat()
         const fetchChatBotResponse = async () => {
             try {
-                const response = await axios.post(`http://localhost:8001/api/v1/chatbot/message/${id.id}`,
+                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/${id.id}`,
                     {
                         message: inputValue,
                     }, {
