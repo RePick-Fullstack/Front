@@ -140,7 +140,7 @@ export const CommunityChatRoomComponentMk2 = () => {
             <div className={"h-[359px] bg-white relative"}>
                 <div className={"h-full"}>
                     {(!isJoin || !loading) && <div
-                        className={"absolute bg-[#f4f7f8] w-full h-full z-10 flex justify-center items-center"}>
+                        className={"absolute bg-[#f4f7f8] w-full h-full z-1 flex justify-center items-center"}>
                         {isJoin && <div className={"flex flex-col items-center"}>
                             <LoadingSvg w={32} h={32}/>
                             로딩중
