@@ -83,8 +83,8 @@ export const DefaultInfo = () => {
 
     const handleDeleteAccount = () => {
         const token = localStorage.getItem("accessToken");
-
-        if (window.confirm("정말로 탈퇴하시겠습니까? 탈퇴 후 3개월 후 최종 삭제 처리 됩니다.")) {
+ㅎ
+        if (window.confirm("탈퇴 시 3개월 후 삭제 처리 됩니다.")) {
             usersApi.delete("/users/delete", {
                 headers: {Authorization: `Bearer ${token}`},
             })
