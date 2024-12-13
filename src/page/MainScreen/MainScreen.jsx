@@ -6,13 +6,14 @@ import {useNavigate} from "react-router-dom";
 //import {testReport} from "../data/testReport.js";
 import {eksApi} from "../../api/api.js";
 import {v4 as uuidv4} from "uuid";
+import {NewsMk2} from "./component/NewsMk2.jsx";
+import {MainCommunity} from "./component/MainCommunity.jsx";
 
 function MainScreen() {
     let navigate = useNavigate();
-    const [news, setNews] = useState([]);
     const [reports, setReports] = useState([]);
     const [industryReports, setIndustryReports] = useState([]);
-    const [community, setCommunity] = useState([]);
+
     const [inputValue, setInputValue] = useState("");
     const [userMessage, setUserMessage] = useState("");  // userMessage로 상태 관리
     const [chating, setChating] = useState(false);
@@ -27,29 +28,6 @@ function MainScreen() {
         }
     }, [chatHistory]);
 
-    const handleNews = async () => {
-        try {
-            const getNews = await eksApi.get("/news");
-            console.log(getNews.data);
-            !getNews.data.isEmpty && setNews(getNews.data);
-        } catch {
-            console.log("server is not running");
-        }
-    };
-
-    const handleCommunity = async () => {
-        try {
-            const getCommunity = await axios.get("https://repick.site/api/v1/posts");
-            console.log("=============================");
-            console.log(getCommunity);
-            console.log("=============================");
-            // posts = 게시물 가져오는 API임. 커뮤니티 가져오는 API를 만들거나 아니면 걍 정적데이터 testMainCommunity 쓰던가 해야됨.
-            getCommunity.data;
-        } catch {
-            console.log("Community is not running");
-        }
-    }
-
     const handleReports = async (type) => {
             const {data: {content : reports}} = await eksApi.get(`/reports/${type}`,{params:{page: 0, size: 5}}).catch(() => {console.log("server is not running");});
             console.log(reports);
@@ -57,10 +35,8 @@ function MainScreen() {
     };
 
     useEffect(() => {
-        handleNews();
         handleReports("company");
         handleReports("industry");
-        handleCommunity()
     }, []);
 
     // const handleSendRequest = async () => {
@@ -198,42 +174,9 @@ function MainScreen() {
                         </div>
                     </div>}
                 </div>
-                {enterDelay || <div className="right-column">
-
-                    <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
-                        <div>
-                            <p className={"news_title font-bold text-xl p-3 ml-2"}>뉴스</p>
-                            {news.map((item, index) => (
-                                <div className={"w-[20vw] hover:bg-gray-200 text-[12.5px] font-semibold rounded-xl p-3 ml-4"} key={index}>
-                                    <a href={item.url} target="_blank" rel="noopener noreferrer"
-                                       style={{color: `black`}}>{item.title}</a>
-
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className={"communityOrder"}>   {/*  커뮤니티 컴포넌트   */}
-                    </div>
-                    <div className="community">
-                        <span className={"font-bold text-lg"}>커뮤니티</span>
-                        {/* 페이지 시작은 조회순으로 시작하고 인기순 누르면 조회 or 좋아요로 orderBy*/}
-                        <div className={"float-right active:border-black text-[11px]"}>
-                            <button className={"mr-5"} onClick={() => {
-                                console.log("조회순 누름")
-                            }}>조회순
-                            </button>
-                            <button onClick={() => {
-                                console.log("추천순 누름")
-                            }}>추천순
-                            </button>
-                        </div>
-                        {community.map((item, index) => (
-                            <button className={"flex flex-col gap-y-2"}
-                                    key={index} onClick={() => {
-                                navigate(`/community?category=${item.title}`);
-                            }}>{item.id}. {item.description}</button>
-                        ))}
-                    </div>
+                {enterDelay || <div className="flex flex-col gap-[5px]">
+                    <NewsMk2/>
+                    <MainCommunity/>
                 </div>}
             </div>
 
