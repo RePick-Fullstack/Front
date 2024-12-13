@@ -10,6 +10,7 @@
 
 .main_container {
     display: flex;
+    flex-direction: row;
     gap: 20px;
     padding: 20px;
     box-sizing: border-box;
@@ -18,28 +19,12 @@
     position: relative;
     animation: slideAnimation 1s ease-out forwards;
 }
-@keyframes slideAnimation {
-    0% {
-        transform: translateY(40px); /* 시작 위치 */
-        opacity: 0; /* 투명도 */
-    }
-    100% {
-        transform: translateY(0px); /* 최종 위치 */
-        opacity: 1; /* 완전한 불투명 */
-    }
-}
+
+
 .report_data{
     animation: opacityAnimation 1s ease-out forwards;
     font-size: 12px;
     margin-left: 8px;
-}
-@keyframes opacityAnimation {
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
 }
 
 .left_container {
@@ -49,7 +34,7 @@
 
 .hotReport {
     width: 48vw; /* 박스의 너비 */
-    height: 35vh;
+    height: 33vh;
     background-color: #fff;
     border-radius: 15px;
     border: 3px solid whitesmoke;
@@ -76,7 +61,7 @@
 }
 .industryReport{
     width: 48vw; /* 박스의 너비 */
-    height: 35vh;
+    height: 33vh;
     margin-top: 10px;
     background-color: #fff;
     border-radius: 15px;
@@ -89,7 +74,7 @@
     font-weight: 800;
 }
 .industry_scroll{
-    max-height: calc(50vh - 210px); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    max-height: calc(50vh - 200px); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
     padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
     overflow: auto;
     scrollbar-width: none;
@@ -99,39 +84,12 @@
     font-family: 'Pretendard-Bold', sans-serif;
     font-weight: 800;
 }
-.newsCrawling {
-    width: 22vw;
-    height: 35vh;
-    margin-left: 50px;
-    border: 3px solid whitesmoke;
-    border-radius: 10px;
-    background-color: #fff;
-    overflow: auto;
-    scrollbar-width: none;
-    box-shadow: 3px 3px 3px 3px whitesmoke;
-}
+
 .communityOrder{
     font-family: 'Pretendard-Bold', sans-serif;
     font-weight: 800;
 }
-.community {
-    width: 22vw;
-    height: 35vh;
-    padding: 15px;
-    margin-left: 50px;
-    border: 3px solid whitesmoke;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: auto;
-    box-shadow: 3px 3px 3px 3px whitesmoke;
-}
 
-/* newsCrawling과 community를 세로로 배치 */
-.right-column {
-    display: flex;
-    flex-direction: column;
-    gap: 5px; /* 위아래 간격 */
-}
 
 .inputContainer {
     position: relative; /* 버튼 위치 조정을 위해 relative로 설정 */
