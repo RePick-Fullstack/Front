@@ -70,16 +70,16 @@ export const DefaultInfo = () => {
     // 회원 탈퇴 처리
     const handleDeleteAccount = () => {
         const token = localStorage.getItem("accessToken");
-        if (window.confirm("탈퇴 시 3개월 후 삭제 처리 됩니다.")) {
+        if (window.confirm("탈퇴 시 되돌릴 수 없습니다.")) {
             usersApi
                 .delete("/users/delete", {
                     headers: { Authorization: `Bearer ${token}` },
+                    "Content-Type": "application/json"
                 })
                 .then(() => {
                     alert("회원 탈퇴가 완료되었습니다.");
                     localStorage.clear();
                     window.location.href = "/";
-
                 })
                 .catch((error) => {
                     console.error("회원 탈퇴 실패:", error);
