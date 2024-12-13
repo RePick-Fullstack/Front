@@ -106,19 +106,31 @@ function PostDetail() {
         }
     }
 
-    const editPost = async (postId) =>{
+    const editPost = async (postId) => {
         const confirmEdit = window.confirm("게시글을 수정 하시겠습니까?");
         if (!confirmEdit) return;
-        try{
+        try {
             const token = localStorage.getItem("accessToken");
-            if(!token){
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const decoded = JSON.parse(atob(base64));
+            console.log(token)
+            if (!token) {
                 alert("수정 권한이 없습니다");
-                return;
-            }setAuthHeader(token);
 
-            navigate(`/editpost/${postId}`);
-        }catch(error){
+            } else {
+                console.log("디코딩 " + JSON.stringify(decoded.userId));
+                console.log("게시글 userId " + post.userId);
+                if (post.userId === decoded.userId) {
+                    setAuthHeader(token);
+                    navigate(`/editpost/${postId}`);
+                } else {
+                    alert("본인 게시글이 아닙니다.")
+                }
+            }
 
+        } catch (error) {
+            alert("수정 권한이 없습니다");
         }
     }
 
@@ -127,10 +139,11 @@ function PostDetail() {
         if (!confirmDelete) return;
         try {
             const token = localStorage.getItem("accessToken");
-            if(!token){
+            if (!token) {
                 alert("삭제 권한이 없습니다");
                 return;
-            }setAuthHeader(token);
+            }
+            setAuthHeader(token);
             await api.delete(`${postId}`)
             alert("게시글이 삭제 되었습니다.");
             navigate("/community");
@@ -138,7 +151,7 @@ function PostDetail() {
         } catch (error) {
             if (error.response.status === 400)
                 alert("???");
-            if(error.response.status ===500)
+            if (error.response.status === 500)
                 alert("본인 게시글이 아닙니다.")
         }
 
@@ -212,7 +225,7 @@ function PostDetail() {
                         <div className={"text-base mb-3"}>작성자 : {post.userNickname}</div>
                         <div className={"text-sm mb-5"}>{formatDateTime(post.createdAt)} 조회 {post.viewCount}</div>
                         <hr className={"mb-5"}/>
-                        <div className={"text-sm font-light w-4/5 ml-5"}> {post.content}</div>
+                        <div className={"text-sm font-[500] w-4/5 ml-5"}> {post.content}</div>
                     </div>
                     <div className={"rounded-l p-5"}>
                         <div className={"bg-white flex flex-nowrap justify-between mb-10"}>
@@ -247,19 +260,23 @@ function PostDetail() {
                                 </button>
                             </div>
                         </div>
-                        <div className={"bg-white "}>
+                        <div className={"bg-white"}>
                             <div className={"bg-white"}>
                                 {comments.map((comment) => (
                                     <div>
                                         <hr className={"border-1 mb-5 mt-5 w-[700px]"}/>
-                                        <div className={"text-xl flex flex-row"}>{comment.userNickname}
-                                            <img onClick={() => handleCommentLike(id, comment.id)}
-                                                 className={"cursor-pointer ml-5"}
-                                                 src={comment.isLike ? FullLike : EmptyLike}
-                                                 alt={comment.isLike ? "좋아요 누름" : "좋아요 취소"}/>
-                                            <div className={"text-xs"}>{comment.likeCount}</div>
+                                        <div className={"ml-5"}>
+                                            <div className={"text-xl flex flex-row"}>{comment.userNickname}
+                                                <img onClick={() => handleCommentLike(id, comment.id)}
+                                                     className={"cursor-pointer ml-5"}
+                                                     src={comment.isLike ? FullLike : EmptyLike}
+                                                     alt={comment.isLike ? "좋아요 누름" : "좋아요 취소"}/>
+                                                <div className={"text-xs"}>{comment.likeCount}</div>
+                                            </div>
+                                            <div className={"w-[700px] font-medium"}>{comment.content}</div>
+                                            <div
+                                                className={"text-xs text-[rgb(151,151,151)] font-light"}>{formatDateTime(comment.createdAt)}</div>
                                         </div>
-                                        <div className={"w-[700px]"}>{comment.content}</div>
                                     </div> //대충 ㅋㅋ
                                 ))}
                             </div>
