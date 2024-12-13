@@ -1,7 +1,9 @@
-import { loadTossPayments, ANONYMOUS } from "@tosspayments/tosspayments-sdk";
-import { useEffect, useState } from "react";
+import {loadTossPayments} from "@tosspayments/tosspayments-sdk";
+import {useEffect, useState} from "react";
 import './Payment.css'
 import {useNavigate} from "react-router-dom";
+import {OrderSelect} from "./component/OrderSelect.jsx";
+import {PaymentSelect} from "./component/PaymentSelect.jsx";
 
 // ------  SDK 초기화 ------
 // TODO: clientKey는 개발자센터의 API 개별 연동 키 > 결제창 연동에 사용하려할 MID > 클라이언트 키로 바꾸세요.
@@ -15,6 +17,7 @@ export function PaymentCheckoutPage() {
   const [payment, setPayment] = useState(null);
   const [amount, setAmount] = useState({currency: "KRW", value: 5900,});
   const [isSelected, setIsSelected] = useState(false);
+  const [isPaySelected, setIsPaySelected] = useState(0);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const navigate = useNavigate();
 
@@ -62,6 +65,7 @@ export function PaymentCheckoutPage() {
   async function requestPayment() {
     // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+    if(selectedPaymentMethod === null){alert(`결재 수단을 선택하여 주시기 바랍니다.`)}
     switch (selectedPaymentMethod) {
       case "CARD":
         await payment.requestPayment({
@@ -170,88 +174,71 @@ export function PaymentCheckoutPage() {
     }
   }
 
-  async function requestBillingAuth() {
-    await payment.requestBillingAuth({
-      method: "CARD", // 자동결제(빌링)은 카드만 지원합니다
-      successUrl: window.location.origin + "/payment/billing", // 요청이 성공하면 리다이렉트되는 URL
-      failUrl: window.location.origin + "/fail", // 요청이 실패하면 리다이렉트되는 URL
-      customerEmail: "customer123@gmail.com",
-      customerName: "김토스",
-    });
-  }
-
   return (
       <div className="w-full ml-[50px] flex items-center"
-      style={{minHeight: `calc(100vh - 78px)`, maxWidth: `calc(100% - 50px)`}}>
-        <div className="wrapper toss_font">
-          {!isSelected && <div className="flex items-center justify-center h-full">
-            <div className="mb-[30px] box_section-custom h-[278px] flex justify-center ">
-              <button className={"button-custom h-[148px] mb-[30px]"} onClick={() => handleIsSelected(5900)}>
-                1개월 구독<br/><br/>
-                월 5,900원
-              </button>
-              <button className={"button-custom mb-[30px]"} onClick={() => handleIsSelected(59000)}>
-                1년 구독<br/><br/>
-                <del>년 70,800원</del>
-                <br/><br/>
-                20% 할인<br/><br/>
-                년 59,000원
-              </button>
-            </div>
-          </div>}
-          {isSelected && <div>
-            <div className="box_section-amount w-full h-20 pl-[65px] pr-5 flex flex-col justify-center gap-2">
-              <div className="flex justify-between">
-                <strong>상품명 :</strong><p> {` 리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`}</p>
-              </div>
-              <div className="flex justify-between">
-                <strong>결제 금액 :</strong><p>{` ${amount.value === 5900 ? `5,900 원` : `59,000원`}`}</p>
-              </div>
-            </div>
-            <div className="box_section">
-              <h1 className={"text-3xl font-bold"}>일반 결제</h1>
-              <div id="payment-method" style={{display: "flex"}}>
-                <button id="CARD" className={`button2 ${selectedPaymentMethod === "CARD" ? "active" : ""}`}
-                        onClick={() => selectPaymentMethod("CARD")}>
-                  카드
-                </button>
-                <button id="TRANSFER" className={`button2 ${selectedPaymentMethod === "TRANSFER" ? "active" : ""}`}
-                        onClick={() => selectPaymentMethod("TRANSFER")}>
-                  계좌이체
-                </button>
-                <button id="VIRTUAL_ACCOUNT"
-                        className={`button2 ${selectedPaymentMethod === "VIRTUAL_ACCOUNT" ? "active" : ""}`}
-                        onClick={() => selectPaymentMethod("VIRTUAL_ACCOUNT")}>
-                  가상계좌
-                </button>
-                <button id="MOBILE_PHONE" className={`button2 ${selectedPaymentMethod === "MOBILE_PHONE" ? "active" : ""}`}
-                        onClick={() => selectPaymentMethod("MOBILE_PHONE")}>
-                  휴대폰
-                </button>
-                <button
-                    id="CULTURE_GIFT_CERTIFICATE"
-                    className={`button2 ${selectedPaymentMethod === "CULTURE_GIFT_CERTIFICATE" ? "active" : ""}`}
-                    onClick={() => selectPaymentMethod("CULTURE_GIFT_CERTIFICATE")}
-                >
-                  문화상품권
-                </button>
-                <button id="FOREIGN_EASY_PAY"
-                        className={`button2 ${selectedPaymentMethod === "FOREIGN_EASY_PAY" ? "active" : ""}`}
-                        onClick={() => selectPaymentMethod("FOREIGN_EASY_PAY")}>
-                  해외간편결제
-                </button>
-              </div>
-              <button className="button" onClick={() => requestPayment()}>
-                결제하기
-              </button>
-            </div>
-            <div className="box_section">
-              <h1 className={"text-3xl font-bold"}>정기 결제</h1>
-              <button className="button" onClick={() => requestBillingAuth()}>
-                빌링키 발급하기
-              </button>
-            </div>
-          </div>}
+           style={{minHeight: `calc(100vh - 78px)`, maxWidth: `calc(100% - 50px)`}}>
+        <div className="flex px-2 w-full">
+          {!isSelected && <OrderSelect handleIsSelected={handleIsSelected}/>}
+          {isSelected && isPaySelected === 0 && <PaymentSelect setIsPaySelected={setIsPaySelected}/>}
+          {isSelected && isPaySelected &&
+              <div className="flex items-center justify-center h-full gap-5 flex-wrap">
+                  <div
+                      className="rounded-[25px] w-[800px] h-20 shadow text-[30px] font-bold flex items-center justify-center">
+                    토스페이먼츠 일반결재
+                  </div>
+                <div className="rounded-[25px] w-[800px] h-[278px] gap-5 shadow p-5 text-2xl font-bold flex flex-col justify-center items-center">
+                  <div className="w-full px-10">
+                    <div className="flex justify-between text-[17px] w-full">
+                      <strong>상품명 :</strong><p> {` 리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`}</p>
+                    </div>
+                    <div className="flex justify-between text-[17px] w-full">
+                      <strong>결제 금액 :</strong><p>{` ${amount.value === 5900 ? `5,900 원` : `59,000원`}`}</p>
+                    </div>
+                  </div>
+                  <div className="flex px-10">
+                  <div className="grid grid-cols-3"
+                       style={{placeItems: "center"}}>
+                    <button id="CARD" className={`button2 ${selectedPaymentMethod === "CARD" ? "active" : ""}`}
+                            onClick={() => selectPaymentMethod("CARD")}>
+                      카드
+                    </button>
+                    <button id="TRANSFER"
+                            className={`button2 ${selectedPaymentMethod === "TRANSFER" ? "active" : ""}`}
+                            onClick={() => selectPaymentMethod("TRANSFER")}>
+                      계좌이체
+                    </button>
+                    <button id="VIRTUAL_ACCOUNT"
+                            className={`button2 ${selectedPaymentMethod === "VIRTUAL_ACCOUNT" ? "active" : ""}`}
+                            onClick={() => selectPaymentMethod("VIRTUAL_ACCOUNT")}>
+                      가상계좌
+                    </button>
+                    <button id="MOBILE_PHONE"
+                            className={`button2 ${selectedPaymentMethod === "MOBILE_PHONE" ? "active" : ""}`}
+                            onClick={() => selectPaymentMethod("MOBILE_PHONE")}>
+                      휴대폰
+                    </button>
+                    <button
+                        id="CULTURE_GIFT_CERTIFICATE"
+                        className={`button2 ${selectedPaymentMethod === "CULTURE_GIFT_CERTIFICATE" ? "active" : ""}`}
+                        onClick={() => selectPaymentMethod("CULTURE_GIFT_CERTIFICATE")}
+                    >
+                      문화상품권
+                    </button>
+                    <button id="FOREIGN_EASY_PAY"
+                            className={`button2 ${selectedPaymentMethod === "FOREIGN_EASY_PAY" ? "active" : ""}`}
+                            onClick={() => selectPaymentMethod("FOREIGN_EASY_PAY")}>
+                      해외간편결제
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-center">
+                  <button className="rounded-[12.5px] bg-[#303e4f] text-white w-[175px] h-[106px] flex flex-col justify-center items-center p-5 cursor-pointer gap-5 hover:bg-[#37AFE1] "
+                          onClick={() => requestPayment()}>
+                    결제하기
+                  </button>
+                  </div>
+                  </div>
+                </div>
+              </div>}
         </div>
       </div>
   );

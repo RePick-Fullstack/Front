@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 .header {
-    background-color: white; /* 배경 색상 흰색 */
     padding: 10px 20px;
     display: flex;
     justify-content: space-between; /* 양옆에 공간을 두기 */
