@@ -89,11 +89,12 @@ function Community() {
             <div className={"rounded-xl font-bold p-10 w-[75vw]"} style={{margin: "0 0 0px 120px"}}>
                 <div className={"community_font caret-transparent"}
                      style={{fontSize: "30px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
-                <div className={"h-auto min-h-10 rounded-xl items-center flex flex-wrap relative top-3"}> { /*  카테고리 클릭 태그*/}
-                    <span className={"font-semibold text-sm flex gap-6 flex-wrap"}>
+                <div
+                    className={"h-auto min-h-10 rounded-xl items-center flex relative top-3 overflow-auto whitespace-nowrap scrollbar-custom"}> { /*  카테고리 클릭 태그*/}
+                    <span className={"font-semibold text-sm flex gap-6 "}>
                          {data.map((item, index) => (
                              <span
-                                 className={"caret-transparent cursor-pointer hover:underline hover:text-xl hover:text-slate-700 text-center"}
+                                 className={"caret-transparent cursor-pointer hover:underline hover:text-[15px] hover:text-slate-700 text-center"}
                                  key={index}
                                  onClick={() => handleCategoryChange(item.title)}>
                                  {item.description}</span>
@@ -107,9 +108,10 @@ function Community() {
                             onClick={() => createButton()}>작성하기
                     </button>
 
-                    <div className={"rounded-xl border-black border-1 bg-[rgb(132,116,216)]"} style={{
+                    <div className={"rounded-xl border-black border-1 bg-[rgb(132,116,216)] scrollbar-custom"} style={{
                         height: "60vh",
-                        overflow: `auto`
+                        overflow: `auto`,
+                        minWidth: "360px"
                     }}>
                         <div className={"border-amber-100 p-2 border-solid"}>
                             <ul>

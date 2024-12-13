@@ -23,10 +23,10 @@ export const News = () => {
             <div>
                 <p className={"news_title font-bold text-xl p-3 ml-2"}>뉴스</p>
                 {news.map((item, index) => (
-                    <div className={"w-[20vw] hover:bg-gray-200 text-[12.5px] font-semibold rounded-xl p-3 ml-4"}
+                    <div className={"w-[20vw] hover:bg-gray-200 text-[30px] font-semibold rounded-xl p-3 ml-4"}
                          key={index}>
                         <a href={item.url} target="_blank" rel="noopener noreferrer"
-                           style={{color: `black`}}>{item.title}</a>
+                           style={{color: `#213547`}}>{item.title}</a>
 
                     </div>
                 ))}

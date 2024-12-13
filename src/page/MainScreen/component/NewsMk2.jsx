@@ -19,12 +19,12 @@ export const NewsMk2 = () => {
     };
 
     return (
-        <div className="min-w-[300px] h-[300px] rounded-[25px] shadow flex flex-col py-3">
+        <div className="min-w-[300px] h-[33vh] rounded-[25px] border-[3px] border-solid border-[#f5f5f5] shadow-[2px_2px_2px_2px_#f5f5f5] flex flex-col py-3">
                 <p className={"news_title font-bold text-lg p-3 ml-2"}>뉴스</p>
                 <div className={"h-full overflow-y-scroll scrollbar-custom"}
                 style={{animation: `opacityAnimation 1s ease-out forwards`}}>
                     {news.map((item, index) => (
-                        <div className={"hover:bg-gray-200 text-sm font-semibold rounded-xl py-3 px-2 ml-3 flex items-center gap-1"}
+                        <div className={"hover:bg-gray-200 hover:cursor-pointer text-sm font-semibold rounded-xl py-3 px-2 ml-3 flex items-center gap-1"}
                              key={index}>
                             <a
                                 className={"w-[200px]"}
