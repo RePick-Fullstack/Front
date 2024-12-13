@@ -31,20 +31,21 @@ function ReportPage() {
         <>
             <div className={"report_container"}>
                 <div>
-                    <span className="report_title">레포트 저장소</span>
+                    <span className="report_repository">레포트 저장소</span>
                 </div>
-                <div className={"flex flex-row"}>
-                    <div className="select_report_kind">
-                        <span >종목분석 레포트</span>
-                        <span>산업분석 레포트</span>
+                <div className={"selected_report"}>
+                    <div className="select_report_kind hover:cursor-pointer items-center">
+                        <div tabIndex="0" className={" w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.05)] text-center rounded-xl flex items-center justify-center"}>
+                            <p>종목분석 레포트</p></div>
+                        <div tabIndex="0" className={"px-18 py12 w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.05)] text-center rounded-xl flex items-center justify-center"}><p>산업분석 레포트</p></div>
                     </div>
                     <div className="right_report_container">
-                        <ul className={"font-semibold"}>
-                            <li className={"grid grid-cols-[3fr_4fr_4fr_2fr_2fr] px-4 py-2 bg-gray-100"}>
+                        <ul className={"font-black"}>
+                            <li className={"grid grid-cols-[2.5fr_4fr_3fr_3fr_2fr] px-4 py-2"}>
                                 <span className="text-left">기업</span>
                                 <span className="text-left">제목</span>
                                 <span className="text-left">증권사</span>
-                                <span className="text-left">발행 일자</span>
+                                <span className="text-center mr-16">발행 일자</span>
                                 <span className="text-right">다운로드</span>
                             </li>
                             {reports.map((report, index) =>
