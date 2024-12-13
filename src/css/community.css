@@ -33,12 +33,10 @@
     0% {
         transform: translateY(20px); /* 시작 위치 */
         opacity: 0; /* 투명도 */
-        background-color: rgba(255, 255, 255, 0.1); /* 배경색 초기 상태 */
     }
     100% {
         transform: translateY(0px); /* 최종 위치 */
         opacity: 1; /* 완전한 불투명 */
-        background-color: rgba(255, 255, 255, 1); /* 최종 배경색 */
     }
 }
 

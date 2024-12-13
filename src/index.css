@@ -80,3 +80,23 @@ button:focus-visible {
     }
     .scrollbar-custom::-webkit-scrollbar-track {}
 }
+
+@keyframes slideAnimation {
+    0% {
+        transform: translateY(40px); /* 시작 위치 */
+        opacity: 0; /* 투명도 */
+    }
+    100% {
+        transform: translateY(0px); /* 최종 위치 */
+        opacity: 1; /* 완전한 불투명 */
+    }
+}
+
+@keyframes opacityAnimation {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}

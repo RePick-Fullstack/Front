@@ -69,7 +69,7 @@ function SideBar() {
                                 onClick={() => { //사이드바 열렸을때
                                     handleNavigation("/myPage")
                                 }}>마이 페이지</h4>
-                            <h3 className={"bg-white h-2/4 w-3/4 p-2 rounded-xl"}>
+                            <h3 className={"bg-white h-2/4 w-3/4 p-2 rounded-xl flex justify-center"}>
                                 <ChatHistory/> {/* 여기다가 chatHIstory map 써서 나오게 하면 될듯 */}
                             </h3>
                             {!localStorage.getItem("accessToken") ? (<>
@@ -81,7 +81,7 @@ function SideBar() {
                                     </button>
 
                                 </>) : (<>
-                                    <button className={"bg-white w-[225px] mt-5"} onClick={handleLogout}>로그아웃</button>
+                                    <button className={"bg-white w-[225px] mt-5 text-black"} onClick={handleLogout}>로그아웃</button>
                                 </>)}
 
 
@@ -108,8 +108,6 @@ function SideBar() {
                 {modalState.signUp && (<MainSignUp
                         setIsSignUpOpen={(isOpen) => setModalState({...modalState, signUp: isOpen})}
                         setIsLoggedIn={setIsLoggedIn}/>)}
-
-
             </div>
         </>)
 

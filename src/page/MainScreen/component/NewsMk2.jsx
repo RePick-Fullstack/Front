@@ -21,7 +21,8 @@ export const NewsMk2 = () => {
     return (
         <div className="min-w-[300px] h-[300px] rounded-[25px] shadow flex flex-col py-3">
                 <p className={"news_title font-bold text-lg p-3 ml-2"}>뉴스</p>
-                <div className={"h-full overflow-y-scroll scrollbar-custom"}>
+                <div className={"h-full overflow-y-scroll scrollbar-custom"}
+                style={{animation: `opacityAnimation 1s ease-out forwards`}}>
                     {news.map((item, index) => (
                         <div className={"hover:bg-gray-200 text-sm font-semibold rounded-xl py-3 px-2 ml-3 flex items-center gap-1"}
                              key={index}>

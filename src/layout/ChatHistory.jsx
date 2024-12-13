@@ -22,9 +22,11 @@ function ChatHistory(){
     }
 
     return(
-        <>
-            <div>
-                <p className={"w-4/5 mb-1 bg-gray-600 text-white rounded-lg text-center ml-5"}>최신 검색 기록</p>
+        <div className={"w-full h-full"}>
+            <div className={"w-full h-full flex flex-col justify-center items-center"}>
+                <p className={"w-36 mb-1 bg-[#303e4f] text-white rounded-lg text-center"}>최신 검색 기록</p>
+                <div className={"w-full h-full scrollbar-custom overflow-y-scroll"}
+                style={{maxHeight:"calc(100% - 28px"}}>
                 {chatBotRooms.length === 0 &&
                     <h2 className={"w-full hover:bg-gray-200 hover:cursor-pointer mb-1"}>채팅 기록이 없습니다.</h2>}
                 {
@@ -32,14 +34,15 @@ function ChatHistory(){
                         return(
                             <h2 key={index}
                                 onClick={() => navigate(`/chatbot/${chatBotRoom.uuid}`)}
-                                className={"w-full hover:bg-gray-200 hover:cursor-pointer mb-1 text-center"}>
+                                className={"w-full hover:bg-gray-200 hover:cursor-pointer mb-1 text-center text-[#303e4f]"}>
                                 {chatBotRoom.title}
                             </h2>
                         )
             })
                 }
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 
