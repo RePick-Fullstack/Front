@@ -1,49 +1,40 @@
-import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import '../css/ChatBot.css';
-import {v4 as uuidv4, validate} from "uuid";
+import {validate} from "uuid";
 
 function ChatBot() {
     const navigate = useNavigate();
     const id = useParams();
-    const location = useLocation();
     const [searchParams] = useSearchParams();
     const type = searchParams.get("type");
     const [inputValue, setInputValue] = useState(searchParams.get("message") || "");
     const [chatHistory, setChatHistory] = useState([]);
-    const [isTyping, setIsTyping] = useState(false);
-    const [enterDelay, setEnterDelay] = useState(false);
-    const [animation, setAnimation] = useState(false);
-    const [chatroomUuid, setChatroomUuid] = useState("");
-    // chatBox DOM을 참조하기 위한 ref 추가
     const chatBoxRef = useRef(null);
+    const [header, setHeader] = useState("");
 
     useEffect(() => {
-        console.log(inputValue);
+        setHeader("")
         setChatHistory([])
-        setChatroomUuid("")
-        setAnimation(true);
-        console.log(id);
         if (validate(id.id)) {
-            setChatroomUuid(id.id);
             !type && handlePullChat(id.id)
             if(searchParams.get("message")) {
                 handleSendRequest()
                 setInputValue("")
             }
-            type && navigate(`/chatbot/${id.id}`)
+            if(type) {
+                HeaddersimulateTypingEffect("번거로운 자료 조사를 간편하게")
+                navigate(`/chatbot/${id.id}`)
+            }
         } else {
             console.error('Invalid UUID format:', id.id);
         }
     }, [id.id]);
 
-
-
     const handlePullChat = async (uuid) => {
         const { data: messages } = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`);
         if(messages.length === 0) {console.log("chat is not found"); return;}
-        console.log(messages);
         const chats = [];
             messages.map(message => {
                 chats.push({type: "user", text: message.request});
@@ -53,22 +44,12 @@ function ChatBot() {
     }
 
     const handleCreateChat = async () => {
-        const uuid = uuidv4().toString();
-        const chatroom = await axios.post("https://repick.site/api/v1/chatbot",{
-                "uuid": `${id.id || uuid}`,
+        await axios.post("https://repick.site/api/v1/chatbot",{
+                "uuid": `${id.id}`,
                 "title": `${inputValue}`
             },
             {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}}).catch((err) => {console.log(err)});
-        console.log(chatroom.data);
-        setChatroomUuid(uuid);
-        return uuid
     }
-
-    useEffect(() => {
-        if (location.state?.chatHistory) {
-            setChatHistory(location.state.chatHistory);
-        }
-    }, [location.state?.chatHistory]);
 
     // 챗봇 응답 요청 및 타이핑 효과 적용
     const addChatEntry = (type, text) => {
@@ -78,7 +59,6 @@ function ChatBot() {
     const simulateTypingEffect = async (text) => {
         const words = text.split(" ");
         let currentText = "";
-        setIsTyping(true);
 
         for (let i = 0; i < words.length; i++) {
             currentText += (i === 0 ? "" : " ") + words[i];
@@ -94,7 +74,6 @@ function ChatBot() {
             await new Promise((resolve) => setTimeout(resolve, 50)); // 타이핑 효과를 위해 지연 시간 설정
         }
 
-        // 타이핑 끝난 후 마지막 "_" 제거
         setChatHistory((prev) => {
             const updatedHistory = [...prev];
             if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
@@ -102,7 +81,18 @@ function ChatBot() {
             }
             return updatedHistory;
         });
-        setIsTyping(false);
+    };
+
+    const HeaddersimulateTypingEffect = async (text) => {
+        const words = Array.from(text);
+        let currentText = "";
+
+        for (let i = 0; i < words.length; i++) {
+            currentText +=  words[i];
+            setHeader(currentText + "_");
+            await new Promise((resolve) => setTimeout(resolve, 150)); // 타이핑 효과를 위해 지연 시간 설정
+        }
+        setHeader( currentText);
     };
 
     const handleSendRequest = async () => {
@@ -138,16 +128,6 @@ function ChatBot() {
         }
     };
 
-    // useEffect(() => {
-    //     if (chatBoxRef.current) {
-    //         // ul 요소의 부모 컨테이너에만 스크롤이 발생하도록 설정
-    //         chatBoxRef.current.scrollIntoView({
-    //             behavior: 'smooth',
-    //             block: 'nearest', // 부모 컨테이너 내부에서만 스크롤
-    //         });
-    //     }
-    // }, [chatHistory]);
-
     useEffect(() => {
         scrollToBottom();
     }, [chatHistory]);
@@ -182,11 +162,11 @@ function ChatBot() {
     };
 
     return (
-        <>
+        <div className={"ml-[50px]"}>
             <div className={"flex flex-row"}>
                 <div className="chatBot-container">
                     <div className="chatBox">
-                        <h1>번거로운 자료 조사를 간편하게</h1>
+                        {chatHistory.length === 0 && <h1>{header}</h1>}
                         {chatHistory.map((message, index) => (
                             <div
                                 key={index}
@@ -198,10 +178,6 @@ function ChatBot() {
                         ))}
                     </div>
                 </div>
-                {/*<div className="reportBox">*/}
-                {/*    <h2>Report Section</h2>*/}
-                {/*    <p>여기에 추가 정보를 표시할 수 있습니다.</p>*/}
-                {/*</div>*/}
             </div>
             <div className={"flex justify-center"}>
                 <div className="inputContainer flex w-full justify-center pb-5">
@@ -216,7 +192,7 @@ function ChatBot() {
                         <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
                              style={{left: 'calc(100% - 30px)'}}
                         >
-                            <button className="inputButton" disabled={enterDelay}>
+                            <button className="inputButton">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                      className="input-svg">
                                     <path
@@ -229,7 +205,7 @@ function ChatBot() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

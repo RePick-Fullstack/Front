@@ -19,7 +19,7 @@ export const News = () => {
     };
 
     return (
-        <div className="newsCrawling">     {/*뉴스 컴포넌트*/}
+        <div className="newsCrawling">
             <div>
                 <p className={"news_title font-bold text-xl p-3 ml-2"}>뉴스</p>
                 {news.map((item, index) => (

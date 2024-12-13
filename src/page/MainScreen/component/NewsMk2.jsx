@@ -19,7 +19,7 @@ export const NewsMk2 = () => {
     };
 
     return (
-        <div className="min-w-[300px] h-[300px] rounded-[25px] shadow flex flex-col py-3">     {/*뉴스 컴포넌트*/}
+        <div className="min-w-[300px] h-[300px] rounded-[25px] shadow flex flex-col py-3">
                 <p className={"news_title font-bold text-lg p-3 ml-2"}>뉴스</p>
                 <div className={"h-full overflow-y-scroll scrollbar-custom"}>
                     {news.map((item, index) => (
