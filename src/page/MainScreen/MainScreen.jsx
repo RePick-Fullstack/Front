@@ -108,7 +108,7 @@ function MainScreen() {
     };
 
     return (
-        <div className={"ml-[10px] h-[100vh]"} style={{maxWidth: `calc(100% - 50px)`}}>
+        <div className={"ml-[10px] h-[94vh]  "} style={{maxWidth: `calc(100% - 50px)`}}>
             <div className="main_container justify-center">
                 <div className="left_container">
                     <div className="report_header">
@@ -174,7 +174,7 @@ function MainScreen() {
                         </div>
                     </div>}
                 </div>
-                {enterDelay || <div className="flex flex-col gap-[5px]">
+                {enterDelay || <div className="flex flex-col gap-[10px]">
                     <NewsMk2/>
                     <MainCommunity/>
                 </div>}
