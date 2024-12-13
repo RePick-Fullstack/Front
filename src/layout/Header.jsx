@@ -105,7 +105,7 @@ function Header() {
     const handleLogout = () => {
         const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
-             usersApi.get('/users/logout', {
+            usersApi.get('/users/logout', {
                 headers: {Authorization: `Bearer ${refreshToken}`},
             })
         }
@@ -153,17 +153,19 @@ function Header() {
                     <div className="auth-buttons">
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
+                                <button className={"bg-white mt-2"} onClick={handleLogout}>로그아웃</button>
                                 <button onClick={() => navigate('/tosspayment')}>결제하기</button>
-                                <button onClick={handleTokenRefresh}>토큰연장</button>
                                 {/* 토큰 연장 버튼 */}
                                 <div className="user-greeting">안녕하세요, {userName}님!</div>
                                 <div className="token-timer">
-                                    로그인 남은 시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                                    로그인 남은
+                                    시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                 </div>
+                                <button className="token-extend" onClick={handleTokenRefresh}>토큰연장</button>
                             </>
                         ) : (
                             <>
-                                {!localStorage.getItem("accessToken") ? (<>
+                            {!localStorage.getItem("accessToken") ? (<>
                                     <button className={"bg-white w-[55px]"}
                                             onClick={() => setModalState({signIn: true, signUp: false})}>로그인
                                     </button>
@@ -172,7 +174,7 @@ function Header() {
                                     </button>
 
                                 </>) : (<>
-                                    <button className={"bg-white w-[225px] mt-5"} onClick={handleLogout}>로그아웃</button>
+
                                 </>)}
                             </>
                         )}
