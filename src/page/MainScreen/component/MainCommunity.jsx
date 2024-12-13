@@ -34,9 +34,9 @@ export const MainCommunity = () => {
     }
 
     return (
-        <div className="w-[300px] min-h-[221px] bg-white rounded-[25px] shadow">
+        <div className="w-[300px] min-h-[221px] bg-white rounded-[25px] shadow flex flex-col py-3">
             <div className="flex justify-between items-center px-3">
-                <p className={"news_title font-bold text-lg py-3 ml-2"}>커뮤니티</p>
+                <p className={"news_title font-bold text-lg pb-3 ml-2"}>커뮤니티</p>
                 <div className={"flex text-sm gap-2"}>
                     <button onClick={() => {
                         console.log("조회순 누름")
@@ -48,7 +48,7 @@ export const MainCommunity = () => {
                     </button>
                 </div>
             </div>
-            <div className="h-full overflow-y-scroll scrollbar-custom">
+            <div className="overflow-y-scroll scrollbar-custom pb-2">
                 {community.map((item, index) => {
                     return (
                         <div
