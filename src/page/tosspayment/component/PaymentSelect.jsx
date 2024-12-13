@@ -1,3 +1,6 @@
+import appLogo from "../../../assets/appLogo.svg"
+import tosslogo from "../../../assets/TossPayments_Logo_Simple_Primary.png"
+
 export const PaymentSelect = ({setIsPaySelected}) => {
     return (
         <div className="flex items-center justify-center h-full gap-5 flex-wrap">
@@ -8,9 +11,9 @@ export const PaymentSelect = ({setIsPaySelected}) => {
             <div
                 className="rounded-[25px] w-[800px] h-[278px] shadow flex p-5 justify-around items-center text-2xl font-bold ">
                 <div className="w-64 flex flex-col items-center justify-center">
-                        <img  className={"w-36 h-36 cursor-pointer"} src={"src/assets/appLogo.svg"}
+                        <img  className={"w-36 h-36 cursor-pointer"} src={appLogo}
                         onClick={() => setIsPaySelected(1)}
-                        ></img>
+                         alt={'applogo'}></img>
                     <div className={"h-12 flex justify-center items-center"}>PlantiPay</div>
                 </div>
                 <div>
@@ -18,7 +21,7 @@ export const PaymentSelect = ({setIsPaySelected}) => {
                         className={"rounded-[25px] shadow w-64 h-36 flex flex-col border-black justify-center items-center cursor-pointer gap-5"}
                         onClick={() => setIsPaySelected(2)}
                 >
-                        <img src={"src/assets/TossPayments_Logo_Simple_Primary.png"}></img>
+                        <img src={tosslogo} alt={"토스로고"}></img>
 
                     </button>
                     <div className={"h-12 flex justify-center items-center"}>토스페이먼츠</div>
