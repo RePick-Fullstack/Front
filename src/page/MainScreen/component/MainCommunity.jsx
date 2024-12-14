@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 export const MainCommunity = () => {
     const [community, setCommunity] = useState([]);
     const navigate = useNavigate();
+    const [view, setView] = useState(false);
 
     useEffect(() => {
         handleCommunity()
@@ -34,18 +35,14 @@ export const MainCommunity = () => {
     }
 
     return (
-        <div className="w-[10wv] min-h-[221px] h-[33svh] bg-[#fff] rounded-[20px] border-[3px] border-solid border-[#f5f5f5] shadow-[2px_2px_2px_2px_#f5f5f5] flex flex-col py-3">
+        <div
+            className="w-[10wv] min-h-[221px] h-[33svh] bg-[#fff] rounded-[20px] border-[3px] border-solid border-[#f5f5f5] shadow-[2px_2px_2px_2px_#f5f5f5] flex flex-col py-3">
             <div className="flex justify-between items-center px-3">
                 <p className={"news_title font-b text-[18px] py-2 ml-2"}>인기 급상승 게시글</p>
                 <div className={"flex text-[11px] gap-2"}>
-                    <button onClick={() => {
-                        console.log("조회순 누름")
-                    }}>조회순
-                    </button>
-                    <button onClick={() => {
-                        console.log("추천순 누름")
-                    }}>추천순
-                    </button>
+                    <ul onClick={()=> setView(!view)}>
+                        {view && <Dropdown/>}
+                    </ul>
                 </div>
             </div>
             <div className="overflow-y-scroll scrollbar-custom pb-2 "
@@ -57,10 +54,12 @@ export const MainCommunity = () => {
                             key={index}>
                             <p
                                 className={"w-[170px] text-[13px]"}
-                                onClick={() => {navigate(`/posts/${item.id}`)}}
+                                onClick={() => {
+                                    navigate(`/posts/${item.id}`)
+                                }}
                                 target="_blank"
                                 rel="noopener noreferrer">
-                                {index + 1 +  " "}{item.title}
+                                {index + 1 + " "}{item.title}
                             </p>
                             <div className={"flex justify-between text-[11px] items-center gap-1"}>
                                 <p>조회수 : </p>
@@ -71,5 +70,14 @@ export const MainCommunity = () => {
                 })}
             </div>
         </div>
+    )
+}
+
+function Dropdown() {
+    return (
+        <>
+            <li>조회순</li>
+            <li>인기순</li>
+        </>
     )
 }
