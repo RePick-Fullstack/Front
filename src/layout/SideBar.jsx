@@ -83,8 +83,6 @@ function SideBar() {
                                 </>) : (<>
                                     <button className={"bg-white w-[225px] mt-5 text-black"} onClick={handleLogout}>로그아웃</button>
                                 </>)}
-
-
                         </>) : (<>
                             <span className={"cursor-pointer hover:underline"} onClick={() => { //사이드바 닫혔을때
                                 navigate("/ReportPage")

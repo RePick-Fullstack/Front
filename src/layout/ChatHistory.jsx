@@ -16,9 +16,13 @@ function ChatHistory(){
             headers: {
                 Authorization: `Bearer ${token}`
             }
+            ,params: {
+                page: 0,
+                size: 10
+            }
         })
         console.log(chatBotRooms);
-        setChatBotRooms(chatBotRooms);
+        setChatBotRooms(chatBotRooms.content);
     }
 
     return(
