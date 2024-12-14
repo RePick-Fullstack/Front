@@ -24,11 +24,11 @@ function ChatHistory(){
     return(
         <div className={"w-full h-full"}>
             <div className={"w-full h-full flex flex-col justify-center items-center"}>
-                <p className={"w-36 mb-1 bg-[#303e4f] text-white rounded-lg text-center"}>최신 검색 기록</p>
+                <p className={"w-36 mb-1 bg-[#303e4f] text-white rounded-lg text-center"}>최근 검색 기록</p>
                 <div className={"w-full h-full scrollbar-custom overflow-y-scroll"}
                 style={{maxHeight:"calc(100% - 28px"}}>
                 {chatBotRooms.length === 0 &&
-                    <h2 className={"w-full hover:bg-gray-200 hover:cursor-pointer mb-1"}>채팅 기록이 없습니다.</h2>}
+                    <h2 className={"w-full text-center hover:bg-gray-200 hover:cursor-pointer mb-1"}>채팅 기록이 없습니다.</h2>}
                 {
                     chatBotRooms.map((chatBotRoom, index)=>{
                         return(
