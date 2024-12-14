@@ -1,12 +1,12 @@
 export const OrderSelect = ({handleIsSelected}) => {
     return (
-        <div className="flex items-center justify-center h-full gap-5 flex-wrap">
+        <div className="flex flex-col items-center justify-center h-full gap-5 w-full">
             <div
-                className="rounded-[25px] w-[800px] h-20 shadow text-[30px] font-bold flex items-center justify-center">
+                className="rounded-[25px] w-[800px] h-20 shadow-[2px_2px_2px_2px_#f5f5f5] text-[30px] font-bold flex items-center justify-center">
                 상품 선택
             </div>
             <div
-                className="rounded-[25px] w-[800px] h-[278px] shadow flex p-5 justify-around items-center text-2xl font-bold text-white">
+                className="rounded-[25px] w-[800px] h-[278px] shadow-[2px_2px_2px_2px_#f5f5f5] flex p-5 justify-around items-center text-2xl font-bold text-white">
                 <button
                     className={"rounded-[25px] bg-[#303e4f] w-64 h-48 " +
                         "flex flex-col justify-center items-center " +

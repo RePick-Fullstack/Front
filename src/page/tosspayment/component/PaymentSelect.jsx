@@ -3,13 +3,13 @@ import tosslogo from "../../../assets/TossPayments_Logo_Simple_Primary.png"
 
 export const PaymentSelect = ({setIsPaySelected}) => {
     return (
-        <div className="flex items-center justify-center h-full gap-5 flex-wrap">
+        <div className="flex flex-col items-center justify-center h-full gap-5 w-full">
             <div
-                className="rounded-[25px] w-[800px] h-20 shadow text-[30px] font-bold flex items-center justify-center">
+                className="rounded-[25px] w-[800px] h-20 shadow-[2px_2px_2px_2px_#f5f5f5] text-[30px] font-bold flex items-center justify-center">
                 결재 수단 선택
             </div>
             <div
-                className="rounded-[25px] w-[800px] h-[278px] shadow flex p-5 justify-around items-center text-2xl font-bold ">
+                className="rounded-[25px] w-[800px] h-[278px] shadow-[2px_2px_2px_2px_#f5f5f5] flex p-5 justify-around items-center text-2xl font-bold ">
                 <div className="w-64 flex flex-col items-center justify-center">
                         <img  className={"w-36 h-36 cursor-pointer"} src={appLogo}
                         onClick={() => setIsPaySelected(1)}
