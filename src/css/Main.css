@@ -54,7 +54,7 @@
     font-weight: 800;
 }
 .report_scroll{
-    max-height: calc(50vh - 200px); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    max-height: calc(50vh - 29vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
     overflow-y: auto; /* 스크롤 활성화 */
     scrollbar-width: none;
     padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
@@ -67,6 +67,7 @@
     border-radius: 15px;
     border: 3px solid whitesmoke;
     box-shadow: 2px 2px 2px 2px whitesmoke;
+    overflow: hidden;
 }
 .industryReport p {
     margin: 0; /* 불필요한 여백 제거 */
@@ -74,10 +75,10 @@
     font-weight: 800;
 }
 .industry_scroll{
-    max-height: calc(50vh - 200px); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
-    padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
-    overflow: auto;
+    max-height: calc(50vh - 29vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    overflow-y: auto;
     scrollbar-width: none;
+    padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
 }
 
 .news_title{

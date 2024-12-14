@@ -35,7 +35,7 @@ function ReportPage() {
                 </div>
                 <div className={"selected_report"}>
                     <div className="select_report_kind hover:cursor-pointer items-center">
-                        <div tabIndex="0" className={" w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.05)] text-center rounded-xl flex items-center justify-center"}>
+                        <div tabIndex="0" className={" w-[190px] h-[52px] focus:bg-[rgba(30,25,50,0.12)] text-center rounded-xl flex items-center justify-center"}>
                             <p>종목분석 레포트</p></div>
                         <div tabIndex="0" className={"px-18 py12 w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.05)] text-center rounded-xl flex items-center justify-center"}><p>산업분석 레포트</p></div>
                     </div>

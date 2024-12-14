@@ -95,7 +95,7 @@ export const DefaultInfo = () => {
                 <div>
                     <button
                         onClick={handleEditClick}
-                        className="border px-3 py-2 rounded bg-gray-200 ml-3"
+                        className="border px-3 text-white py-2 rounded bg-gray-500 ml-3"
                     >
                         수정
                     </button>
@@ -103,7 +103,7 @@ export const DefaultInfo = () => {
                 <div>
                     <button
                         onClick={handleDeleteAccount}
-                        className="bg-red-500 text-white px-3 py-2 rounded ml-3"
+                        className="bg-[#2c3e50] text-white px-3 py-2 rounded ml-3"
                     >
                         회원 탈퇴
                     </button>

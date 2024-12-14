@@ -116,7 +116,7 @@ function MainScreen() {
                             <p className={"font-bold text-xl pl-5 p-3"}>종목분석 레포트</p>
                             <ul className={"font-extrabold"}>
                                 <hr className={"border-whitesmoke border-[0.5px]"}/>
-                                <li className={"grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 font-black text-[13px] gap-4 px-4 py-2"}>
+                                <li className={"grid grid-cols-4 font-black text-[13px] gap-4 px-4 py-2"}>
                                     <span className="text-left ml-6">기업</span>
                                     <span className="text-left">제목</span>
                                     <span className="text-center ml-3">증권사</span>
@@ -128,7 +128,7 @@ function MainScreen() {
                                 <ul> {/*     종목분석 레포트     */}
                                     {reports.map((report, index) =>
                                         <li key={index}>
-                                            <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-4 px-4 py-2"}>
+                                            <div className={"report_data grid grid-cols-4 gap-4 px-4 py-2"}>
                                             <span
                                                 className={"text-left ml-4"}>{`${report.company_name}`}</span>
                                                 <span>{report.report_title}</span>
