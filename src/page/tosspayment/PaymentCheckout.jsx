@@ -180,13 +180,13 @@ export function PaymentCheckoutPage() {
         <div className="flex px-2 w-full">
           {!isSelected && <OrderSelect handleIsSelected={handleIsSelected}/>}
           {isSelected && isPaySelected === 0 && <PaymentSelect setIsPaySelected={setIsPaySelected}/>}
-          {isSelected && isPaySelected &&
-              <div className="flex items-center justify-center h-full gap-5 flex-wrap">
+          {isSelected && isPaySelected !== 0 &&
+              <div className="flex items-center justify-center h-full gap-5 flex-col w-full">
                   <div
-                      className="rounded-[25px] w-[800px] h-20 shadow text-[30px] font-bold flex items-center justify-center">
+                      className="rounded-[25px] w-[800px] h-20 shadow-[2px_2px_2px_2px_#f5f5f5] text-[30px] font-bold flex items-center justify-center">
                     토스페이먼츠 일반결재
                   </div>
-                <div className="rounded-[25px] w-[800px] h-[278px] gap-5 shadow p-5 text-2xl font-bold flex flex-col justify-center items-center">
+                <div className="rounded-[25px] w-[800px] h-[278px] gap-5 shadow-[2px_2px_2px_2px_#f5f5f5] p-5 text-2xl font-bold flex flex-col justify-center items-center">
                   <div className="w-full px-10">
                     <div className="flex justify-between text-[17px] w-full">
                       <strong>상품명 :</strong><p> {` 리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`}</p>

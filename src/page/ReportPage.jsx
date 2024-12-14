@@ -11,20 +11,24 @@ function ReportPage() {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const handleReports = async () => {
-        const {data: {content: getReports}} = await eksApi.get("/reports/company", {
-            params: {
-                page: 1,
-                size: 10
-            }
-        }).catch(err => console.log(err));
-        console.log(getReports);
+    const handleCompanyReports = async () => {
+        setLoading(true);
+        const {data: {content: getReports}} = await eksApi.get("/reports/company",
+            {params: {page: 0, size: 10}}).catch(err => console.log(err));
+        setReports(getReports);
+        setLoading(false);
+    };
+
+    const handleIndustryReports = async () => {
+        setLoading(true);
+        const {data: {content: getReports}} = await eksApi.get("/reports/industry",
+            {params: {page: 0, size: 10}}).catch(err => console.log(err));
         setReports(getReports);
         setLoading(false);
     };
 
     useEffect(() => {
-        handleReports()
+        handleCompanyReports()
     }, []);
 
     return (
@@ -35,9 +39,18 @@ function ReportPage() {
                 </div>
                 <div className={"selected_report"}>
                     <div className="select_report_kind hover:cursor-pointer items-center">
-                        <div tabIndex="0" className={" w-[190px] h-[52px] focus:bg-[rgba(30,25,50,0.12)] text-center rounded-xl flex items-center justify-center"}>
-                            <p>종목분석 레포트</p></div>
-                        <div tabIndex="0" className={"px-18 py12 w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.05)] text-center rounded-xl flex items-center justify-center"}><p>산업분석 레포트</p></div>
+                        <div tabIndex="0"
+                             className={" w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.05)] text-center rounded-xl flex items-center justify-center"}
+                            onClick={handleCompanyReports}
+                        >
+                            <p>종목분석 레포트</p>
+                        </div>
+                        <div tabIndex="0"
+                             className={"px-18 py12 w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.05)] text-center rounded-xl flex items-center justify-center"}
+                             onClick={handleIndustryReports}
+                        >
+                            <p>산업분석 레포트</p>
+                        </div>
                     </div>
                     <div className="right_report_container">
                         <ul className={"font-black"}>
@@ -46,7 +59,7 @@ function ReportPage() {
                                 <span className="text-left">발행 일자</span>
                                 <span className="text-right">다운로드</span>
                             </li>
-                            {reports.map((report, index) =>
+                            {!loading && reports.map((report, index) =>
                                     <li key={index}>
                                         <div
                                             className={"grid grid-cols-[5fr_4fr_1fr] px-4 py-2 border-t border-gray-300"}>
