@@ -100,7 +100,7 @@ function MainSignIn({setIsSignInOpen, setIsLoggedIn, setUserName}) {
                     />
                 </div>
                 {errorMessage && (
-                    <div className="error-message" style={{color: 'red', marginBottom: '10px'}}>
+                    <div className="error-message">
                         {errorMessage}
                     </div>
                 )}

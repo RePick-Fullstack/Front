@@ -85,6 +85,11 @@
     margin-bottom: 5px;
 }
 
+.error-message {
+    color: red;
+    marginBottom: '10px';
+}
+
 .gender-button {
     flex: 1;
     background-color: white;
