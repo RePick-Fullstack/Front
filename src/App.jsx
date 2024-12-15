@@ -25,7 +25,7 @@ function App() {
 
     return (
         <RecoilRoot>
-            <div className="App w-full">
+            <div className="App w-full h-full">
                 {<Header />}
                 {<SideBar />}
 

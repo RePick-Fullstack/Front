@@ -7,7 +7,7 @@
 .report_container{
     display: flex;
     flex-direction: column;
-    padding: 40px 20px;
+    padding: 35px 20px;
     margin: 0 80px 0 90px;
     gap:40px;
 }

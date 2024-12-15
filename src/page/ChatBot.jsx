@@ -13,6 +13,7 @@ function ChatBot() {
     const [chatHistory, setChatHistory] = useState([]);
     const chatBoxRef = useRef(null);
     const [header, setHeader] = useState("");
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         if(localStorage.getItem("accessToken") === null){
@@ -23,6 +24,7 @@ function ChatBot() {
         setHeader("")
         setChatHistory([])
         if (validate(id.id)) {
+            setIsError(false);
             !type && handlePullChat(id.id)
             if(searchParams.get("message")) {
                 handleSendRequest()
@@ -34,6 +36,8 @@ function ChatBot() {
             }
         } else {
             console.error('Invalid UUID format:', id.id);
+            HeaddersimulateTypingEffect("없는 채팅방입니다. 다시 입장하여 주시기 바랍니다.")
+            setIsError(true);
         }
     }, [id.id]);
 
@@ -136,54 +140,31 @@ function ChatBot() {
     };
 
     useEffect(() => {
-        scrollToBottom();
-    }, [chatHistory]);
-
-    // MutationObserver를 사용하여 chatBox의 자식 변화 감지
-    useEffect(() => {
-        const chatBoxElement = chatBoxRef.current;
-
-        if (chatBoxElement) {
-            const observer = new MutationObserver(() => {
-                scrollToBottom(); // 자식 요소가 변할 때마다 스크롤을 아래로 내림
-            });
-
-            // chatBox의 자식 요소 변화(자식 추가)를 감지하도록 설정
-            observer.observe(chatBoxElement, {
-                childList: true,
-                subtree: true,
-            });
-
-            // 컴포넌트가 unmount 될 때 observer를 해제
-            return () => {
-                observer.disconnect();
-            };
-        }
-    }, []);
-
-    // 스크롤을 맨 아래로 내리는 함수
-    const scrollToBottom = () => {
+        // chatHistory가 변경될 때마다 스크롤을 최하단으로 설정
         if (chatBoxRef.current) {
             chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
         }
-    };
+    }, [chatHistory]);
 
     return (
-        <div className={"ml-[50px]"}>
-            <div className={"flex flex-row"}>
-                <div className="chatBot-container">
-                    <div className="chatBox">
+        <div className={"ml-[50px] h-full"}
+             style={{maxHeight:` calc(100% - 55px)`}}>
+            <div className={"flex flex-row h-full"}
+                 style={{maxHeight:` calc(100% - 80px)`}}>
+                <div ref={chatBoxRef}
+                    className="chatBot-container w-full flex justify-center h-full overflow-y-scroll scrollbar-custom">
+                    <ul className="chatBox w-full">
                         {chatHistory.length === 0 && <h1>{header}</h1>}
                         {chatHistory.map((message, index) => (
-                            <div
+                            <li
                                 key={index}
-                                className={`slide-up text-[18px] mt-[15px] ${message.type === "user" ? "font-bold text-center" : ""}`}
+                                className={`slide-up text-[18px] mt-[15px] w-full ${message.type === "user" ? "font-bold text-center" : ""}`}
                             >
                                 <span>{message.text}</span>
-                                {message.type === "user" && <hr className="mt-[15px]" />}
-                            </div>
+                                {message.type === "user" && <hr className="mt-[15px]"/>}
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 </div>
             </div>
             <div className={"flex justify-center"}>
@@ -195,6 +176,7 @@ function ChatBot() {
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyPress={handleEnterKey}
+                            disabled={isError}
                         />
                         <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
                              style={{left: 'calc(100% - 30px)'}}

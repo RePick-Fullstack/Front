@@ -108,7 +108,8 @@ function MainScreen() {
     };
 
     return (
-        <div className={"ml-[10px] h-[94vh]  "} style={{maxWidth: `calc(100% - 50px)`}}>
+        <div className={"ml-[50px] h-full w-full"}
+             style={{maxHeight: `calc(100% - 135px)`, maxWidth: `calc(100% - 50px)`}}>
             <div className="main_container justify-center">
                 <div className="left_container">
                     <div className="report_header">

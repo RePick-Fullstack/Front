@@ -5,11 +5,8 @@
     font-style: normal;
 }
 .chatBot-container {
-    width: auto;
-    margin: auto;
     padding: 20px;
     height: auto;
-    min-height: 500px;
     display: flex;
     flex-direction: row;
 }
