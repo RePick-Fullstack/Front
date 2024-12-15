@@ -47,7 +47,7 @@ export const MainCommunity = () => {
             <div className="flex justify-between items-center px-3">
                 <p className={"news_title font-b text-[18px] py-2 ml-2"}>인기 급상승 게시글</p>
                 <div className={"flex text-[11px] gap-2 mb-2 hover:cursor-pointer border-solid border rounded-lg"}>
-                    <ul onClick={()=> setView(!view)}>
+                    <ul className={"caret-transparent"} onClick={()=> setView(!view)}>
                         {view ? '' : `${selected} ▼`}
                         {view && <Dropdown onSelect = {handleSelect}/>}
                     </ul>
@@ -83,7 +83,7 @@ export const MainCommunity = () => {
 
 function Dropdown( { onSelect }) {
     return (
-        <div className={"border-solid border rounded-lg"}>
+        <div className={"border-solid border rounded-lg "}>
             <li onClick={() => onSelect("조회순")}>조회순 ▲</li>
             <li onClick={() => onSelect("인기순")}>인기순</li>
         </div>
