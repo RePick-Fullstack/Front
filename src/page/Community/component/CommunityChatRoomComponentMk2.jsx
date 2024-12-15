@@ -126,14 +126,14 @@ export const CommunityChatRoomComponentMk2 = () => {
                         </div>
                     </div>
                     {!isJoin ? <div
-                            className="w-[108px] h-[30px] bg-[#303e4f] rounded-[7px] text-white text-[15px] flex items-center justify-center"
+                            className="w-[108px] h-[30px] bg-[#303e4f] rounded-[7px] text-white text-[15px] flex items-center justify-center hover:cursor-pointer"
                             onClick={() => {
                                 connectWebSocket()
                             }}>
                             채팅방 입장
                         </div> :
                         <div
-                            className="w-[108px] h-[30px] bg-[#303e4f] rounded-[7px] text-white text-[15px] flex items-center justify-center"
+                            className="w-[108px] h-[30px] bg-[#303e4f] rounded-[7px] text-white text-[15px] flex items-center justify-center hover:cursor-pointer"
                             onClick={() => {
                                 setIsJoin(false)
                                 setLoading(false)
