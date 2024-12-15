@@ -9,6 +9,7 @@ export const MainCommunity = () => {
     const navigate = useNavigate();
     const [view, setView] = useState(false);
     const [selected, setSelected] = useState("조회순");
+    const [viewOrLike, setViewOrLike] = useState("조회순");
 
     useEffect(() => {
         handleCommunity()
@@ -62,7 +63,7 @@ export const MainCommunity = () => {
                 <div className={"flex text-[11px] gap-2 mb-2 hover:cursor-pointer border-solid border rounded-lg"}>
                     <ul className={"caret-transparent"} onClick={()=> setView(!view)}>
                         {view ? '' : `${selected} ▼`}
-                        {view && <Dropdown onSelect = {handleSelect}/>}
+                        {view && <Dropdown onSelect = {handleSelect} setViewOrLike={setViewOrLike}/>}
                     </ul>
                 </div>
             </div>
@@ -83,8 +84,8 @@ export const MainCommunity = () => {
                                 {index + 1 + " "}{item.title}
                             </p>
                             <div className={"flex justify-between text-[11px] items-center gap-1"}>
-                                <p>조회수 : </p>
-                                <p className={"w-10 text-center"}>{item.viewCount}</p>
+                                <p>{viewOrLike === "조회순" ? "조회순": "인기순"} </p>
+                                <p className={"w-10 text-center"}>{viewOrLike === "조회순" ?  item.viewCount : item.likesCount}</p>
                             </div>
                         </div>
                     )
@@ -94,11 +95,19 @@ export const MainCommunity = () => {
     )
 }
 
-function Dropdown( { onSelect }) {
+function Dropdown( { onSelect, setViewOrLike }) {
+    const handleDropdownView  = ()=>{
+        onSelect("조회순");
+        setViewOrLike("조회순");
+    }
+    const handleDropdownLike  = ()=>{
+        onSelect("인기순");
+        setViewOrLike("인기순");
+    }
     return (
         <div className={"border-solid border rounded-lg "}>
-            <li onClick={() => onSelect("조회순")}>조회순 ▲</li>
-            <li onClick={() => onSelect("인기순")}>인기순</li>
+            <li onClick={() => handleDropdownView()}>조회순 ▲</li>
+            <li onClick={() => handleDropdownLike()}>인기순</li>
         </div>
     );
 }
