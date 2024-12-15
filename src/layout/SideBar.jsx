@@ -64,7 +64,7 @@ function SideBar() {
                 {menuOpen ? (<>
                     <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
                         onClick={() => {
-                            handleNavigation(`/ChatBot/${uuidv4().toString()}?type=new`)
+                            handleNavigation(`/chatbot/${uuidv4().toString()}?type=new`)
                         }}>새 질문</h4>
                     <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
                         onClick={() => { //사이드바 열렸을때
@@ -86,7 +86,7 @@ function SideBar() {
                     </>)}
                 </>) : (<>
                         <span className={"cursor-pointer"} onClick={() => { //챗봇 페이지
-                            navigate("/chatbot")
+                            navigate(`/chatbot/${uuidv4().toString()}?type=new`)
                         }}>
                             <img src={ChatBot} alt="ChatBot Logo"/> 
                         </span>
