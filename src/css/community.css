@@ -28,8 +28,8 @@
     width: 32vw;
     background-color: #fff;
     border-radius: 15px;
-    border: 3px solid whitesmoke;
-    box-shadow: 2px 2px 2px 2px whitesmoke;
+    border: 3px solid #f2f4f5;
+    box-shadow: 2px 2px 2px 2px #f2f4f5;
     overflow: hidden;
 }
 .hotPost{

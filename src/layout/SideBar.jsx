@@ -49,7 +49,7 @@ function SideBar() {
                         {menuOpen ? "" : <img src={SideBarOpen} alt="SideBar Logo"/>}
                     </button>
                 </div>)}
-                <div className={"flex justify-between items-center mb-9 w-3/4 ml-1"}>
+                <div className={"flex justify-between items-center mb-9 w-3/4 ml-2.5"}>
                     <button onClick={() => {  //홈 버튼
                         navigate('/');
                         setMenuOpen(false);

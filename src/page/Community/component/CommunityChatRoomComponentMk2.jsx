@@ -118,7 +118,7 @@ export const CommunityChatRoomComponentMk2 = () => {
                 <div className="w-[375px] h-[46px] border-y-2 border-[#f7f7f9] flex items-center justify-between">
                     <div className="flex">
                         <div
-                            className="w-[125px] h-6 text-[#303e4f]  font-bold flex items-center justify-center">2차전지
+                            className="w-[125px] h-6 text-[#303e4f] text-[16px] font-bold flex items-center justify-center">2차전지
                             손해방
                         </div>
                         <div

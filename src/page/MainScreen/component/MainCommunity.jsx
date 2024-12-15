@@ -38,7 +38,20 @@ export const MainCommunity = () => {
     const handleSelect = (value) => {
         setSelected(value);
         setView(false);
-    }
+        sortCommunity(value);
+    };
+
+    const sortCommunity = (sortBy) => {
+        const sorted = [...community].sort((a, b) => {
+            if (sortBy === '조회순') {
+                return b.viewCount - a.viewCount; // 조회수 내림차순
+            } else if (sortBy === '인기순') {
+                return b.likes - a.likes; // 좋아요 내림차순
+            }
+            return 0;
+        });
+        setCommunity(sorted);
+    };
 
 
     return (
