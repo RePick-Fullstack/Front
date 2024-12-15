@@ -1,0 +1,134 @@
+services:
+  community:
+    image: jogyoungjun/community:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:mysql://community_mysql:3306/repick-community?serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_DATA_REDIS_HOST: community_redis
+      SPRING_DATA_REDIS_PORT: 6379
+    ports:
+      - "9000:9000"
+    depends_on:
+      community_mysql:
+        condition: service_healthy
+    networks:
+      - rePick
+
+  community_mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: repick-community
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3309:3306"
+    networks:
+      - rePick
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "--silent" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  community_redis:
+    image: redis:latest
+    container_name: community-redis
+    ports:
+      - "6381:6379"
+    networks:
+      - rePick
+
+  comment_redis:
+    image: redis:latest
+    container_name: comment-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - rePick
+  comment:
+    image: jogyoungjun/comment:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:mysql://comment_mysql:3306/repick-comment?serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_DATA_REDIS_HOST: comment_redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SERVER_PORT: 9001
+    ports:
+      - "9001:9001"
+    depends_on:
+      comment_mysql:
+        condition: service_healthy
+    networks:
+      - rePick
+
+  comment_mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: repick-comment
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3311:3306"
+    networks:
+      - rePick
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "--silent" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  user:
+    image: jogyoungjun/user:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:mysql://user_mysql:3306/user?serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_PASSWORD: root_password
+    ports:
+      - "8080:8080"
+    depends_on:
+      user_mysql:
+        condition: service_healthy
+    networks:
+      - rePick
+
+  user_mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: user
+    ports:
+      - "3307:3306"
+    networks:
+      - rePick
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "--silent" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  main_kafka:
+    image: apache/kafka:3.7.1
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+
+networks:
+  rePick:

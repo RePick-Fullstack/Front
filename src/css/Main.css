@@ -1,58 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
 
-.container{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap : 20px;
-    width: 100%;
-    padding : 20px;
+.main_container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
     box-sizing: border-box;
     text-align: left;
+    height: 80vh;
+    position: relative;
+    animation: slideAnimation 1s ease-out forwards;
 }
-.hotReport {
-    width: 400px;      /* 박스의 너비 */
-    height: 400px;     /* 박스의 높이 */
-    border: 1px solid black;  /* 1px 두께의 검정색 테두리 */
-    padding: 15px;     /* 박스 내부 여백 */
+
+
+.report_data{
+    animation: opacityAnimation 1s ease-out forwards;
+    font-size: 12px;
+    margin-left: 8px;
 }
-.newsCrawling,
-.community{
-    width: 100%;
-    padding: 15px;
-    border: 1px solid black;
-}
-.community{
-    height: 175px;
-}
-.newsCrawling{
-    height: 175px;
-}
-/* newsCrawling과 community를 세로로 배치 */
-.right-column {
+
+.left_container {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* 위아래 간격 */
 }
+
+.hotReport {
+    width: 48vw; /* 박스의 너비 */
+    height: 33vh;
+    background-color: #fff;
+    border-radius: 15px;
+    border: 3px solid whitesmoke;
+    box-shadow: 2px 2px 2px 2px whitesmoke;
+    overflow: hidden;
+}
+
+.report_header {
+    display: flex;
+    flex-direction: column; /* 위아래로 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+}
+
+.report_header p {
+    margin: 0; /* 불필요한 여백 제거 */
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+}
+.report_scroll{
+    max-height: calc(50vh - 29vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    overflow-y: auto; /* 스크롤 활성화 */
+    scrollbar-width: none;
+    padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
+}
+.industryReport{
+    width: 48vw; /* 박스의 너비 */
+    height: 33vh;
+    margin-top: 10px;
+    background-color: #fff;
+    border-radius: 15px;
+    border: 3px solid whitesmoke;
+    box-shadow: 2px 2px 2px 2px whitesmoke;
+    overflow: hidden;
+}
+.industryReport p {
+    margin: 0; /* 불필요한 여백 제거 */
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+}
+.industry_scroll{
+    max-height: calc(50vh - 29vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
+}
+
+.news_title{
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+}
+
+.communityOrder{
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+}
+
+
 .inputContainer {
     position: relative; /* 버튼 위치 조정을 위해 relative로 설정 */
-    width: 100%; /* 부모 div가 가진 너비를 사용 */
+    margin-top: 15px;
 }
-.chatInput{
-    height: 35px;
-    width: 80%;
+
+.chatInput {
+    height: 45px;
+    width: 100vw;
     text-align: center;
-    padding-right: 40px;
+    border: 2.5px solid #2c3e50;
 }
-.input-svg{
-    height: 15px;
-    width: 15px;
+.chatInput:focus{
+    box-shadow: 4px 4px 4px 4px whitesmoke;
+    border: 2.5px solid #2c3e50;
+    outline: none;
 }
-.inputButton{
-    position: absolute; /* 부모 div 내에서 절대 위치 설정 */
-    right: 40px; /* 오른쪽 여백 설정 */
-    top: 50%; /* 세로 중앙에 배치 */
-    transform: translateY(-50%); /* 버튼을 정확히 중앙에 배치 */
+
+.inputButton {
     background: none; /* 버튼의 배경색 제거 */
-    border: none; /* 버튼 테두리 제거 */
     cursor: pointer; /* 클릭할 때 포인터 커서로 변경 */
-    padding: 5px; /* 버튼 내부 여백을 약간 추가 */
 }

@@ -1,22 +1,36 @@
-nav{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+nav {
     position: fixed;
     top: 0;
     left: 0;
     width: 50px;
     height: 100%;
-    background-color: #808080;
+    background-color: #2c3e50;
     display: flex;
     flex-direction: column;
     align-items: center;
     transition: 0.2s ease;
-    button:focus{ outline: 0;}
+
+    button:focus {
+        outline: 0;
+    }
+
+    z-index: 10;
 }
-nav.active{
-    transform : translateX(0);
-    width: 250px;
-    button:focus{ outline: 0;}
+
+nav.active {
+    transform: translateX(0);
+    width: 300px;
+
+    button:focus {
+        outline: 0;
+    }
 }
-nav a{
+
+nav a {
     display: flex;
     align-items: center;
     height: 100%;
@@ -25,11 +39,13 @@ nav a{
     padding: 0 .4em;
     font-size: 1.5em;
 }
-nav > div{
-    margin-top : 30px;
+
+nav > div {
+    margin-top: 30px;
     font-size: 10px;
 }
-nav button{
+
+nav button {
     background-color: transparent;
     border: none;
 }

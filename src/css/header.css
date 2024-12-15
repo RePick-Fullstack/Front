@@ -1,32 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .header {
-    top: 0;
-    position: fixed;
-    right: 0;
-    background-color: white; /* 배경 색상 흰색 */
     padding: 10px 20px;
     display: flex;
     justify-content: space-between; /* 양옆에 공간을 두기 */
     align-items: center;
 
 }
-.modal-content{
+
+.modal-content {
     font-size: 15px;
 }
 
 .auth-buttons button {
     margin-left: 10px;
     padding: 5px 10px;
-    font-size: 1em;
-    background-color: #808081;
+    font-size: 0.7em;
+    font-weight: bold;
+    background-color: #2c3e50;;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
 .auth-buttons button:hover {
     background-color: #37AFE1;
 }
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -37,6 +40,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
+}
+.user-greeting{
+    margin-top: 10px;
+    margin-left: 11px;
+    float:left;
 }
 
 .modal-content {
@@ -45,7 +54,7 @@
     width: 350px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
 }
 
@@ -59,11 +68,13 @@
     color: gray;
     text-align: left;
 }
-.input-container .gender-buttons{
+
+.input-container .gender-buttons {
     display: flex;
     justify-content: space-between;
-    gap : 20px;
+    gap: 20px;
 }
+
 .input-container input {
     padding: 7px;
     border-radius: 8px;
@@ -73,6 +84,12 @@
     color: #333;
     margin-bottom: 5px;
 }
+
+.error-message {
+    color: red;
+    marginBottom: '10px';
+}
+
 .gender-button {
     flex: 1;
     background-color: white;
@@ -81,13 +98,16 @@
     cursor: pointer;
     color: #999;
 }
+
 .input-container button.active {
     border-color: gray; /* 선택된 버튼의 테두리 색 */
     color: lightgoldenrodyellow;
 }
+
 .input-container button:hover {
     border-color: #007bff;
 }
+
 .modal-content button {
     padding: 10px;
     border: none;
@@ -96,7 +116,8 @@
     color: white;
     cursor: pointer;
 }
-.modal-content button:hover{
+
+.modal-content button:hover {
     background-color: dimgray;
 }
 
@@ -110,9 +131,11 @@ button.close-modal {
     background: none;
     border: none;
 }
-button.close-modal:hover{
+
+button.close-modal:hover {
     background-color: #f5f5f5;
 }
+
 .hr {
     display: flex;
     flex-basis: 100%;
@@ -121,6 +144,7 @@ button.close-modal:hover{
     font-size: 12px;
     margin: 8px 0px;
 }
+
 .hr::before,
 .hr::after {
     content: "";
@@ -131,7 +155,8 @@ button.close-modal:hover{
     line-height: 0px;
     margin: 0px 16px;
 }
-.oauth-button{
+
+.oauth-button {
     width: 50px;
     height: 40px;
     display: inline-block;
@@ -141,12 +166,40 @@ button.close-modal:hover{
     margin-left: 5px;
     margin-right: 8px;
 }
+
+.token-timer {
+    position: absolute;
+    top: 10px; /* 화면 아래에서 10px 위로 */
+    left: 90px; /* 화면 오른쪽에서 10px 왼쪽으로 */
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
+    color: white; /* 글자 색상 */
+    padding: 10px 15px; /* 패딩 */
+    border-radius: 8px; /* 둥근 모서리 */
+    font-size: 8px; /* 글자 크기 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    z-index: 1000; /* 우선순위 높임 */
+}
+.token-extend{
+    position: absolute;
+    top: 50px; /* 화면 아래에서 10px 위로 */
+    left: 79px; /* 화면 오른쪽에서 10px 왼쪽으로 */
+    background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
+    color: white; /* 글자 색상 */
+    padding: 10px 15px; /* 패딩 */
+    border-radius: 8px; /* 둥근 모서리 */
+    font-size: 8px; /* 글자 크기 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    z-index: 1000; /* 우선순위 높임 */
+}
+
 .kakao {
     background-image: url("https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/social/icon_1/Kakao.png");
 }
-.google{
+
+.google {
     background-image: url("https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/social/icon_1/Google.png");
 }
-.naver{
+
+.naver {
     background-image: url("https://test.codemshop.com/wp-content/plugins/mshop-mcommerce-premium-s2/lib/mshop-members-s2/assets/images/social/icon_1/Naver.png");
 }

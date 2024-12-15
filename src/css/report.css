@@ -1,0 +1,65 @@
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+.report_container{
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    margin: 0 80px 0 90px;
+    gap:40px;
+}
+@media (max-width: 700px) { /* 화면 폭이 768px 이하일 때 */
+    .report_container {
+        flex-direction: column; /* 방향 변경: 세로 */
+    }
+}
+.report_repository{
+    display: flex;
+    max-width: 1000px;
+    flex-direction: column;
+    gap:40px;
+    padding-left: 50px;
+    width: 100vw;
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+}
+.selected_report{
+    display: flex;
+    flex-direction: row;
+    gap:40px
+}
+@media (max-width: 1200px) { /* 화면 폭이 1200px 이하일 때 */
+    .selected_report{
+        flex-direction: column; /* 방향 변경: 세로 */
+    }
+    .selected_report div > div > p{
+        min-width: 120px;
+    }
+}
+.select_report_kind{
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    gap:20px
+}
+@media (max-width: 1200px){
+    .select_report_kind{
+        flex-direction: row;
+    }
+}
+.select_report_kind:focus{
+    background-color: rgba(2, 32, 71, .05);
+    width: 5em;
+    height: 5em;
+}
+.right_report_container {
+    margin-left: 50px;
+    margin-right: auto;
+    width: 60vw;
+    height: 70vh;
+    min-width: 700px;
+}

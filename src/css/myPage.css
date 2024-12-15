@@ -1,0 +1,16 @@
+.retrieveReport {
+    width: 80%;
+    height: 350px;
+    border: 2px solid black;
+    margin: 25px auto 50px auto;
+    border-radius: 10px;
+
+}
+
+.saveKeyword {
+    width: 80%;
+    height: 150px;
+    border: 2px solid black;
+    margin: auto;
+    border-radius: 10px;
+}
