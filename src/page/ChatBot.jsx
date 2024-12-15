@@ -15,6 +15,11 @@ function ChatBot() {
     const [header, setHeader] = useState("");
 
     useEffect(() => {
+        if(localStorage.getItem("accessToken") === null){
+            alert("쳇봇을 사용하려면 먼저 로그인 하여 주시기 바랍니다.")
+            navigate("/");
+            return;
+        }
         setHeader("")
         setChatHistory([])
         if (validate(id.id)) {
@@ -170,10 +175,10 @@ function ChatBot() {
                         {chatHistory.map((message, index) => (
                             <div
                                 key={index}
-                                className={`slide-up ${message.type === "user" ? "user-message" : "llm-message"}`}
+                                className={`slide-up text-[18px] mt-[15px] ${message.type === "user" ? "font-bold text-center" : ""}`}
                             >
                                 <span>{message.text}</span>
-                                {message.type === "user" && <hr/>}
+                                {message.type === "user" && <hr className="mt-[15px]" />}
                             </div>
                         ))}
                     </div>

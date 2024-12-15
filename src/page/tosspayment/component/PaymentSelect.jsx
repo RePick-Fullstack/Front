@@ -5,11 +5,11 @@ export const PaymentSelect = ({setIsPaySelected}) => {
     return (
         <div className="flex flex-col items-center justify-center h-full gap-5 w-full">
             <div
-                className="rounded-[25px] w-[800px] h-20 shadow-[2px_2px_2px_2px_#f5f5f5] text-[30px] font-bold flex items-center justify-center">
-                결재 수단 선택
+                className="border-[3px] border-solid border-[#f5f5f5] rounded-[25px] w-[800px] h-20 shadow-[2px_2px_2px_2px_#f5f5f5] text-[30px] font-bold flex items-center justify-center">
+                결제 수단 선택
             </div>
             <div
-                className="rounded-[25px] w-[800px] h-[278px] shadow-[2px_2px_2px_2px_#f5f5f5] flex p-5 justify-around items-center text-2xl font-bold ">
+                className="border-[3px] border-solid border-[#f5f5f5] rounded-[25px] w-[800px] h-[278px] shadow-[2px_2px_2px_2px_#f5f5f5] flex p-5 justify-around items-center text-2xl font-bold ">
                 <div className="w-64 flex flex-col items-center justify-center">
                         <img  className={"w-36 h-36 cursor-pointer"} src={appLogo}
                         onClick={() => setIsPaySelected(1)}
@@ -18,7 +18,7 @@ export const PaymentSelect = ({setIsPaySelected}) => {
                 </div>
                 <div>
                 <button
-                        className={"rounded-[25px] shadow w-64 h-36 flex flex-col border-black justify-center items-center cursor-pointer gap-5"}
+                        className={" rounded-[25px] shadow w-64 h-36 flex flex-col border-black justify-center items-center cursor-pointer gap-5"}
                         onClick={() => setIsPaySelected(2)}
                 >
                         <img src={tosslogo} alt={"토스로고"}></img>

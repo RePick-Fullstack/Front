@@ -1,7 +1,7 @@
 /* eslint-disable */
 import '../css/CreatePost.css'
 import {testMainCommunity} from "../data/testMainCommunity.js";
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {setAuthHeader} from "../api/api.js";
 import {useNavigate} from "react-router-dom";
 import {createPost} from "../api/postApi.js";
@@ -15,6 +15,13 @@ const CreatePost = () => {
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
 
+    useEffect(() => {
+        if(localStorage.getItem("accessToken") === null){
+            alert("게시글을 작성하기 위해선 먼저 로그인 하여 주시기 바랍니다.")
+            navigate("/community");
+            return;
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

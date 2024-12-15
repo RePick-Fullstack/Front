@@ -32,7 +32,7 @@ export function PaymentCheckoutPage() {
 
   useEffect(() => {
     if(localStorage.getItem("accessToken") === null){
-      alert("결재기능을 이용하기 위해 로그인 하여 주시기 바랍니다.")
+      alert("결제기능을 이용하기 위해 로그인 하여 주시기 바랍니다.")
       navigate("/");
     }
   })
@@ -65,7 +65,7 @@ export function PaymentCheckoutPage() {
   async function requestPayment() {
     // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
     // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
-    if(selectedPaymentMethod === null){alert(`결재 수단을 선택하여 주시기 바랍니다.`)}
+    if(selectedPaymentMethod === null){alert(`결제 수단을 선택하여 주시기 바랍니다.`)}
     switch (selectedPaymentMethod) {
       case "CARD":
         await payment.requestPayment({
@@ -183,10 +183,10 @@ export function PaymentCheckoutPage() {
           {isSelected && isPaySelected !== 0 &&
               <div className="flex items-center justify-center h-full gap-5 flex-col w-full">
                   <div
-                      className="rounded-[25px] w-[800px] h-20 shadow-[2px_2px_2px_2px_#f5f5f5] text-[30px] font-bold flex items-center justify-center">
-                    토스페이먼츠 일반결재
+                      className="border-[3px] border-solid border-[#f5f5f5] rounded-[25px] w-[800px] h-20 shadow-[2px_2px_2px_2px_#f5f5f5] text-[30px] font-bold flex items-center justify-center">
+                    토스페이먼츠 일반결제
                   </div>
-                <div className="rounded-[25px] w-[800px] h-[278px] gap-5 shadow-[2px_2px_2px_2px_#f5f5f5] p-5 text-2xl font-bold flex flex-col justify-center items-center">
+                <div className="border-[3px] border-solid border-[#f5f5f5] rounded-[25px] w-[800px] h-[278px] gap-5 shadow-[2px_2px_2px_2px_#f5f5f5] p-5 text-2xl font-bold flex flex-col justify-center items-center">
                   <div className="w-full px-10">
                     <div className="flex justify-between text-[17px] w-full">
                       <strong>상품명 :</strong><p> {` 리픽 구독 결제 ${amount.value === 5900 ? `1개월` : `12개월`}`}</p>

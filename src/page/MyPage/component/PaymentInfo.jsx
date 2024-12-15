@@ -15,7 +15,7 @@ export const PaymentInfo = () => {
                 headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
             })
             if(remaining === null){
-                setRemaining("결재 정보가 없습니다.")
+                setRemaining("결제 정보가 없습니다.")
                 return;
             }
             setRemaining(remaining);
@@ -48,7 +48,7 @@ export const PaymentInfo = () => {
                     onClick={() => {
                         navigate("/tosspayment")
                     }}>
-                    결재
+                    결제
                 </div>
             </div>
             <hr className="border-t-[2.4px]" style={{borderColor: "rgb(229, 231, 235)"}}/>
@@ -59,7 +59,7 @@ export const PaymentInfo = () => {
             </div>
             <hr className="border-t-[2.4px]"/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
-                <div className={"w-48"}>결재 내역</div>
+                <div className={"w-48"}>결제 내역</div>
                 <div className={"w-64"}></div>
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
@@ -72,7 +72,7 @@ export const PaymentInfo = () => {
                 <div>
                     {payments.length === 0 ? <div>
                         <div className="w-full h-16 flex items-center px-2 justify-center">
-                            결재 내역이 없습니다.
+                            결제 내역이 없습니다.
                         </div>
                         <hr className="border-t-[2.4px]"/>
                     </div> :
@@ -81,9 +81,9 @@ export const PaymentInfo = () => {
                             <div key={index}>
                                 <div className="w-full py-2 px-2">
                                     <div>주문 번호 : {payment.orderId}</div>
-                                    <div>결재 수단 : {payment.method}</div>
-                                    <div>결재 일시 : {payment.requestedAt}</div>
-                                    <div>결재 금액 : {payment.amount}</div>
+                                    <div>결제 수단 : {payment.method}</div>
+                                    <div>결제 일시 : {payment.requestedAt}</div>
+                                    <div>결제 금액 : {payment.amount}</div>
                                 </div>
                                 <hr className="border-t-[2.4px]"/>
                             </div>
