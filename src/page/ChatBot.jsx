@@ -38,10 +38,12 @@ function ChatBot() {
     }, [id.id]);
 
     const handlePullChat = async (uuid) => {
-        const { data: messages } = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`);
-        if(messages.length === 0) {console.log("chat is not found"); return;}
+        const { data: messages } = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`,
+            {params: {page: 0, size: 50}});
+        console.log(messages);
+        if(messages.content.length === 0) {console.log("chat is not found"); return;}
         const chats = [];
-            messages.map(message => {
+            messages.content.map(message => {
                 chats.push({type: "user", text: message.request});
                 chats.push({type: "llm", text: JSON.parse(message.response).response});
         })
