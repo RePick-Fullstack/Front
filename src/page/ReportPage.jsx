@@ -10,10 +10,13 @@ import Pdf from "../assets/pdf.svg"
 function ReportPage() {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [companyName, setCompanyName] = useState("");
+    const [companyOrSector, setCompanyOrSector] = useState("기업");
+    const [activeIndex, setActiveIndex] = useState(null);
 
     const handleCompanyReports = async () => {
         setLoading(true);
+        setCompanyOrSector("기업");
+        setActiveIndex(0);
         const {data: {content: getReports}} = await eksApi.get("/reports/company",
             {params: {page: 0, size: 10}}).catch(err => console.log(err));
         setReports(getReports);
@@ -23,14 +26,17 @@ function ReportPage() {
 
     const handleIndustryReports = async () => {
         setLoading(true);
+        setCompanyOrSector("산업");
+        setActiveIndex(1);
         const {data: {content: getReports}} = await eksApi.get("/reports/industry",
             {params: {page: 0, size: 10}}).catch(err => console.log(err));
         setReports(getReports);
+        console.log(JSON.stringify(getReports,null,2));
         setLoading(false);
     };
 
     useEffect(() => {
-        handleCompanyReports()
+        handleCompanyReports();
     }, []);
 
     return (
@@ -40,37 +46,37 @@ function ReportPage() {
                     <span className="report_repository">레포트 저장소</span>
                 </div>
                 <div className={"selected_report"}>
-                    <div className="select_report_kind hover:cursor-pointer items-center">
-                        <div tabIndex="0"
-                             className={" w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.15)] text-center rounded-xl flex items-center justify-center"}
+                    <div className="select_report_kind items-center">
+                        <div  tabIndex="0"
+                             className={` w-[190px] h-[52px] text-center rounded-xl flex items-center justify-center hover:cursor-pointer ${activeIndex === 0  ? "bg-[rgba(2,32,71,0.15)]" : "bg-transparent"}`}
                             onClick={handleCompanyReports}
                         >
-                            <p onClick={()=> { setCompanyName("기업"); }} >종목분석 레포트</p>
+                            <p>종목분석 레포트</p>
                         </div>
                         <div tabIndex="0"
-                             className={" w-[190px] h-[52px] focus:bg-[rgba(2,32,71,0.15)] text-center rounded-xl flex items-center justify-center"}
+                             className={` w-[190px] h-[52px] text-center rounded-xl flex items-center justify-center hover:cursor-pointer ${activeIndex === 1  ? "bg-[rgba(2,32,71,0.15)]" : "bg-transparent"}`}
                              onClick={handleIndustryReports}
                         >
-                            <p onClick={()=> { setCompanyName("종목"); }} >산업분석 레포트</p>
+                            <p>산업분석 레포트</p>
                         </div>
                     </div>
                     <div className="right_report_container">
                         <ul className={"font-black"}>
-                            <li className={"grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2"}>
-                                <span className="text-left">{companyName}</span>
+                            <li className={"min-w-[830px] grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2"}>
+                                <span className="text-left">{companyOrSector}</span>
                                 <span className="text-left">레포트 제목</span>
                                 <span className="text-left">증권사</span>
-                                <span className="text-left">발행 일자</span>
+                                <span className="text-center">발행 일자</span>
                                 <span className="text-right">다운로드</span>
                             </li>
                             {!loading && reports.map((report, index) =>
                                     <li key={index}>
                                         <div
-                                            className={"grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2 border-t border-gray-300"}>
-                                            <span className={"text-left"}>{report.company_name}</span>
+                                            className={"min-w-[830px] grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2 border-t border-gray-300"}>
+                                            <span className={"text-left"}>{companyOrSector === "기업" ? report.company_name : report.sector}</span>
                                             <span className={"text-left"}>{report.report_title}</span>
                                             <span className={"text-left"}>{report.securities_firm}</span>
-                                            <span className={"text-left"}>{report.report_date}</span>
+                                            <span className={"text-center"}>{report.report_date}</span>
                                             <span className={"flex-col flex"}>
                                 <a className={"ml-14"}
                                    href={report.pdf_link}>
