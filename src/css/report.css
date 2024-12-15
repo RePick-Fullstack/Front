@@ -19,6 +19,7 @@
 .report_repository{
     display: flex;
     max-width: 1000px;
+    margin-left: 100px;
     flex-direction: column;
     gap:40px;
     padding-left: 50px;
@@ -26,7 +27,9 @@
     font-family: 'Pretendard-Bold', sans-serif;
     font-weight: 800;
     font-size: 30px;
+    animation: slideAnimation 0.5s ease-out forwards;
 }
+
 .selected_report{
     display: flex;
     flex-direction: row;
