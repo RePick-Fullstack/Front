@@ -76,12 +76,12 @@ export const MainCommunity = () => {
                     return (
                         <div
                             className={"hover:bg-gray-200 text-sm rounded-xl py-2 pl-2 ml-3 flex items-center gap-1 cursor-pointer text-[#213457]"}
+                            onClick={() => {
+                                navigate(`/posts/${item.id}`)
+                            }}
                             key={index}>
                             <p
                                 className={"w-[170px] text-[13px]"}
-                                onClick={() => {
-                                    navigate(`/posts/${item.id}`)
-                                }}
                                 target="_blank"
                                 rel="noopener noreferrer">
                                 {index + 1 + " "}{item.title}
