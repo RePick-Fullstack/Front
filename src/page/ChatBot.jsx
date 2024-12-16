@@ -117,7 +117,7 @@ function ChatBot() {
         chatHistory.length === 0 && await handleCreateChat()
         const fetchChatBotResponse = async () => {
             try {
-                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/${id.id}`,
+                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/${id.id}/async`,
                     {
                         message: inputValue,
                     }, {

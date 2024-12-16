@@ -101,7 +101,7 @@ function ReportPage() {
                                     </li>
                             )
                             }
-                            <div className={"min-w-830"}>
+                            {!loading && <div className={"min-w-830"}>
                                 <div className={"flex justify-center items-center"}>
                                     <div className={"-rotate-90 hover:cursor-pointer"}
                                          onClick={() => setPage(page === 0 ? 0 : page - 1)}
@@ -131,7 +131,7 @@ function ReportPage() {
                                     >▲
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                         </ul>
 
                         {loading &&
