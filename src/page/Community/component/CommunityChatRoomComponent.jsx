@@ -1,57 +1,60 @@
 import {useEffect, useRef, useState} from 'react';
-import {v4 as uuidv4} from 'uuid';
 import {LoadingSvg} from "../../../assets/LoadingSvg.jsx";
+import axios from "axios";
 
 let socket = null;
 
 export const CommunityChatRoomComponent = () => {
     const [messages, setMessages] = useState([]);
-    const [connect, setConnect] = useState(true);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
-    const [sessionUUID, setSessionUUID] = useState("");
     const [isJoin, setIsJoin] = useState(false);
+    const [verification, setVerification] = useState(false);
+    const [userId, setUserId] = useState(-1);
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    const connectWebSocket = () => {
+    const handleJoin = async () => {
         if (localStorage.getItem("accessToken") === null) {
             alert("먼저 로그인 하여 주시기 바랍니다.");
             return;
         }
-        setIsJoin(true)
-        console.log(`community chatroom join`);
+        setVerification(false);
+        const {data: user} = await axios.get("https://repick.site/api/v1/chatroom/verification", {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        }).catch((err) => {
+            console.log(err)
+        });
+        if (!user) {
+            alert("사용자 정보가 옳바르지 않습니다.");
+            return;
+        }
+        setVerification(true);
+        setUserId(user.id);
+        setIsJoin(true);
         socket = new WebSocket(`wss://repick.site/api/v1/chatroom/websocket/38e05c99-d5c7-41bd-ae84-4c7f2d0de160`);
 
         socket.onopen = async () => {
-            const uuid = uuidv4().toString();
-            setSessionUUID(uuid)
-            console.log(`user uuid :` + uuid)
             console.log(`WebSocket connection opened`);
-            await delay(250);
-            const initData = {token: localStorage.getItem('accessToken'), uuid: uuid};
+            const initData = user.id;
             socket.send(JSON.stringify(initData));
             await delay(250);
-            if (connect) {
-                console.log('resent')
-                socket.send(JSON.stringify(initData));
-            }
+            socket.send(JSON.stringify(initData));
         };
 
         socket.onmessage = (event) => {
             console.log('Message from server:', event.data);
+            if (event.data == user.id) {
+                setLoading(true);
+                return;
+            }
             const chat = JSON.parse(event.data);
-            console.log('chat:', chat);
             try {
-                if (chat.uuid && Object.keys(chat).length === 1) {
-                    setLoading(true);
-                    setConnect(false);
-                    return;
-                }
-
                 setMessages((prevMessages) => [...prevMessages, chat]);
             } catch (error) {
                 console.error("Error parsing message:", error);
@@ -59,29 +62,27 @@ export const CommunityChatRoomComponent = () => {
         };
 
         socket.onclose = () => {
-            setSessionUUID('')
+            setUserId(-1);
             console.log('WebSocket connection closed');
             setIsJoin(false)
             setLoading(false)
             setMessages([]);
-            setConnect(true)
         };
 
         socket.onerror = (error) => {
             console.error('WebSocket error:', error);
         };
-    };
+    }
 
     const sendMessage = () => {
         if (input.trim() && socket && socket.readyState === WebSocket.OPEN) {
-            const message = {uuid: sessionUUID, input: input}
+            const message = {id: userId, input: input}
             socket.send(JSON.stringify(message));
             setInput('');
         }
     };
 
     useEffect(() => {
-        // connectWebSocket();
         return () => {
             if (socket) {
                 socket.close();
@@ -128,7 +129,7 @@ export const CommunityChatRoomComponent = () => {
                     {!isJoin ? <div
                             className="w-[108px] h-[30px] bg-[#303e4f] rounded-[7px] text-white text-[15px] flex items-center justify-center hover:cursor-pointer"
                             onClick={() => {
-                                connectWebSocket()
+                                handleJoin()
                             }}>
                             채팅방 입장
                         </div> :
@@ -154,13 +155,13 @@ export const CommunityChatRoomComponent = () => {
                         </div>}
                         <ul className={"h-full overflow-y-scroll scrollbar-custom"}>
                             {messages.map((message, index) => {
-                                const isMe = message.uuid === sessionUUID
+                                const isMe = message.userId === userId
                                 return (
                                     <li key={index}
                                         className={`${isMe ? `flex justify-end` : `flex justify-normal`} p-2 pl-5 pr-5`}>
                                         <div>
                                             <div
-                                                className={`text-${isMe ? `right` : 'left'} text-[#232323] text-xs font-bold my-1`}>{message.nickName}</div>
+                                                className={`text-${isMe ? `right` : 'left'} text-[#232323] text-xs font-bold my-1`}>{message.username}</div>
                                             <div className={"flex"}>
                                                 <div
                                                     className="min-w-16 text-center text-[#8f8f8f] text-[11px] flex items-end justify-center">
@@ -188,7 +189,7 @@ export const CommunityChatRoomComponent = () => {
                             onKeyPress={handleKeyPress}
                             placeholder="메시지를 입력하세요..."
                             style={{width: '85%', backgroundColor: `rgb(244, 247, 248)`}}
-                            disabled={connect}
+                            disabled={!loading}
                         />
                         <button onClick={sendMessage}>전송</button>
                     </div>

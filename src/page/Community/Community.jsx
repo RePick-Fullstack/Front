@@ -4,8 +4,8 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../../data/testMainCommunity.js";
 import {useEffect, useState} from "react";
 import {getPosts, getPostsByCategory} from "../../api/postApi.js";
-import {CommunityChatRoomComponent} from "./component/CommunityChatRoomComponent.jsx";
 import {translateToKorean} from "../../data/changeCategory.js";
+import {CommunityChatRoomComponent} from "./component/CommunityChatRoomComponent.jsx";
 
 //import {translateToEnglish} from "../../data/changeCategory.js"
 
