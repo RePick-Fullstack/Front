@@ -50,7 +50,7 @@ export const MainCommunity = () => {
             if (sortBy === '조회순') {
                 return b.viewCount - a.viewCount; // 조회수 내림차순
             } else if (sortBy === '인기순') {
-                return b.likes - a.likes; // 좋아요 내림차순
+                return b.likesCount - a.likesCount; // 좋아요 내림차순
             }
             return 0;
         });
