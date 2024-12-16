@@ -37,6 +37,10 @@ export const CommunityChatRoomComponent = () => {
         setVerification(true);
         setUserId(user.id);
         setIsJoin(true);
+        const {data: messages} = await axios.get("https://repick.site/api/v1/chatroom/38e05c99-d5c7-41bd-ae84-4c7f2d0de160/message", {
+            params: {page: 0, size: 30}
+        }).catch((err) => {console.log(err)});
+        setMessages(messages.content);
         socket = new WebSocket(`wss://repick.site/api/v1/chatroom/websocket/38e05c99-d5c7-41bd-ae84-4c7f2d0de160`);
 
         socket.onopen = async () => {
@@ -165,7 +169,7 @@ export const CommunityChatRoomComponent = () => {
                                             <div className={"flex"}>
                                                 <div
                                                     className="min-w-16 text-center text-[#8f8f8f] text-[11px] flex items-end justify-center">
-                                                    {formatKoreanTime(new Date())}
+                                                    {message.createAt.substring(11, 16)}
                                                 </div>
                                                 <div
                                                     className={`min-h-[30px] bg-[#f4f7f8] rounded-[20px] p-2 flex items-center px-5`}>{`${message.message}`}</div>
