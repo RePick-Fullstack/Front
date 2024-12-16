@@ -60,7 +60,7 @@ export const MainCommunity = () => {
             className="w-[10wv] min-h-[221px] h-[33svh] bg-[#fff] rounded-[20px] border-[3px] border-solid border-[#f5f5f5] shadow-[2px_2px_2px_2px_#f5f5f5] flex flex-col py-3">
             <div className="flex justify-between items-center px-3">
                 <p className={"news_title font-b text-[18px] py-2 ml-2"}>인기 급상승 게시글</p>
-                <div className={"flex text-[11px] gap-2 mb-2 hover:cursor-pointer border-solid border rounded-lg"}>
+                <div className={"flex text-[11px] gap-2 mb-2 hover:cursor-pointer"}>
                     <ul className={"caret-transparent"} onClick={()=> setView(!view)}>
                         {view ? '' : `${selected} ▼`}
                         {view && <Dropdown onSelect = {handleSelect} setViewOrLike={setViewOrLike}/>}
