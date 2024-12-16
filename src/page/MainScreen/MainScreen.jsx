@@ -39,54 +39,13 @@ function MainScreen() {
         handleReports("industry");
     }, []);
 
-    // const handleSendRequest = async () => {
-    //     if (inputValue.trim() !== "") {
-    //         const userMessage = {type: "user", text: inputValue};
-    //         setChatHistory((prev) => [...prev, userMessage]);
-    //         setLlmTyping(true);
-    //         navigate("/ChatBot", {state : {chatHistory: [ ...chatHistory, userMessage]}});
-    //
-    //         try {
-    //             const response = await axios.get(`http://localhost:8080/generate-text?keyword=${inputValue} search result`);
-    //             console.log(response.data);
-    //             const generatedText = response.data[0]?.generated_text;
-    //             const words = generatedText.split(" ");
-    //             let currentText = "";
-    //             for (let i = 0; i < words.length; i++) {
-    //                 currentText += (i === 0 ? "" : " ") + words[i];
-    //                 setChatHistory((prev) => {
-    //                     const updatedHistory = [...prev];
-    //                     if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
-    //                         updatedHistory[updatedHistory.length - 1].text = currentText + "_";
-    //                     } else {
-    //                         updatedHistory.push({type: "llm", text: currentText + "_"});
-    //                     }
-    //                     return updatedHistory;
-    //                 });
-    //                 await new Promise((resolve) => setTimeout(resolve, 25)); // 타이핑 효과를 위해 지연 시간 설정 (단어 단위)
-    //             }
-    //             // 마지막 _ 제거
-    //             setChatHistory((prev) => {
-    //                 const updatedHistory = [...prev];
-    //                 if (updatedHistory[updatedHistory.length - 1]?.type === "llm") {
-    //                     updatedHistory[updatedHistory.length - 1].text = currentText;
-    //                 }
-    //                 return updatedHistory;
-    //             });
-    //         } catch (error) {
-    //             console.log("Failed to fetch data from server");
-    //         }
-    //         setLlmTyping(false);
-    //         setInputValue(""); // 요청 후 입력 필드 초기화
-    //     }alert("내용 입력하삼 ; ")
-    //
-    // };
-
-    const handleSendRequest = async () => {
+    const handleSendRequest = async (text) => {
         if (localStorage.getItem("accessToken") === null) {
             alert("먼저 로그인 하여 주시기 바랍니다.");
             return;
         }
+        console.log(text)
+        if(text){navigate(`/ChatBot/${uuidv4().toString()}?type=main&message=${text}`); return;}
         if (inputValue.trim() !== "") {
             const userMessage = {type: "user", text: inputValue};
             navigate(`/ChatBot/${uuidv4().toString()}?type=main&message=${inputValue}`);
@@ -100,10 +59,6 @@ function MainScreen() {
     const handleEnterKey = (event) => {
         if (event.key === "Enter") {
             handleSendRequest();
-            // setChating(true);
-            // setTimeout(() => {
-            //     setEnterDelay(true);
-            // }, 500); // 0.5초 후에 enterDelay를 false로 변경
         }
     };
 
@@ -131,7 +86,9 @@ function MainScreen() {
                                         <li key={index}>
                                             <div className={"report_data grid grid-cols-4 gap-4 px-4 py-2"}>
                                             <span
-                                                className={"text-left ml-4"}>{`${report.company_name}`}</span>
+                                                className={"text-left ml-4 hover:cursor-pointer hover:underline"}
+                                                onClick={() => {handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);}}
+                                            >{`${report.company_name}`}</span>
                                                 <span>{report.report_title}</span>
                                                 <span className={"text-left ml-[52px]"}><a className={"ml-5 hover:underline"}
                                                                                    href={report.pdf_link}>{report.securities_firm}</a></span>
@@ -162,7 +119,8 @@ function MainScreen() {
                                     <li key={index}>
                                         <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-5 px-4 py-2"}>
                                             <span
-                                                className={"text-left ml-4"}>{`${report.sector}`}</span>
+                                                onClick={() => {handleSendRequest(report.sector + " " + `현황 알려줘`);}}
+                                                className={"text-left ml-4 hover:cursor-pointer hover:underline"}>{`${report.sector}`}</span>
                                             <span>{report.report_title}</span>
                                             <span className={"text-left ml-[52px]"}><a className={"ml-5 hover:underline"}
                                                                              href={report.pdf_link}>{report.securities_firm}</a></span>
@@ -210,7 +168,7 @@ function MainScreen() {
                             <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
                                  style={{left: 'calc(100% - 30px)'}}
                             >
-                                <button className="inputButton" onClick={handleSendRequest}
+                                <button className="inputButton" onClick={() => handleSendRequest()}
                                         disabled={enterDelay}> {/* enterDelay 상태에 따라 버튼 비활성화 */}
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                          height="25px" width="25px">
