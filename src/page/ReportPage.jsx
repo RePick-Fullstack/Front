@@ -5,8 +5,6 @@ import {eksApi} from "../api/api.js";
 import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 import Pdf from "../assets/pdf.svg"
 
-//import {testReport} from "../data/testReport.js";
-
 function ReportPage() {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -14,9 +12,11 @@ function ReportPage() {
     const [activeIndex, setActiveIndex] = useState(null);
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState([]);
-    const [pageIndex, setPageIndex] = useState(0);
+    const [keyword, setKeyword] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
 
     const handleCompanyReports = async (searchPage) => {
+        setIsSearching(false);
         if(!searchPage) {setPage(0)}
         setLoading(true);
         setCompanyOrSector("기업");
@@ -30,6 +30,7 @@ function ReportPage() {
     };
 
     const handleIndustryReports = async (searchPage) => {
+        setIsSearching(false);
         if(!searchPage) {setPage(0)}
         setLoading(true);
         setCompanyOrSector("산업");
@@ -41,13 +42,33 @@ function ReportPage() {
         setLoading(false);
     };
 
-    const handlePage = () => {
+    const handleSearch = async (searchPage) => {
+        setIsSearching(true);
+        if(!searchPage) {setPage(0)}
+        setLoading(true);
+        const type = companyOrSector === "기업" ? "company" : "industry";
+        console.log(type);
+        const {data: getReports} = await axios.get(`https://repick.site/api/v1/reports/${type}keyword`,{
+            params: {keyword: keyword, page: searchPage-1 || 0, size: 10}}).catch(err => console.log(err));
+        console.log(getReports);
+        setReports(getReports.content);
+        setPageSize(Array.from({ length: getReports.totalPages}));
+        setLoading(false);
+    }
 
+    const handleReset = () => {
+        handleCompanyReports();
     }
 
     useEffect(() => {
         handleCompanyReports();
     }, []);
+
+    const handleEnterKey = (event) => {
+        if (event.key === "Enter") {
+            handleSearch();
+        }
+    };
 
     return (
         <>
@@ -73,7 +94,29 @@ function ReportPage() {
                     <div className="right_report_container">
                         <ul className={"font-black"}>
                             <li className={"min-w-[830px] grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2"}>
-                                <span className="text-left">{companyOrSector}</span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <input
+                                    className={"border text-center"}
+                                    value={keyword}
+                                    onChange={(e)=>setKeyword(e.target.value)}
+                                    onKeyPress={handleEnterKey}
+                                ></input>
+                                <div>
+                                    <button
+                                        className="text-right"
+                                        onClick={() => handleSearch()}
+                                    >검색
+                                    </button>
+                                    <button
+                                        onClick={handleReset}
+                                    >초기화</button>
+                                </div>
+
+                            </li>
+                            <li className={"min-w-[830px] grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2"}>
+                            <span className="text-left">{companyOrSector}</span>
                                 <span className="text-left">레포트 제목</span>
                                 <span className="text-left">증권사</span>
                                 <span className="text-center">발행 일자</span>
@@ -119,7 +162,7 @@ function ReportPage() {
                                                 <div key={index}
                                                      className={"w-5 hover:cursor-pointer"}
                                                      onClick={() => {
-                                                         companyOrSector === "기업" ? handleCompanyReports(pageIndex) : handleIndustryReports(pageIndex);
+                                                        isSearching ? handleSearch(pageIndex) : companyOrSector === "기업" ? handleCompanyReports(pageIndex) : handleIndustryReports(pageIndex);
                                                      }}
                                                 >
                                                     {pageIndex}
