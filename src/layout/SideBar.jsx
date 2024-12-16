@@ -62,11 +62,13 @@ function SideBar() {
                     </button>
                 </div>
                 {menuOpen ? (<>
-                    <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
-                        onClick={() => {
-                            handleNavigation(`/chatbot/${uuidv4().toString()}?type=new`)
-                        }}>새 질문</h4>
-                    <h4 className={"cursor-pointer hover:underline font-semibold text-white m-5"}
+                    <div className={"cursor-pointer px-20 py-2.5 border-[3px] border-solid border-[#B3B3B3] rounded-xl"}>
+                        <span className={"font-semibold text-white text-[14px] text-left"}
+                            onClick={() => {
+                                handleNavigation(`/chatbot/${uuidv4().toString()}?type=new`)
+                            }}>+ 새 질문</span>
+                    </div>
+                    <h4 className={"cursor-pointer font-semibold text-white text-[15px] m-5"}
                         onClick={() => { //사이드바 열렸을때
                             handleNavigation("/myPage")
                         }}>마이 페이지</h4>
@@ -82,7 +84,7 @@ function SideBar() {
                         </button>
 
                     </>) : (<>
-                        <button className={"bg-white w-[225px] mt-5 text-black"} onClick={handleLogout}>로그아웃</button>
+                        <button className={"text-white w-[225px] mt-5"} onClick={handleLogout}>로그아웃</button>
                     </>)}
                 </>) : (<>
                         <span className={"cursor-pointer"} onClick={() => { //챗봇 페이지
