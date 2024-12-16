@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { useState } from "react";
+import React, { useState } from "react";
 import { usersApi } from "../../api/api.js";
 
 function MainSignUp({ setIsSignUpOpen }) {
@@ -188,7 +188,9 @@ function MainSignUp({ setIsSignUpOpen }) {
                         type="date"
                         name="birthDate"
                         value={formData.birthDate}
-                        onChange={handleChange}
+                        onChange={(e) => setFormData(e.target.value)}
+                        max="2024-12-18"
+                        required
                     />
                     {errors.birthDate && <p className="error-message">{errors.birthDate}</p>}
                 </div>

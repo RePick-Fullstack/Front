@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, {useEffect, useState} from "react";
-import { usersApi } from "../../../api/api.js";
+import {usersApi} from "../../../api/api.js";
 
 export const DefaultInfo = () => {
     // 상태 관리
@@ -13,6 +13,28 @@ export const DefaultInfo = () => {
     });
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false); // 수정 모달 상태
+    const [errors, setErrors] = useState({}); // 에러 상태 추가
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!userInfo.name) newErrors.name = "이름은 필수 항목입니다.";
+        else if (!/^[가-힣]+$/.test(userInfo.name)) newErrors.name = "이름은 한글만 입력 가능합니다.";
+
+        if (userInfo.nickname && !/^[가-힣\s]+$/.test(userInfo.nickname))
+            newErrors.nickname = "닉네임은 한글과 띄어쓰기만 입력 가능합니다.";
+
+        if (!userInfo.gender) newErrors.gender = "성별을 선택해주세요.";
+
+        if (!userInfo.birthDate) newErrors.birthDate = "생년월일은 필수 항목입니다.";
+        else {
+            const today = new Date();
+            const birthDate = new Date(userInfo.birthDate);
+            if (birthDate >= today) newErrors.birthDate = "생년월일은 과거 날짜여야 합니다.";
+        }
+
+        return newErrors;
+    };
 
     // 데이터 호출
     useEffect(() => {
@@ -20,10 +42,10 @@ export const DefaultInfo = () => {
 
         usersApi
             .get("/users/mypage", {
-                headers: { Authorization: `Bearer ${token}` },
+                headers: {Authorization: `Bearer ${token}`},
             })
             .then((response) => {
-                const { name, email, nickname, gender, birthDay } = response.data;
+                const {name, email, nickname, gender, birthDay} = response.data;
                 setUserInfo({
                     name: name || "",
                     nickname: nickname || "",
@@ -37,6 +59,12 @@ export const DefaultInfo = () => {
 
     // 사용자 정보 수정 요청
     const handleSaveChanges = () => {
+        const validationErrors = validateForm(); // 유효성 검사 실행
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors); // 에러 상태 업데이트
+            return; // 에러가 있으면 API 호출 중단
+        }
+
         const token = localStorage.getItem("accessToken");
 
         usersApi
@@ -48,13 +76,13 @@ export const DefaultInfo = () => {
                     gender: userInfo.gender,
                     birthDate: userInfo.birthDate,
                 },
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
+                { headers: { Authorization: `Bearer ${token}` } }
             )
             .then(() => {
                 alert("사용자 정보가 성공적으로 수정되었습니다.");
-                setIsEditModalOpen(false); // 수정 모달 닫기
+                setIsEditModalOpen(false);
+                setErrors({}); // 에러 상태 초기화
+                window.location.reload();
             })
             .catch((error) => {
                 console.error("정보 수정 실패:", error);
@@ -73,7 +101,7 @@ export const DefaultInfo = () => {
         if (window.confirm("탈퇴 시 되돌릴 수 없습니다.")) {
             usersApi
                 .delete("/users/delete", {
-                    headers: { Authorization: `Bearer ${token}` },
+                    headers: {Authorization: `Bearer ${token}`},
                     "Content-Type": "application/json"
                 })
                 .then(() => {
@@ -109,19 +137,19 @@ export const DefaultInfo = () => {
                     </button>
                 </div>
             </div>
-            <hr className="border-t-[2.4px]" />
+            <hr className="border-t-[2.4px]"/>
 
             {/* 사용자 정보 표시 */}
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>이름</div>
                 <div className={"w-64"}>{userInfo.name}</div>
             </div>
-            <hr className="border-t-[2.4px]" />
+            <hr className="border-t-[2.4px]"/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>닉네임</div>
                 <div className={"w-64"}>{userInfo.nickname}</div>
             </div>
-            <hr className="border-t-[2.4px]" />
+            <hr className="border-t-[2.4px]"/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>성별</div>
                 <div className={"w-64"}>
@@ -132,19 +160,18 @@ export const DefaultInfo = () => {
                             : ""}
                 </div>
             </div>
-            <hr className="border-t-[2.4px]" />
+            <hr className="border-t-[2.4px]"/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>생년월일</div>
                 <div className={"w-64"}>{userInfo.birthDate}</div>
             </div>
-            <hr className="border-t-[2.4px]" />
+            <hr className="border-t-[2.4px]"/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>이메일</div>
                 <div className={"w-64"}>{userInfo.email}</div>
             </div>
-            <hr className="border-t-[2.4px]" />
+            <hr className="border-t-[2.4px]"/>
 
-            {/* 수정 모달 */}
             {isEditModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
                     <div className="bg-white p-6 rounded shadow-lg">
@@ -156,11 +183,10 @@ export const DefaultInfo = () => {
                             <input
                                 type="text"
                                 value={userInfo.name}
-                                onChange={(e) =>
-                                    setUserInfo({ ...userInfo, name: e.target.value })
-                                }
+                                onChange={(e) => setUserInfo({...userInfo, name: e.target.value})}
                                 className="border px-2 py-1 w-full"
                             />
+                            {errors.name && <p className="text-red-500">{errors.name}</p>}
                         </div>
 
                         {/* 닉네임 */}
@@ -170,10 +196,11 @@ export const DefaultInfo = () => {
                                 type="text"
                                 value={userInfo.nickname}
                                 onChange={(e) =>
-                                    setUserInfo({ ...userInfo, nickname: e.target.value })
+                                    setUserInfo({...userInfo, nickname: e.target.value})
                                 }
                                 className="border px-2 py-1 w-full"
                             />
+                            {errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
                         </div>
 
                         {/* 성별 */}
@@ -182,13 +209,15 @@ export const DefaultInfo = () => {
                             <select
                                 value={userInfo.gender}
                                 onChange={(e) =>
-                                    setUserInfo({ ...userInfo, gender: e.target.value })
+                                    setUserInfo({...userInfo, gender: e.target.value})
                                 }
                                 className="border px-2 py-1 w-full"
                             >
+                                <option value="">선택</option>
                                 <option value="MALE">남성</option>
                                 <option value="FEMALE">여성</option>
                             </select>
+                            {errors.gender && <p className="text-red-500">{errors.gender}</p>}
                         </div>
 
                         {/* 생년월일 */}
@@ -198,10 +227,12 @@ export const DefaultInfo = () => {
                                 type="date"
                                 value={userInfo.birthDate}
                                 onChange={(e) =>
-                                    setUserInfo({ ...userInfo, birthDate: e.target.value })
+                                    setUserInfo({...userInfo, birthDate: e.target.value})
                                 }
+                                max="2024-12-18"
                                 className="border px-2 py-1 w-full"
                             />
+                            {errors.birthDate && <p className="text-red-500">{errors.birthDate}</p>}
                         </div>
 
                         {/* 버튼 */}
