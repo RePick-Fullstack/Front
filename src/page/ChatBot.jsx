@@ -3,6 +3,8 @@ import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import '../css/ChatBot.css';
 import {validate} from "uuid";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 function ChatBot() {
     const navigate = useNavigate();
@@ -160,7 +162,13 @@ function ChatBot() {
                                 key={index}
                                 className={`slide-up text-[18px] mt-[15px] w-full ${message.type === "user" ? "font-bold text-center" : ""}`}
                             >
-                                <span>{message.text}</span>
+                                {message.type === "llm" ? (
+                                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                        {message.text}
+                                    </ReactMarkdown>
+                                ) : (
+                                    <span>{message.text}</span>
+                                )}
                                 {message.type === "user" && <hr className="mt-[15px]"/>}
                             </li>
                         ))}
