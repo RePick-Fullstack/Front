@@ -23,7 +23,7 @@ nav {
 
 nav.active {
     transform: translateX(0);
-    width: 300px;
+    width: 315px;
 
     button:focus {
         outline: 0;
