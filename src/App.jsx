@@ -3,7 +3,7 @@ import './css/sidebar.css';
 import SideBar from "./layout/SideBar.jsx";
 import MainScreen from "./page/MainScreen/MainScreen.jsx";
 import Header from "./layout/Header.jsx";
-import { Route, Routes, Navigate } from "react-router-dom"; // Navigate 추가
+import { Route, Routes } from "react-router-dom"; // Navigate 추가
 import Community from "./page/Community/Community.jsx";
 import { RecoilRoot } from "recoil";
 import MyPage from "./page/MyPage/MyPage.jsx";
