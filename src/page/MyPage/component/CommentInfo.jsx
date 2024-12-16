@@ -42,7 +42,7 @@ export const CommentInfo = () => {
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
                     onClick={handleCommentView}>
-                    보기
+                    {isView ? `닫기` : `보기`}
                 </div>
             </div>
             <hr className="border-t-[2.4px]"/>
@@ -79,7 +79,7 @@ export const CommentInfo = () => {
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
                     onClick={handleLikeCommentView}>
-                    보기
+                    {isLikeView ? `닫기` : `보기`}
                 </div>
             </div>
             <hr className="border-t-[2.4px]"/>

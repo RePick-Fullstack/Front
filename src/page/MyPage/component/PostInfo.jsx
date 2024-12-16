@@ -78,7 +78,7 @@ export const PostInfo = () => {
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
                     onClick={handleLikePostView}>
-                    보기
+                    {isLikeView ? `닫기` : `보기`}
                 </div>
             </div>
             <hr className="border-t-[2.4px]"/>
