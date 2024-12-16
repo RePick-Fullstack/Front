@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import './Payment.css'
 
-const url = `https://repick.site/api/v1/tosspayments`;
+const url = `http://localhost:4000/api/v1/tosspayments`;
 
 export function PaymentSuccessPage() {
   const navigate = useNavigate();

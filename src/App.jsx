@@ -3,18 +3,18 @@ import './css/sidebar.css';
 import SideBar from "./layout/SideBar.jsx";
 import MainScreen from "./page/MainScreen/MainScreen.jsx";
 import Header from "./layout/Header.jsx";
-import { Route, Routes } from "react-router-dom"; // Navigate 추가
+import {Route, Routes} from "react-router-dom"; // Navigate 추가
 import Community from "./page/Community/Community.jsx";
-import { RecoilRoot } from "recoil";
+import {RecoilRoot} from "recoil";
 import MyPage from "./page/MyPage/MyPage.jsx";
 import ReportPage from "./page/ReportPage.jsx";
 import MainKakaoSignUp from "./page/mainuser/MainKakaoSignUp.jsx";
-import { ChatRoom } from "./page/ChatRoom.jsx";
-import { ChatRoomList } from "./page/ChatRoomList.jsx";
+import {ChatRoom} from "./page/ChatRoom/ChatRoom.jsx";
+import {ChatRoomList} from "./page/ChatRoom/ChatRoomList.jsx";
 import CreatePost from "./page/CreatePost.jsx";
-import { PaymentCheckoutPage } from "./page/tosspayment/PaymentCheckout.jsx";
-import { PaymentSuccessPage } from "./page/tosspayment/PaymentSuccess.jsx";
-import { PaymentFailPage } from "./page/tosspayment/PaymentFail.jsx";
+import {PaymentCheckoutPage} from "./page/tosspayment/PaymentCheckout.jsx";
+import {PaymentSuccessPage} from "./page/tosspayment/PaymentSuccess.jsx";
+import {PaymentFailPage} from "./page/tosspayment/PaymentFail.jsx";
 import ChatBot from "./page/ChatBot.jsx";
 import PostDetail from "./page/PostDetail.jsx";
 import NoExistUrl from "./page/NoExistUrl.jsx";

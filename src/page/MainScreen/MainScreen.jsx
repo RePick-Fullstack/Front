@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 //import {testReport} from "../data/testReport.js";
 import {eksApi} from "../../api/api.js";
 import {v4 as uuidv4} from "uuid";
-import {NewsMk2} from "./component/NewsMk2.jsx";
+import {News} from "./component/News.jsx";
 import {MainCommunity} from "./component/MainCommunity.jsx";
 
 function MainScreen() {
@@ -133,7 +133,7 @@ function MainScreen() {
                     </div>}
                 </div>
                 {enterDelay || <div className="flex flex-col gap-[10px]">
-                    <NewsMk2/>
+                    <News/>
                     <MainCommunity/>
                 </div>}
             </div>

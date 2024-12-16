@@ -1,7 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import axios from "axios";
-import {realTimeChatApi} from "../api/api.js";
+import {realTimeChatApi} from "../../api/api.js";
 
 const defaultData = {
     uuid: "454ccca4-c2d0-4cf3-b46b-086fae57226a",

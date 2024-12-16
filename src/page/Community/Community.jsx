@@ -3,9 +3,10 @@ import "../../css/community.css"
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../../data/testMainCommunity.js";
 import {useEffect, useState} from "react";
-import {getPosts, getPostsByCategory, increaseViewCount} from "../../api/postApi.js";
-import {CommunityChatRoomComponentMk2} from "./component/CommunityChatRoomComponentMk2.jsx";
+import {getPosts, getPostsByCategory} from "../../api/postApi.js";
+import {CommunityChatRoomComponent} from "./component/CommunityChatRoomComponent.jsx";
 import {translateToKorean} from "../../data/changeCategory.js";
+
 //import {translateToEnglish} from "../../data/changeCategory.js"
 
 
@@ -153,7 +154,7 @@ function Community() {
                 {/*        </div>*/}
                 {/*    </div>*/}
                 {/*</div>*/}
-                <CommunityChatRoomComponentMk2/>
+                <CommunityChatRoomComponent/>
             </div>
 
         </>
