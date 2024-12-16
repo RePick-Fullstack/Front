@@ -88,7 +88,7 @@ function Community() {
     }, [searchParams]); // searchParams 변경 시 실행
     return (
         <>
-            <div className={"rounded-xl font-bold p-10 w-[75vw]"} style={{margin: "auto"}}>
+            <div className={"rounded-xl font-bold p-10 w-[75vw]"} style={{margin: "20px 0 0 130px"}}>
                 <div className={"community_font caret-transparent"}
                      style={{fontSize: "30px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
                 <div
@@ -107,13 +107,13 @@ function Community() {
             <div className="container">
                 <div className="left-container">
                     <div className={"hotPost mb-1"}>인기 게시글</div>
-                    <hr className={"mb-2"}/>
-                    <button className={" border-2 border-b-fuchsia text-[15px] bg-[#303E4F] text-white py-1 px-5 mb-5"}
+                    <hr className={"mb-1"}/>
+                    <button className={" border-2 border-b-fuchsia text-[15px] bg-[#303E4F] text-white py-1 px-5 mx-2.5 my-2"}
                             onClick={() => createButton()}>작성하기
                     </button>
 
                     <div className={"rounded-xl border-black border-1 scrollbar-custom"} style={{
-                        height: "60vh",
+                        height: "50vh",
                         overflow: `auto`,
                         minWidth: "360px"
                     }}>
@@ -128,9 +128,9 @@ function Community() {
 
 
                                         <div className={"relative text-sm"}>
-                                            <h3 className={"inline-block align-middle p-3 text-[#232323] text-[12px]"}>{post.userNickname}</h3>
+                                            <h3 className={"inline-block align-middle ml-5 mb-2 font-bold text-[#232323] text-[12px]"}>{post.userNickname}</h3>
                                             <div className={"absolute top-0 right-0 inline-block align-middle"}>
-                                                <ul className={"list-none p-3 flex text-[#232323] text-[9px]"}>
+                                                <ul className={"list-none flex text-[#232323] text-[10px] mr-2"}>
                                                     <li className={"mr-2"}> 좋아요 : {post.likesCount}</li>
                                                     <li className={"mr-2"}> 댓글 : {post.commentsCount}</li>
                                                     <li> 조회 : {post.viewCount}</li>
