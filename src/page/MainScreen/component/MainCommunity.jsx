@@ -21,7 +21,8 @@ export const MainCommunity = () => {
             console.log("server is not running");
         });
         console.log(posts);
-        setCommunity(posts);
+        const sortedPosts = sortCommunity(posts,'조회순');
+        setCommunity(sortedPosts);
     };
 
     const handleCommunity = async () => {
@@ -31,7 +32,8 @@ export const MainCommunity = () => {
             console.log(getCommunity);
             console.log("=============================");
             // posts = 게시물 가져오는 API임. 커뮤니티 가져오는 API를 만들거나 아니면 걍 정적데이터 testMainCommunity 쓰던가 해야됨.
-            getCommunity.data;
+            const sortedCommunity = sortCommunity(getCommunity.data,'조회순'); //정렬후 업데이트
+            setCommunity(sortedCommunity);
         } catch {
             console.log("Community is not running");
         }
@@ -39,11 +41,12 @@ export const MainCommunity = () => {
     const handleSelect = (value) => {
         setSelected(value);
         setView(false);
-        sortCommunity(value);
+        const sorted = sortCommunity(community,value);
+        setCommunity(sorted);
     };
 
-    const sortCommunity = (sortBy) => {
-        const sorted = [...community].sort((a, b) => {
+    const sortCommunity = (data, sortBy) => {
+        const sorted = [...data].sort((a, b) => {
             if (sortBy === '조회순') {
                 return b.viewCount - a.viewCount; // 조회수 내림차순
             } else if (sortBy === '인기순') {
@@ -51,7 +54,7 @@ export const MainCommunity = () => {
             }
             return 0;
         });
-        setCommunity(sorted);
+        return sorted;
     };
 
 
