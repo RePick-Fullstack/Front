@@ -102,7 +102,7 @@ function SideBar() {
                                 <div>RePick만의 특별한 기능을</div>
                                 <div>무제한으로 이용하세요!</div>
                             </div>
-                            <div onClick={()=>{ navigate("/tosspayment")}} className={"cursor-pointer bg-[#2c3e50] w-[233px] h-[40px] rounded-lg ml-2.5 mt-[5px] py-2"}>
+                            <div onClick={()=>{ handleNavigation("/tosspayment") }} className={"cursor-pointer bg-[#2c3e50] w-[233px] h-[40px] rounded-lg ml-2.5 mt-[5px] py-2"}>
                                 <div className={"text-white text-center text-[15px] font-bold"}>결제하기</div>
                             </div>
                         </div> {/* 결제 한 인원을 이 div태그박스가 안보이게 삼항연산자 사용해서 */}
