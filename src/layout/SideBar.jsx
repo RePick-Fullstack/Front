@@ -2,12 +2,14 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import "../css/sidebar.css";
-import SideBarOpen from "../assets/sideBarOpen.svg"
-import SideBarClose from "../assets/sideBarClose.svg"
-import Home from "../assets/home.svg"
-import ReportDownload from "../assets/reportDownload.svg"
-import Community from "../assets/community.svg"
-import ChatBot from "../assets/chatBot.svg"
+import SideBarOpen from "../assets/sideBarOpen.svg";
+import SideBarClose from "../assets/sideBarClose.svg";
+import Home from "../assets/home.svg";
+import ReportDownload from "../assets/reportDownload.svg";
+import Community from "../assets/community.svg";
+import ChatBot from "../assets/chatBot.svg";
+import MyPageLogo from "../assets/myPageLogo.svg";
+import XLogo from "../assets/XLogo.svg"
 import ChatHistory from "./ChatHistory.jsx";
 import MainSignIn from "../page/mainuser/MainSignIn.jsx";
 import MainSignUp from "../page/mainuser/MainSignUp.jsx";
@@ -62,29 +64,51 @@ function SideBar() {
                     </button>
                 </div>
                 {menuOpen ? (<>
-                    <div className={"cursor-pointer px-20 py-2.5 border-[3px] border-solid border-[#B3B3B3] rounded-xl"}>
-                        <span className={"font-semibold text-white text-[14px] text-left"}
-                            onClick={() => {
-                                handleNavigation(`/chatbot/${uuidv4().toString()}?type=new`)
-                            }}>+ 새 질문</span>
+                    <div onClick={() => {
+                        handleNavigation(`/chatbot/${uuidv4().toString()}?type=new`)
+                    }} // 챗봇 페이지 이동버튼
+                         className={"cursor-pointer items-center w-4/5 h-[40px] flex border-[1px] border-solid border-[#B3B3B3] text-left  rounded-xl mb-[-15px]"}>
+                        <span className={"font-thin text-white text-[15px] ml-3"}>+ 새 질문</span>
                     </div>
-                    <h4 className={"cursor-pointer font-semibold text-white text-[15px] m-5"}
-                        onClick={() => { //사이드바 열렸을때
-                            handleNavigation("/myPage")
-                        }}>마이 페이지</h4>
-                    <h3 className={"bg-white h-2/4 w-3/4 p-2 rounded-xl flex justify-center"}>
-                        <ChatHistory/> {/* 여기다가 chatHIstory map 써서 나오게 하면 될듯 */}
+                    <div className={" w-4/5 flex flex-row text-left mb-1"}>
+                        <img className={"h-[51px] w-[51px]"} src={MyPageLogo} alt={"MyPageLogo"}/> {/*  마이페이지 로고 */}
+                        <div className={"cursor-pointer font-semibold text-white text-[15px] mt-4 "}
+                             onClick={() => { //사이드바 열렸을때
+                                 handleNavigation("/myPage")
+                             }}>마이 페이지
+                        </div>
+                    </div>
+                    <hr className={"w-4/5 bg-white h-[1px] scale-y-50 mt-2 mb-5"}/>
+
+                    <h3 className={"text-white h-[40vh] w-3/4 rounded-xl flex justify-center"}>
+                        <ChatHistory/> {/* 최근 검색 기록 나오는 곳*/}
                     </h3>
                     {!localStorage.getItem("accessToken") ? (<>
-                        <button className={"bg-white w-[225px] mt-5"}
-                                onClick={() => setModalState({signIn: true, signUp: false})}>로그인
-                        </button>
-                        <button className={"bg-white w-[225px] mt-5"}
-                                onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
-                        </button>
-
+                        <div className={"absolute bottom-5 left-5 text-[15px]"}>
+                            <button className={"text-white font-bold mr-5"}
+                                    onClick={() => setModalState({signIn: true, signUp: false})}>로그인
+                            </button>
+                            <button className={"text-white font-bold"}
+                                    onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
+                            </button>
+                        </div>
                     </>) : (<>
-                        <button className={"text-white w-[225px] mt-5"} onClick={handleLogout}>로그아웃</button>
+                        <div className={"w-[263px] h-[147px] bg-[#DADEE3] border-2 rounded-lg"}>
+                            <div className={"flex text-[#2c3e50] flex-row justify-between p-2.5"}>
+                                <div className={"w-[45px] h-[19px] bg-white rounded-lg text-center text-[9px] text-[#2c3e50] flex items-center justify-center"}>신규</div>
+                                <p className={"px-2 pt-1"}><img src={XLogo} alt="X Logo"/> </p>
+                            </div>
+                            <div className={"text-[14px] text-[#2c3e50] text-center p-1"}>
+                                <div>RePick만의 특별한 기능을</div>
+                                <div>무제한으로 이용하세요!</div>
+                            </div>
+                            <div onClick={()=>{ navigate("/tosspayment")}} className={"cursor-pointer bg-[#2c3e50] w-[233px] h-[40px] rounded-lg ml-2.5 mt-[5px] py-2"}>
+                                <div className={"text-white text-center text-[15px] font-bold"}>결제하기</div>
+                            </div>
+                        </div> {/* 결제 한 인원을 이 div태그박스가 안보이게 삼항연산자 사용해서 */}
+                        <button className={"text-white absolute bottom-5 left-5 font-bold"}
+                                onClick={handleLogout}>로그아웃
+                        </button>
                     </>)}
                 </>) : (<>
                         <span className={"cursor-pointer"} onClick={() => { //챗봇 페이지
