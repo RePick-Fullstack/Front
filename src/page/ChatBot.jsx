@@ -18,7 +18,7 @@ function ChatBot() {
     const [isError, setIsError] = useState(false);
 
     useEffect(() => {
-        if(localStorage.getItem("accessToken") === null){
+        if (localStorage.getItem("accessToken") === null) {
             alert("쳇봇을 사용하려면 먼저 로그인 하여 주시기 바랍니다.")
             navigate("/");
             return;
@@ -28,11 +28,11 @@ function ChatBot() {
         if (validate(id.id)) {
             setIsError(false);
             !type && handlePullChat(id.id)
-            if(searchParams.get("message")) {
+            if (searchParams.get("message")) {
                 handleSendRequest()
                 setInputValue("")
             }
-            if(type) {
+            if (type) {
                 HeaddersimulateTypingEffect("번거로운 자료 조사를 간편하게")
                 navigate(`/chatbot/${id.id}`)
             }
@@ -44,24 +44,29 @@ function ChatBot() {
     }, [id.id]);
 
     const handlePullChat = async (uuid) => {
-        const { data: messages } = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`,
+        const {data: messages} = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`,
             {params: {page: 0, size: 50}});
         console.log(messages);
-        if(messages.content.length === 0) {console.log("chat is not found"); return;}
+        if (messages.content.length === 0) {
+            console.log("chat is not found");
+            return;
+        }
         const chats = [];
-            messages.content.map(message => {
-                chats.push({type: "user", text: message.request});
-                chats.push({type: "llm", text: JSON.parse(message.response).response});
+        messages.content.map(message => {
+            chats.push({type: "user", text: message.request});
+            chats.push({type: "llm", text: JSON.parse(message.response).response});
         })
         setChatHistory(chats);
     }
 
     const handleCreateChat = async () => {
-        await axios.post("https://repick.site/api/v1/chatbot",{
+        await axios.post("https://repick.site/api/v1/chatbot", {
                 "uuid": `${id.id}`,
                 "title": `${inputValue}`
             },
-            {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}}).catch((err) => {console.log(err)});
+            {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}}).catch((err) => {
+            console.log(err)
+        });
     }
 
     // 챗봇 응답 요청 및 타이핑 효과 적용
@@ -101,11 +106,11 @@ function ChatBot() {
         let currentText = "";
 
         for (let i = 0; i < words.length; i++) {
-            currentText +=  words[i];
+            currentText += words[i];
             setHeader(currentText + "_");
             await new Promise((resolve) => setTimeout(resolve, 150)); // 타이핑 효과를 위해 지연 시간 설정
         }
-        setHeader( currentText);
+        setHeader(currentText);
     };
 
     const handleSendRequest = async () => {
@@ -150,11 +155,11 @@ function ChatBot() {
 
     return (
         <div className={"ml-[50px] h-full"}
-             style={{maxHeight:` calc(100% - 55px)`}}>
+             style={{maxHeight: ` calc(100% - 55px)`}}>
             <div className={"flex flex-row h-full"}
-                 style={{maxHeight:` calc(100% - 80px)`}}>
+                 style={{maxHeight: ` calc(100% - 80px)`}}>
                 <div ref={chatBoxRef}
-                    className="chatBot-container w-full flex justify-center h-full overflow-y-scroll scrollbar-custom">
+                     className="chatBot-container w-full flex justify-center h-full overflow-y-scroll scrollbar-custom">
                     <ul className="chatBox w-full">
                         {chatHistory.length === 0 && <h1>{header}</h1>}
                         {chatHistory.map((message, index) => (
@@ -163,7 +168,10 @@ function ChatBot() {
                                 className={`slide-up text-[18px] mt-[15px] w-full ${message.type === "user" ? "font-bold text-center" : ""}`}
                             >
                                 {message.type === "llm" ? (
-                                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                    <ReactMarkdown remarkPlugins={[remarkGfm]}
+                                                   className="markdown-content"
+                                                   breaks={true}
+                                                   skipHtml={false}>
                                         {message.text}
                                     </ReactMarkdown>
                                 ) : (
