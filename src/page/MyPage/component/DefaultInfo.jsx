@@ -213,7 +213,6 @@ export const DefaultInfo = () => {
                                 }
                                 className="border px-2 py-1 w-full"
                             >
-                                <option value="">선택</option>
                                 <option value="MALE">남성</option>
                                 <option value="FEMALE">여성</option>
                             </select>
