@@ -110,7 +110,7 @@ export const CommunityChatRoomComponentMk2 = () => {
 
     return (
         <div className="right-container">
-            <div className="w-[390px] h-[521px] bg-white rounded-[30px] shadow border-2 border-[#f7f7f9]">
+            <div className="w-[390px] h-[530px] bg-white rounded-[20px] shadow-[2px_2px_2px_2px_#f2f4f5] border-solid border-[3px] border-[#f2f4f5]">
                 <div
                     className="w-[196px] h-[63px] text-center text-[#303e4f] text-[22px] font-bold flex items-center justify-center">커뮤니티
                     채팅방

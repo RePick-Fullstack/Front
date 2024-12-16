@@ -164,7 +164,7 @@ function MainScreen() {
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={handleEnterKey}
                             />
-                            <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
+                            <div className={"absolute flex items-center justify-center w-3 h-[45px]"}
                                  style={{left: 'calc(100% - 30px)'}}
                             >
                                 <button className="inputButton" onClick={() => handleSendRequest()}
