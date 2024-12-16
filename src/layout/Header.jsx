@@ -15,6 +15,7 @@ function Header() {
     const [modalState, setModalState] = useState({signIn: false, signUp: false});
     const [userName, setUserName] = useState('');
     const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     // URL에서 토큰 추출 및 처리
     useEffect(() => {
@@ -114,6 +115,10 @@ function Header() {
         setUserName('');
         window.location.reload();
     };
+    const handleNavigation = (path) => {
+        navigate(path);
+        window.location.reload();
+    }
 
     useEffect(() => {
         if (tokenRemainingTime === 0) {
@@ -154,7 +159,7 @@ function Header() {
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
                                 <button className={"bg-white mt-2"} onClick={handleLogout}>로그아웃</button>
-                                <button onClick={() => navigate('/tosspayment')}>결제하기</button>
+                                <button onClick={() => handleNavigation("mypage")}>마이페이지</button>
                                 {/* 토큰 연장 버튼 */}
                                 <div className="user-greeting">안녕하세요, {userName}님!</div>
                                 <div className="token-timer">
