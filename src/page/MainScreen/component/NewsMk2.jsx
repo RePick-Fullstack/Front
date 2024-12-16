@@ -24,7 +24,7 @@ export const NewsMk2 = () => {
                 <div className={"h-full overflow-y-scroll scrollbar-custom"}
                 style={{animation: `opacityAnimation 1s ease-out forwards`}}>
                     {news.map((item, index) => (
-                        <div className={"hover:bg-gray-200 hover:cursor-pointer text-sm font-semibold rounded-xl py-3 px-2 ml-3 flex items-center gap-1"}
+                        <div className={"hover:bg-gray-200 hover:cursor-pointer text-[12px] font-semibold rounded-xl py-3 px-2 ml-3 flex items-center gap-1"}
                              key={index}>
                             <a
                                 className={"w-[200px]"}

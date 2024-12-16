@@ -90,8 +90,7 @@ function MainScreen() {
                                                 onClick={() => {handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);}}
                                             >{`${report.company_name}`}</span>
                                                 <span>{report.report_title}</span>
-                                                <span className={"text-left ml-[52px]"}><a className={"ml-5 hover:underline"}
-                                                                                   href={report.pdf_link}>{report.securities_firm}</a></span>
+                                                <span className={"text-left ml-[75px]"}>{report.securities_firm}</span>
                                                 <span className={"text-center ml-[25px]"}>{report.report_date}</span>
                                                 {/*여기에 리포트 내용의 요약이 들어가야됨*/}
                                             </div>
