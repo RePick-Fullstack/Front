@@ -73,7 +73,7 @@ function SideBar() {
                     <div onClick={() => {
                         handleNavigation(`/chatbot/${uuidv4().toString()}?type=new`)
                     }} // 챗봇 페이지 이동버튼
-                         className={"cursor-pointer items-center w-4/5 h-[40px] flex border-[1px] border-solid border-[#B3B3B3] text-left  rounded-xl mb-[-15px]"}>
+                         className={"cursor-pointer items-center w-4/5 h-[40px] flex border-[1px] border-solid border-[#B3B3B3] text-left  rounded-xl"}>
                         <span className={"font-thin text-white text-[15px] ml-3"}>+ 새 질문</span>
                     </div>
                     <div className={" w-4/5 flex flex-row text-left mb-1"}>
@@ -90,36 +90,47 @@ function SideBar() {
                         <ChatHistory/> {/* 최근 검색 기록 나오는 곳*/}
                     </h3>
                     {!localStorage.getItem("accessToken") ? (<>
-                        <div className={"absolute bottom-5 left-5 text-[15px]"}>
-                            <button className={"text-white font-bold mr-5"}
+                        <div className={"absolute bottom-5 left-5 font-medium text-[12px]"}>
+                            <button className={"text-white mr-5"}
                                     onClick={() => setModalState({signIn: true, signUp: false, contactAdmin: false})}>로그인
                             </button>
-                            <button className={"text-white font-bold mr-5"}
+                            <button className={"text-white mr-5"}
                                     onClick={() => setModalState({signIn: false, signUp: true, contactAdmin: false})}>회원가입
                             </button>
                             <button
-                                className={"text-white font-bold"}
+                                className={"text-white"}
                                 onClick={() => setModalState({signIn: false, signUp: false, contactAdmin: true})}>
                                 고객센터
                             </button>
                         </div>
                     </>) : (<>
-                        {isVisible &&( //isVisible이 true때 표시
+                        {isVisible && ( //isVisible이 true때 표시
 
-                         <div className={"w-[263px] h-[147px] bg-[#DADEE3] border-2 rounded-lg"}>
-                            <div className={"flex text-[#2c3e50] flex-row justify-between p-2.5"}>
-                                <div className={"w-[45px] h-[19px] bg-white rounded-lg text-center text-[9px] text-[#2c3e50] flex items-center justify-center"}>신규</div>
-                                <p className={"px-2 pt-1"}><img  className={"cursor-pointer"} src={XLogo} alt="X Logo" onClick={handleHide} // 클릭 이벤트 핸들러 연결
-                                 /></p>
-                            </div>
-                            <div className={"text-[14px] text-[#2c3e50] text-center p-1"}>
-                                <div>RePick만의 특별한 기능을</div>
-                                <div>무제한으로 이용하세요!</div>
-                            </div>
-                            <div onClick={()=>{ handleNavigation("/tosspayment") }} className={"cursor-pointer bg-[#2c3e50] w-[233px] h-[40px] rounded-lg ml-2.5 mt-[5px] py-2"}>
-                                <div className={"text-white text-center text-[15px] font-bold"}>결제하기</div>
-                            </div>
-                        </div>)} {/* 결제 한 인원을 이 div태그박스가 안보이게 삼항연산자 사용해서 */}
+                            <div className={"w-[263px] h-[147px] bg-[#DADEE3] border-2 rounded-lg"}>
+                                <div className={"flex text-[#2c3e50] flex-row justify-between p-2.5"}>
+                                    <div
+                                        className={"w-[45px] h-[19px] bg-white rounded-lg text-center text-[9px] text-[#2c3e50] flex items-center justify-center"}>신규
+                                    </div>
+                                    <p className={"px-2 pt-1"}><img className={"cursor-pointer"} src={XLogo}
+                                                                    alt="X Logo" onClick={handleHide} // 클릭 이벤트 핸들러 연결
+                                    /></p>
+                                </div>
+                                <div className={"text-[14px] text-[#2c3e50] text-center p-1"}>
+                                    <div>RePick만의 특별한 기능을</div>
+                                    <div>무제한으로 이용하세요!</div>
+                                </div>
+                                <div onClick={() => {
+                                    handleNavigation("/tosspayment")
+                                }}
+                                     className={"cursor-pointer bg-[#2c3e50] w-[233px] h-[40px] rounded-lg ml-2.5 mt-[5px] py-2"}>
+                                    <div className={"text-white text-center text-[15px] font-bold"}>결제하기</div>
+                                </div>
+                            </div>)} {/* 결제 한 인원을 이 div태그박스가 안보이게 삼항연산자 사용해서 */}
+                        <button
+                            className={"text-white font-medium text-[12px] absolute bottom-5 left-5"}
+                            onClick={() => setModalState({signIn: false, signUp: false, contactAdmin: true})}>
+                            고객센터
+                        </button>
                     </>)}
                 </>) : (<>
                         <span className={"cursor-pointer"} onClick={() => { //챗봇 페이지
