@@ -18,6 +18,7 @@ function ChatBot() {
     const [header, setHeader] = useState("");
     const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isNew, setisNew] = useState(false);
 
     useEffect(() => {
         if (localStorage.getItem("accessToken") === null) {
@@ -35,6 +36,7 @@ function ChatBot() {
                 setInputValue("")
             }
             if (type) {
+                setisNew(true)
                 HeaddersimulateTypingEffect("번거로운 자료 조사를 간편하게")
                 navigate(`/chatbot/${id.id}`)
             }
@@ -61,10 +63,10 @@ function ChatBot() {
         setChatHistory(chats);
     }
 
-    const handleCreateChat = async () => {
+    const handleCreateChat = async (buttonInput) => {
         await axios.post("https://repick.site/api/v1/chatbot", {
                 "uuid": `${id.id}`,
-                "title": `${inputValue}`
+                "title": `${buttonInput || inputValue}`
             },
             {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}}).catch((err) => {
             console.log(err)
@@ -115,14 +117,14 @@ function ChatBot() {
         setHeader(currentText);
     };
 
-    const handleSendRequest = async () => {
-        chatHistory.length === 0 && await handleCreateChat()
+    const handleSendRequest = async (buttonInput) => {
+        chatHistory.length === 0 && await handleCreateChat(buttonInput)
         setIsLoading(true);
         const fetchChatBotResponse = async () => {
             try {
                 const response = await axios.post(`https://repick.site/api/v1/chatbot/message/${id.id}/async`,
                     {
-                        message: inputValue,
+                        message: buttonInput || inputValue,
                     }, {
                         headers: {
                             'Content-Type': 'application/json',
@@ -135,8 +137,8 @@ function ChatBot() {
                 addChatEntry("error", "챗봇 응답을 불러오지 못했습니다.");
             }
         };
-        if (inputValue) {
-            addChatEntry("user", inputValue); // 사용자가 입력한 메시지 추가
+        if (buttonInput || inputValue) {
+            addChatEntry("user", buttonInput || inputValue); // 사용자가 입력한 메시지 추가
             await fetchChatBotResponse();
             setIsLoading(false);
         }
@@ -163,7 +165,7 @@ function ChatBot() {
                  style={{maxHeight: ` calc(100% - 80px)`}}>
                 <div ref={chatBoxRef}
                      className="chatBot-container w-full flex items-center h-full overflow-y-scroll scrollbar-custom">
-                    <ul className="chatBox w-full">
+                    <ul className="chatBox w-full h-full">
                         {chatHistory.length === 0 && <h1>{header}</h1>}
                         {chatHistory.map((message, index) => (
                             <li
@@ -183,8 +185,41 @@ function ChatBot() {
                                 {message.type === "user" && <hr className="mt-[15px]"/>}
                             </li>
                         ))}
+                        {isNew && chatHistory.length === 0 && <div className="flex h-full items-end"
+                        style={{maxHeight: ` calc(100% - 125px)`}}>
+                            <div className={"flex justify-between w-full gap-5"}>
+                            <button className={"markdown-content w-full h-20"}
+                            style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                    onClick={() => {
+                                        handleSendRequest("예상 질문 1");
+                                    }}
+                            >예상 질문 1</button>
+                                <button className={"markdown-content w-full h-20"}
+                                        style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                        onClick={() => {
+                                            handleSendRequest("예상 질문 2");
+                                        }}
+                                >예상 질문 2
+                                </button>
+                                <button className={"markdown-content w-full h-20"}
+                                        style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                        onClick={() => {
+                                            handleSendRequest("예상 질문 3");
+                                        }}
+                                >예상 질문 3
+                                </button>
+                                <button className={"markdown-content w-full h-20"}
+                                        style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                        onClick={() => {
+                                            handleSendRequest("예상 질문 4");
+                                        }}
+                                >예상 질문 4
+                                </button>
+                            </div>
+                        </div>}
+                        {isLoading && <div className={"py-[15px] flex justify-center"}><LoadingSvg w={48} h={48}/></div>}
                     </ul>
-                    {isLoading && <div className={"py-[15px]"}><LoadingSvg w={48} h={48}/></div>}
+
                 </div>
             </div>
             <div className={"flex justify-center"}>
@@ -209,7 +244,6 @@ function ChatBot() {
                                     ></path>
                                 </svg>
                             </button>
-
                         </div>
                     </div>
                 </div>
