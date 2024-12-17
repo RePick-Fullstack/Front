@@ -149,9 +149,6 @@ function MainScreen() {
             </div>
 
             <div>
-                <div className={"flex justify-center items-center"}>
-                    <img className={"text-center"} src={Logo} alt="Logo" width="200px"/>
-                </div>
                 <div className={`w-full flex justify-center ${chating ? `h-96` : `h-0`} overflow-y-scroll pl-5`}>
                     <div className="chatArea w-full max-w-[744px]" ref={chatAreaRef}>
                         {chatHistory.map((chat, index) => (
