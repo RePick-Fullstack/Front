@@ -1,10 +1,10 @@
 /* eslint-disable */
 import '../css/CreatePost.css';
-import { testMainCommunity } from "../data/testMainCommunity.js";
-import { useEffect, useState } from 'react';
-import { setAuthHeader } from "../api/api.js";
-import { useNavigate } from "react-router-dom";
-import { createPost } from "../api/postApi.js";
+import {testMainCommunity} from "../data/testMainCommunity.js";
+import {useEffect, useState} from 'react';
+import {setAuthHeader} from "../api/api.js";
+import {useNavigate} from "react-router-dom";
+import {createPost} from "../api/postApi.js";
 import {translateToEnglish, translateToKorean} from "../data/changeCategory.js";
 
 const CreatePost = () => {
@@ -45,7 +45,7 @@ const CreatePost = () => {
             }
 
             // 게시글 데이터 전송
-            const postRequest = { title, content, category: translateToEnglish(category) };
+            const postRequest = {title, content, category: translateToEnglish(category)};
             console.log("전송데이터 : " + JSON.stringify(postRequest, null, 2));
             await createPost(postRequest);
             alert('게시글 작성 완료!');
