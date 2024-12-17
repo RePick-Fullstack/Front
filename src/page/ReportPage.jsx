@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 import {eksApi} from "../api/api.js";
 import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 import Pdf from "../assets/pdf.svg"
+import Search from "../assets/search.svg"
+import Arrow from "../assets/arrow.svg"
 
 function ReportPage() {
     const [reports, setReports] = useState([]);
@@ -17,42 +19,49 @@ function ReportPage() {
 
     const handleCompanyReports = async (searchPage) => {
         setIsSearching(false);
-        if(!searchPage) {setPage(0)}
+        if (!searchPage) {
+            setPage(0)
+        }
         setLoading(true);
         setCompanyOrSector("기업");
         setActiveIndex(0);
         const {data: getReports} = await eksApi.get("/reports/company",
-            {params: {page: searchPage-1 || 0, size: 10}}).catch(err => console.log(err));
+            {params: {page: searchPage - 1 || 0, size: 10}}).catch(err => console.log(err));
         setReports(getReports.content);
-        setPageSize(Array.from({ length: getReports.totalPages}));
+        setPageSize(Array.from({length: getReports.totalPages}));
         console.log(getReports);
         setLoading(false);
     };
 
     const handleIndustryReports = async (searchPage) => {
         setIsSearching(false);
-        if(!searchPage) {setPage(0)}
+        if (!searchPage) {
+            setPage(0)
+        }
         setLoading(true);
         setCompanyOrSector("산업");
         setActiveIndex(1);
         const {data: getReports} = await eksApi.get("/reports/industry",
-            {params: {page: searchPage-1 || 0, size: 10}}).catch(err => console.log(err));
+            {params: {page: searchPage - 1 || 0, size: 10}}).catch(err => console.log(err));
         setReports(getReports.content);
-        setPageSize(Array.from({ length: getReports.totalPages}));
+        setPageSize(Array.from({length: getReports.totalPages}));
         setLoading(false);
     };
 
     const handleSearch = async (searchPage) => {
         setIsSearching(true);
-        if(!searchPage) {setPage(0)}
+        if (!searchPage) {
+            setPage(0)
+        }
         setLoading(true);
         const type = companyOrSector === "기업" ? "company" : "industry";
         console.log(type);
-        const {data: getReports} = await axios.get(`https://repick.site/api/v1/reports/${type}keyword`,{
-            params: {keyword: keyword, page: searchPage-1 || 0, size: 10}}).catch(err => console.log(err));
+        const {data: getReports} = await axios.get(`https://repick.site/api/v1/reports/${type}keyword`, {
+            params: {keyword: keyword, page: searchPage - 1 || 0, size: 10}
+        }).catch(err => console.log(err));
         console.log(getReports);
         setReports(getReports.content);
-        setPageSize(Array.from({ length: getReports.totalPages}));
+        setPageSize(Array.from({length: getReports.totalPages}));
         setLoading(false);
     }
 
@@ -93,30 +102,34 @@ function ReportPage() {
                     </div>
                     <div className="right_report_container">
                         <ul className={"font-black"}>
-                            <li className={"min-w-[830px] grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2"}>
+                            <li className={"min-w-[830px] flex px-4 py-1"}>
                                 <span></span>
                                 <span></span>
                                 <span></span>
+                                <img src={Search} alt="SearchLogo"/>
                                 <input
-                                    className={"border text-center"}
+                                    className={"outline-none text-left ml-2.5"}
                                     value={keyword}
-                                    onChange={(e)=>setKeyword(e.target.value)}
+                                    placeholder={"무엇이든 찾아보세요"}
+                                    onChange={(e) => setKeyword(e.target.value)}
                                     onKeyPress={handleEnterKey}
+                                    style={{width: "500px", height: "50px", fontSize: "20px"}}
                                 ></input>
-                                <div>
-                                    <button
-                                        className="text-right"
-                                        onClick={() => handleSearch()}
-                                    >검색
-                                    </button>
-                                    <button
-                                        onClick={handleReset}
-                                    >초기화</button>
-                                </div>
-
+                                {/*<div>*/}
+                                {/*    <button*/}
+                                {/*        className="text-right"*/}
+                                {/*        onClick={() => handleSearch()}*/}
+                                {/*    >검색*/}
+                                {/*    </button>*/}
+                                {/*    <button*/}
+                                {/*        onClick={handleReset}*/}
+                                {/*    >초기화*/}
+                                {/*    </button>*/}
+                                {/*</div>*/}
                             </li>
+                            <hr className={"mb-5 w-[500px]"}/>
                             <li className={"min-w-[830px] grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2"}>
-                            <span className="text-left">{companyOrSector}</span>
+                                <span className="text-left">{companyOrSector}</span>
                                 <span className="text-left">레포트 제목</span>
                                 <span className="text-left">증권사</span>
                                 <span className="text-center">발행 일자</span>
@@ -126,8 +139,7 @@ function ReportPage() {
                                     <li key={index}>
                                         <div
                                             className={"min-w-[830px] text-[14px] font-medium grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2 border-t border-gray-300"}>
-                                                <span
-                                                    className={"text-left"}>{companyOrSector === "기업" ? report.company_name : report.sector}</span>
+                                            <span className={"text-left"}>{companyOrSector === "기업" ? report.company_name : report.sector}</span>
                                             <span className={"text-left"}>{report.report_title}</span>
                                             <span className={"text-left"}>{report.securities_firm}</span>
                                             <span className={"text-center"}>{report.report_date}</span>
@@ -144,11 +156,11 @@ function ReportPage() {
                                     </li>
                             )
                             }
-                            {!loading && <div className={"min-w-830"}>
+                            {!loading && <div className={"min-w-830 font-medium"}>
                                 <div className={"flex justify-center items-center"}>
                                     <div className={"-rotate-90 hover:cursor-pointer"}
                                          onClick={() => setPage(page === 0 ? 0 : page - 1)}
-                                    >▲
+                                    ><img src={Arrow} alt="leftArrow"/>
                                     </div>
                                     {pageSize
                                         .filter((_, index) => {
@@ -158,20 +170,25 @@ function ReportPage() {
                                         })
                                         .map((report, index) => {
                                             const pageIndex = page * 10 + index + 1;
+                                            const isActivePage = page === pageIndex - 1;  // 현재 페이지와 일치하는지 확인 -> 페이지 background 포기
+                                            console.log(pageIndex)
+                                            console.log(isActivePage)
                                             return (
                                                 <div key={index}
-                                                     className={"w-5 hover:cursor-pointer"}
+                                                     className={`w-5 h-5 flex items-center justify-center hover:cursor-pointer rounded-full 
+                                                       ${isActivePage ? "bg-blue-500 text-white" : ""} font-medium`}
                                                      onClick={() => {
-                                                        isSearching ? handleSearch(pageIndex) : companyOrSector === "기업" ? handleCompanyReports(pageIndex) : handleIndustryReports(pageIndex);
-                                                     }}
-                                                >
+                                                         { console.log(index)}
+                                                         isSearching ? handleSearch(pageIndex) : companyOrSector === "기업"
+                                                             ? handleCompanyReports(pageIndex)
+                                                             : handleIndustryReports(pageIndex);}}>
                                                     {pageIndex}
                                                 </div>
                                             );
                                         })}
                                     <div className={"rotate-90 hover:cursor-pointer"}
                                          onClick={() => setPage(page === Math.floor(pageSize.length / 10) ? Math.floor(pageSize.length / 10) : page + 1)}
-                                    >▲
+                                    ><img src={Arrow} alt="rightArrow"/>
                                     </div>
                                 </div>
                             </div>}
