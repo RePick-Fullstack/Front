@@ -128,32 +128,34 @@ export const DefaultInfo = () => {
 
     return (
         <div>
-            <div className={"flex flex-row mb-5"}>
-                <div className={"font-bold text-lg mb-2 mt-5 "}>기본정보</div>
-                {/*<button*/}
-                {/*    onClick={handleEditClick}*/}
-                {/*    className="border px-3 text-white py-2 rounded bg-gray-500 ml-3 mt-2"*/}
-                {/*>*/}
-                {/*    수정*/}
-                {/*</button>*/}
-                {/*<button*/}
-                {/*    onClick={handleDeleteAccount}*/}
-                {/*    className="bg-[#2c3e50] text-white px-3 py-2 rounded ml-3 mt-2"*/}
-                {/*>*/}
-                {/*    회원 탈퇴*/}
-                {/*</button>*/}
+            <div className={"flex justify-between"}>
+                <div className={"font-bold text-lg mb-4 mt-5 "}>회원정보</div>
+                <div className={"flex gap-5 items-center justify-center"}>
+                <button
+                    onClick={handleEditClick}
+                    className="border px-3 h-10 text-white py-2 rounded bg-gray-500"
+                >
+                    수정
+                </button>
+                <button
+                    onClick={handleDeleteAccount}
+                    className="bg-[#2c3e50] h-10 text-white px-3 py-2 rounded"
+                >
+                    회원 탈퇴
+                </button>
+                </div>
             </div>
-            <hr />
+            <div className={"border-b-[1px] border-black"}/>
 
             {/* 사용자 정보 표시 */}
             {["name", "nickname", "gender", "birthDate", "email"].map((field) => (
                 <React.Fragment key={field}>
-                    <div className="w-full h-16 flex items-center px-2 justify-between">
-                        <div className="w-48">{field === "name" ? "이름" :
+                    <div className="w-full h-[75px] flex items-center text-[14px]">
+                        <div className="w-40 font-bold">{field === "name" ? "이름" :
                             field === "nickname" ? "닉네임" :
                                 field === "gender" ? "성별" :
                                     field === "birthDate" ? "생년월일" : "이메일"}</div>
-                        <div className="w-64">
+                        <div className="w-[200px] h-10 flex items-center px-2 border rounded">
                             {field === "gender"
                                 ? userInfo.gender === "MALE"
                                     ? "남성"
@@ -163,7 +165,7 @@ export const DefaultInfo = () => {
                                 : userInfo[field]}
                         </div>
                     </div>
-                    <hr />
+                    <div className={"border-b-[1px]"}/>
                 </React.Fragment>
             ))}
 
@@ -178,7 +180,7 @@ export const DefaultInfo = () => {
                             <input
                                 type="text"
                                 value={editUserInfo.name}
-                                onChange={(e) => setEditUserInfo({ ...editUserInfo, name: e.target.value })}
+                                onChange={(e) => setEditUserInfo({...editUserInfo, name: e.target.value})}
                                 className="border px-2 py-1 w-full"
                             />
                             {errors.name && <p className="text-red-500">{errors.name}</p>}
@@ -190,7 +192,7 @@ export const DefaultInfo = () => {
                             <input
                                 type="text"
                                 value={editUserInfo.nickname}
-                                onChange={(e) => setEditUserInfo({ ...editUserInfo, nickname: e.target.value })}
+                                onChange={(e) => setEditUserInfo({...editUserInfo, nickname: e.target.value})}
                                 className="border px-2 py-1 w-full"
                             />
                             {errors.nickname && <p className="text-red-500">{errors.nickname}</p>}
@@ -201,7 +203,7 @@ export const DefaultInfo = () => {
                             <label>성별</label>
                             <select
                                 value={editUserInfo.gender}
-                                onChange={(e) => setEditUserInfo({ ...editUserInfo, gender: e.target.value })}
+                                onChange={(e) => setEditUserInfo({...editUserInfo, gender: e.target.value})}
                                 className="border px-2 py-1 w-full"
                             >
                                 <option value="MALE">남성</option>
@@ -216,7 +218,7 @@ export const DefaultInfo = () => {
                             <input
                                 type="date"
                                 value={editUserInfo.birthDate}
-                                onChange={(e) => setEditUserInfo({ ...editUserInfo, birthDate: e.target.value })}
+                                onChange={(e) => setEditUserInfo({...editUserInfo, birthDate: e.target.value})}
                                 max="2024-12-18"
                                 className="border px-2 py-1 w-full"
                             />
