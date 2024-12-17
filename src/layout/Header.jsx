@@ -7,6 +7,7 @@ import '../css/header.css'
 import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 import MainSignIn from "../page/mainuser/MainSignIn.jsx";
 import MainSignUp from "../page/mainuser/MainSignUp.jsx";
+import Logo from "../assets/logo_black.png";
 
 function Header() {
     const navigate = useNavigate();
@@ -15,7 +16,6 @@ function Header() {
     const [modalState, setModalState] = useState({signIn: false, signUp: false});
     const [userName, setUserName] = useState('');
     const [tokenRemainingTime, setTokenRemainingTime] = useState(null);
-    const [menuOpen, setMenuOpen] = useState(false);
 
     // URL에서 토큰 추출 및 처리
     useEffect(() => {
@@ -171,17 +171,24 @@ function Header() {
                             </>
                         ) : (
                             <>
-                                {!localStorage.getItem("accessToken") ? (<>
-                                    <button className={"bg-white w-[55px]"}
-                                            onClick={() => setModalState({signIn: true, signUp: false})}>로그인
-                                    </button>
-                                    <button className={"bg-white w-[65px]"}
-                                            onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
-                                    </button>
+                                <div className={"justify-between flex flex-row"}>
+                                    <div>
+                                        <img className={"text-center"} src={Logo} alt="Logo" width="200px"/>
+                                    </div>
+                                    <div>
+                                        {!localStorage.getItem("accessToken") ? (<>
+                                            <button className={"bg-white w-[55px]"}
+                                                    onClick={() => setModalState({signIn: true, signUp: false})}>로그인
+                                            </button>
+                                            <button className={"bg-white w-[65px]"}
+                                                    onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
+                                            </button>
 
-                                </>) : (<>
+                                        </>) : (<>
 
-                                </>)}
+                                        </>)}
+                                    </div>
+                                </div>
                             </>
                         )}
                     </div>
