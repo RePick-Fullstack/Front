@@ -8,6 +8,8 @@ import {eksApi} from "../../api/api.js";
 import {v4 as uuidv4} from "uuid";
 import {News} from "./component/News.jsx";
 import {MainCommunity} from "./component/MainCommunity.jsx";
+import Logo from "../../assets/logo_black.png"
+
 
 function MainScreen() {
     let navigate = useNavigate();
@@ -84,10 +86,13 @@ function MainScreen() {
                                 <ul> {/*     종목분석 레포트     */}
                                     {reports.map((report, index) =>
                                         <li key={index}>
-                                            <div className={"report_data grid grid-cols-4 gap-4 px-4 py-2 text-[black]"}>
+                                            <div
+                                                className={"report_data grid grid-cols-4 gap-4 px-4 py-2 text-[black]"}>
                                             <span
                                                 className={"text-left ml-4 hover:cursor-pointer hover:underline"}
-                                                onClick={() => {handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);}}
+                                                onClick={() => {
+                                                    handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);
+                                                }}
                                             >{`${report.company_name}`}</span>
                                                 <span>{report.report_title}</span>
                                                 <span className={"text-left ml-[75px]"}>{report.securities_firm}</span>
@@ -116,13 +121,17 @@ function MainScreen() {
                             <ul>       {/*    여기에 산업분석 레포트 나오는거 넣기  */}
                                 {industryReports.map((report, index) =>
                                     <li key={index}>
-                                        <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-5 px-4 py-2 text-[black]"}>
+                                        <div
+                                            className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-5 px-4 py-2 text-[black]"}>
                                             <span
-                                                onClick={() => {handleSendRequest(report.sector + " " + `현황 알려줘`);}}
+                                                onClick={() => {
+                                                    handleSendRequest(report.sector + " " + `현황 알려줘`);
+                                                }}
                                                 className={"text-left ml-4 hover:cursor-pointer hover:underline"}>{`${report.sector}`}</span>
                                             <span>{report.report_title}</span>
-                                            <span className={"text-left ml-[52px]"}><a className={"ml-5 hover:underline"}
-                                                                             href={report.pdf_link}>{report.securities_firm}</a></span>
+                                            <span className={"text-left ml-[52px]"}><a
+                                                className={"ml-5 hover:underline"}
+                                                href={report.pdf_link}>{report.securities_firm}</a></span>
                                             <span className={"text-center ml-[20px]"}>{report.report_date}</span>
                                             {/*여기에 리포트 내용의 요약이 들어가야됨*/}
                                         </div>
@@ -136,9 +145,13 @@ function MainScreen() {
                     <News/>
                     <MainCommunity/>
                 </div>}
+
             </div>
 
             <div>
+                <div className={"flex justify-center items-center"}>
+                    <img className={"text-center"} src={Logo} alt="Logo" width="200px"/>
+                </div>
                 <div className={`w-full flex justify-center ${chating ? `h-96` : `h-0`} overflow-y-scroll pl-5`}>
                     <div className="chatArea w-full max-w-[744px]" ref={chatAreaRef}>
                         {chatHistory.map((chat, index) => (
@@ -180,7 +193,8 @@ function MainScreen() {
                         </div>
                     </div>
                 </div>
-                <p className={"relative justify-center w-full flex text-[10px]"}>AI는 실수할 수 있습니다. 원문을 꼭 확인하시길 바라며, 투자는 개인의 책임입니다.</p>
+                <p className={"relative justify-center w-full flex text-[10px]"}>AI는 실수할 수 있습니다. 원문을 꼭 확인하시길 바라며, 투자는
+                    개인의 책임입니다.</p>
             </div>
         </div>
     );

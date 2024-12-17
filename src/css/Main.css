@@ -12,10 +12,11 @@
     display: flex;
     flex-direction: row;
     gap: 20px;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     box-sizing: border-box;
     text-align: left;
-    height: 80vh;
+    height: 70vh;
     position: relative;
     animation: slideAnimation 1s ease-out forwards;
 }
@@ -54,7 +55,7 @@
     font-weight: 800;
 }
 .report_scroll{
-    max-height: calc(50vh - 29vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    max-height: calc(50vh - 31vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
     overflow-y: auto; /* 스크롤 활성화 */
     scrollbar-width: none;
     padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
@@ -75,7 +76,7 @@
     font-weight: 800;
 }
 .industry_scroll{
-    max-height: calc(50vh - 29vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
+    max-height: calc(50vh - 32vh); /* 전체 높이에서 상단 제목 영역을 제외한 높이 */
     overflow-y: auto;
     scrollbar-width: none;
     padding-right: 10px; /* 스크롤바와 콘텐츠 사이 여백 */
@@ -94,7 +95,6 @@
 
 .inputContainer {
     position: relative; /* 버튼 위치 조정을 위해 relative로 설정 */
-    margin-top: 15px;
 }
 
 .chatInput {
