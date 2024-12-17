@@ -151,36 +151,40 @@ function Header() {
     }, [location, isLoggedIn, navigate]);
 
     return (
-        <div className="w-full flex justify-end">
-            <header className="header">
-                <div className="header-content">
-                    <div className={"flex"}>
+        <div className="w-full">
+            <header className={"py-[10px] px-5 flex justify-between items-center m-0"}>
+                <div className="flex w-full justify-between items-center">
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
-                                <div className={"text-[#2c3e50] text-[9px]"}>
-                                    로그인 남은
-                                    시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
-                                </div>
-                                <button className="token-extend" onClick={handleTokenRefresh}>토큰연장</button>
-                                <div className="user-greeting">안녕하세요, {userName}님!</div>
-                                <button className={"bg-white mt-2"} onClick={handleLogout}>로그아웃</button>
-                                <button onClick={() => handleNavigation("mypage")}>마이페이지</button>
-                                {/* 토큰 연장 버튼 */}
-
+                                    <div className={"flex items-center"}>
+                                        <img src={Logo} alt="Logo" width="200px"/>
+                                    </div>
+                                    <div className={"flex items-center gap-3"}>
+                                        <div className={"text-[#2c3e50] text-[9px]"}>
+                                            로그인 남은
+                                            시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+                                        </div>
+                                        <button className="token-extend" onClick={handleTokenRefresh}>토큰연장</button>
+                                        <div className="user-greeting">안녕하세요, {userName}님!</div>
+                                        <button className={"w-[82px] h-[30px]"} onClick={handleLogout}>로그아웃</button>
+                                        <button className={"w-[82px] h-[30px]"} onClick={() => handleNavigation("mypage")}>마이페이지
+                                        </button>
+                                    </div>
+                                    {/* 토큰 연장 버튼 */}
 
                             </>
                         ) : (
                             <>
                                 <div className={"justify-between flex flex-row"}>
                                     <div>
-                                        <img className={"text-center"} src={Logo} alt="Logo" width="200px"/>
+                                        <img className={"float-left"} src={Logo} alt="Logo" width="200px"/>
                                     </div>
-                                    <div>
+                                    <div className={"float-right"}>
                                         {!localStorage.getItem("accessToken") ? (<>
-                                            <button className={"bg-white w-[55px]"}
+                                            <button className={"w-[82px] h-[30px]"}
                                                     onClick={() => setModalState({signIn: true, signUp: false})}>로그인
                                             </button>
-                                            <button className={"bg-white w-[65px]"}
+                                            <button className={"w-[82px] h-[30px]"}
                                                     onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
                                             </button>
 
@@ -191,7 +195,6 @@ function Header() {
                                 </div>
                             </>
                         )}
-                    </div>
                 </div>
             </header>
             {modalState.signIn && (<MainSignIn
