@@ -34,6 +34,7 @@ export const CommunityChatRoomComponent = () => {
             alert("사용자 정보가 옳바르지 않습니다.");
             return;
         }
+        console.log(user);
         setVerification(true);
         setUserId(user.id);
         setIsJoin(true);
@@ -53,11 +54,12 @@ export const CommunityChatRoomComponent = () => {
 
         socket.onmessage = (event) => {
             console.log('Message from server:', event.data);
-            if (event.data == user.id) {
+            console.log(event.data);
+            if (Number(event.data.replace(/"/g, '')) === user.id) {
                 setLoading(true);
                 return;
             }
-            const chat = JSON.parse(event.data);
+            const chat = JSON.parse(JSON.parse(event.data));
             try {
                 setMessages((prevMessages) => [...prevMessages, chat]);
             } catch (error) {
