@@ -8,6 +8,7 @@ export const PaymentLoading = () => {
     const [searchParams] = useSearchParams();
     const amount = searchParams.get("amount");
     const orderId = searchParams.get("orderId");
+
     const handlePlantiPayRedirect = async () => {
         const response = await axios.post("https://repick.site/api/v1/tosspayments/plantipay", {}, {
             params:{amount: amount}
@@ -20,12 +21,17 @@ export const PaymentLoading = () => {
     }
 
     const handlePlantiPay = async () => {
-        const response = await axios.get("https://repick.site/api/v1/tosspayments/plantipay", {}, {
+        const response = await axios.get("https://repick.site/api/v1/tosspayments/plantipay", {
+            params:{orderId: orderId},
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }
-        })
+        }).catch((err)=> {
+            console.log(err)
+            navigate("/tosspayment/fail");
+        });
         console.log(response.data);
+        navigate(`/tosspayment/${response.data}?orderId=${orderId}`);
     }
 
     useEffect(() => {

@@ -18,7 +18,7 @@ export const PaymentInfo = () => {
             if (remaining === null || new Date(remaining) < new Date().getTime()) {
                 return;
             }
-
+            console.log(remaining);
             setRemaining(remaining);
         }
         handleRemaining();
