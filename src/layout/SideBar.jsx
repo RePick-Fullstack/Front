@@ -23,6 +23,11 @@ function SideBar() {
     const [modalState, setModalState] = useState({signIn: false, signUp: false, contactAdmin: false});
     const [userName, setUserName] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isVisible, setIsVisible] = useState(true); // 상태 관리로 보여짐 여부 설정
+
+    const handleHide = () => {
+        setIsVisible(false); // 클릭 시 숨기기
+    };
 
     const handleNavigation = (path) => {
         setMenuOpen(false);
@@ -99,10 +104,13 @@ function SideBar() {
                             </button>
                         </div>
                     </>) : (<>
-                        <div className={"w-[263px] h-[147px] bg-[#DADEE3] border-2 rounded-lg"}>
+                        {isVisible &&( //isVisible이 true때 표시
+
+                         <div className={"w-[263px] h-[147px] bg-[#DADEE3] border-2 rounded-lg"}>
                             <div className={"flex text-[#2c3e50] flex-row justify-between p-2.5"}>
                                 <div className={"w-[45px] h-[19px] bg-white rounded-lg text-center text-[9px] text-[#2c3e50] flex items-center justify-center"}>신규</div>
-                                <p className={"px-2 pt-1"}><img src={XLogo} alt="X Logo"/> </p>
+                                <p className={"px-2 pt-1"}><img  className={"cursor-pointer"} src={XLogo} alt="X Logo" onClick={handleHide} // 클릭 이벤트 핸들러 연결
+                                 /></p>
                             </div>
                             <div className={"text-[14px] text-[#2c3e50] text-center p-1"}>
                                 <div>RePick만의 특별한 기능을</div>
@@ -111,7 +119,7 @@ function SideBar() {
                             <div onClick={()=>{ handleNavigation("/tosspayment") }} className={"cursor-pointer bg-[#2c3e50] w-[233px] h-[40px] rounded-lg ml-2.5 mt-[5px] py-2"}>
                                 <div className={"text-white text-center text-[15px] font-bold"}>결제하기</div>
                             </div>
-                        </div> {/* 결제 한 인원을 이 div태그박스가 안보이게 삼항연산자 사용해서 */}
+                        </div>)} {/* 결제 한 인원을 이 div태그박스가 안보이게 삼항연산자 사용해서 */}
                     </>)}
                 </>) : (<>
                         <span className={"cursor-pointer"} onClick={() => { //챗봇 페이지
