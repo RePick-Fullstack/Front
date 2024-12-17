@@ -71,8 +71,8 @@ function SideBar() {
                         <span className={"font-thin text-white text-[15px] ml-3"}>+ 새 질문</span>
                     </div>
                     <div className={" w-4/5 flex flex-row text-left mb-1"}>
-                        <img className={"h-[51px] w-[51px]"} src={MyPageLogo} alt={"MyPageLogo"}/> {/*  마이페이지 로고 */}
-                        <div className={"cursor-pointer font-semibold text-white text-[14px] mt-4 "}
+                        <img src={MyPageLogo} alt={"MyPageLogo"}/> {/*  마이페이지 로고 */}
+                        <div className={"cursor-pointer font-semibold text-white text-[14px] mt-1 ml-2.5"}
                              onClick={() => { //사이드바 열렸을때
                                  handleNavigation("/myPage")
                              }}>마이페이지
