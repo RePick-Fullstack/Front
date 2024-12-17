@@ -154,22 +154,24 @@ function Header() {
         <div className="w-full flex justify-end">
             <header className="header">
                 <div className="header-content">
-                    <div className="auth-buttons">
+                    <div className={"flex"}>
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
-                                <button className={"bg-white mt-2"} onClick={handleLogout}>로그아웃</button>
-                                <button onClick={() => handleNavigation("mypage")}>마이페이지</button>
-                                {/* 토큰 연장 버튼 */}
-                                <div className="user-greeting">안녕하세요, {userName}님!</div>
-                                <div className="token-timer">
+                                <div className={"text-[#2c3e50] text-[9px]"}>
                                     로그인 남은
                                     시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                 </div>
                                 <button className="token-extend" onClick={handleTokenRefresh}>토큰연장</button>
+                                <div className="user-greeting">안녕하세요, {userName}님!</div>
+                                <button className={"bg-white mt-2"} onClick={handleLogout}>로그아웃</button>
+                                <button onClick={() => handleNavigation("mypage")}>마이페이지</button>
+                                {/* 토큰 연장 버튼 */}
+
+
                             </>
                         ) : (
                             <>
-                            {!localStorage.getItem("accessToken") ? (<>
+                                {!localStorage.getItem("accessToken") ? (<>
                                     <button className={"bg-white w-[55px]"}
                                             onClick={() => setModalState({signIn: true, signUp: false})}>로그인
                                     </button>

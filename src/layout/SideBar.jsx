@@ -57,7 +57,7 @@ function SideBar() {
                         {menuOpen ? "" : <img src={SideBarOpen} alt="SideBar Logo"/>}
                     </button>
                 </div>)}
-                <div className={"flex justify-between items-center mb-9 w-3/4 ml-2.5"}>
+                <div className={"flex justify-between items-center mb-5 w-3/4 ml-2.5"}>
                     <button onClick={() => {  //홈 버튼
                         navigate('/');
                         setMenuOpen(false);
@@ -107,14 +107,6 @@ function SideBar() {
                         {isVisible && ( //isVisible이 true때 표시
 
                             <div className={"w-[263px] h-[147px] bg-[#DADEE3] border-2 rounded-lg"}>
-                                <div className={"flex text-[#2c3e50] flex-row justify-between p-2.5"}>
-                                    <div
-                                        className={"w-[45px] h-[19px] bg-white rounded-lg text-center text-[9px] text-[#2c3e50] flex items-center justify-center"}>신규
-                                    </div>
-                                    <p className={"px-2 pt-1"}><img className={"cursor-pointer"} src={XLogo}
-                                                                    alt="X Logo" onClick={handleHide} // 클릭 이벤트 핸들러 연결
-                                    /></p>
-                                </div>
                                 <div className={"text-[14px] text-[#2c3e50] text-center p-1"}>
                                     <div>RePick만의 특별한 기능을</div>
                                     <div>무제한으로 이용하세요!</div>
