@@ -130,7 +130,7 @@ function SideBar() {
                         }}>
                             <img src={ChatBot} alt="ChatBot Logo"/> 
                         </span>
-                    <div className={"cursor-pointer mb-8"} onClick={() => { //커뮤니티 TOTAL 페이지
+                    <div className={"cursor-pointer mb-3.5"} onClick={() => { //커뮤니티 TOTAL 페이지
                         navigate("/community?category=TOTAL")
                     }}>
                         <img src={Community} alt="Community Logo"/>
