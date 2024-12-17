@@ -1,4 +1,5 @@
 const changeCategory = {
+    TOTAL : "에너지",
     ENERGY : "에너지",
     MATERIALS : "소재",
     INDUSTRIALS : "산업재",

@@ -21,6 +21,7 @@ function Community() {
 
     const getData = async (selectedCategory) => {
         try {
+            localStorage.setItem("selectedCategory", selectedCategory)
             console.log("선택한 카테고리" + selectedCategory);
             if (selectedCategory === "TOTAL") {
                 return await getPosts();
