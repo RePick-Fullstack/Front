@@ -42,6 +42,14 @@ function Header() {
         }
     }, [location, navigate]);
 
+    //로고 클릭시 동작 함수
+    const handleLogoClick = () =>{
+        if(window.location.pathname === "/"){
+            window.location.reload();
+        }else {
+            navigate("/");
+        }
+    };
 
     // 사용자 이름 가져오기
     const fetchUserName = async (accessToken) => {
@@ -156,8 +164,8 @@ function Header() {
                 <div className="flex w-full justify-between items-center">
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
-                                    <div className={"flex items-center caret-transparent bg-yellow-500"}>
-                                        <img src={Logo} alt="Logo" width={"400px"}/>
+                                    <div className={"flex items-center caret-transparent ml-8 w-[200px]"}>
+                                        <img src={Logo} alt="Logo" onClick={handleLogoClick} className={"w-[150px] h-[50px]"} style={{cursor : "pointer"}}/>
                                     </div>
                                     <div className={"flex items-center gap-3"}>
                                         <div className={"text-[#2c3e50] text-[9px]"}>
