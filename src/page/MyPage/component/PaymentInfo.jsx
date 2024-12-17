@@ -15,10 +15,10 @@ export const PaymentInfo = () => {
             const {data: remaining} = await axios.get("https://repick.site/api/v1/tosspayments/remaining",{
                 headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
             })
-            if(remaining === null){
-                setRemaining("결제 정보가 없습니다.")
+            if (remaining === null || new Date(remaining) < new Date().getTime()) {
                 return;
             }
+
             setRemaining(remaining);
         }
         handleRemaining();
