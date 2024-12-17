@@ -146,15 +146,6 @@ function Community() {
 
                     </div>
                 </div>
-                {/*<div className="right-container p-1 rounded-xl ">*/}
-                {/*    <p className={"chatRoom_font text-[25px] font-bold p-2"}>커뮤니티 채팅방</p>*/}
-                {/*    <div className={"bg-white mt-2"}>*/}
-                {/*        <div style={{*/}
-                {/*            height: "60vh",*/}
-                {/*        }}><CommunityChatRoomComponent/>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
                 <CommunityChatRoomComponent/>
             </div>
 

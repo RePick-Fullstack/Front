@@ -1,20 +1,32 @@
 import {useEffect, useRef, useState} from 'react';
 import {LoadingSvg} from "../../../assets/LoadingSvg.jsx";
 import axios from "axios";
+import {realTimeChatApi} from "../../../api/api.js";
+import {uuidCategory} from "../../../data/changeCategory.js";
+import {useSearchParams} from "react-router-dom";
 
 let socket = null;
 
 export const CommunityChatRoomComponent = () => {
     const [messages, setMessages] = useState([]);
+    const [searchParams] = useSearchParams();
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
     const [isJoin, setIsJoin] = useState(false);
-    const [verification, setVerification] = useState(false);
     const [userId, setUserId] = useState(-1);
+    const [selectChatRoom, setSelectChatRoom] = useState({});
+    const category = searchParams.get("category")
+
 
     function delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const ChatRoomLoad = async () => {
+        console.log(category);
+        const {data: chatRoom} = await realTimeChatApi.get(`/${uuidCategory[category]}`)
+        setSelectChatRoom(chatRoom);
     }
 
     const handleJoin = async () => {
@@ -30,12 +42,13 @@ export const CommunityChatRoomComponent = () => {
         }).catch((err) => {
             console.log(err)
         });
+
         if (!user) {
             alert("사용자 정보가 옳바르지 않습니다.");
             return;
         }
+
         console.log(user);
-        setVerification(true);
         setUserId(user.id);
         setIsJoin(true);
         const {data: messages} = await axios.get("https://repick.site/api/v1/chatroom/38e05c99-d5c7-41bd-ae84-4c7f2d0de160/message", {
@@ -100,12 +113,13 @@ export const CommunityChatRoomComponent = () => {
     };
 
     useEffect(() => {
+        ChatRoomLoad()
         return () => {
             if (socket) {
                 socket.close();
             }
         };
-    }, []);
+    }, [category]);
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -120,27 +134,23 @@ export const CommunityChatRoomComponent = () => {
         event.key === 'Enter' && sendMessage();
     };
 
-    function formatKoreanTime(date) {
-        const options = {hour: 'numeric', minute: 'numeric', hour12: true, timeZone: 'Asia/Seoul'};
-        return new Intl.DateTimeFormat('ko-KR', options).format(date);
-    }
-
     return (
         <div className="right-container">
             <div
                 className="w-[390px] h-[530px] bg-white rounded-[20px] shadow-[2px_2px_2px_2px_#f2f4f5] border-solid border-[3px] border-[#f2f4f5]">
                 <div
-                    className="w-[196px] h-[63px] text-center text-[#303e4f] text-[22px] font-bold flex items-center justify-center">커뮤니티
-                    채팅방
+                    className="w-[196px] h-[63px] text-center text-[#303e4f] text-[22px] font-bold flex items-center justify-center">
+                    커뮤니티 채팅방
                 </div>
                 <div className="w-[375px] h-[46px] border-y-2 border-[#f7f7f9] flex items-center justify-between">
                     <div className="flex">
                         <div
-                            className="w-[125px] h-6 text-[#303e4f] text-[16px] font-bold flex items-center justify-center">2차전지
-                            손해방
+                            className="w-[125px] h-6 text-[#303e4f] text-[16px] font-bold flex items-center justify-center">
+                            {selectChatRoom.chatRoomName || <LoadingSvg w={24} h={24}/>}
                         </div>
                         <div
-                            className="w-12 h-6 text-center text-[#777777]/70 text-sm font-bold flex items-center justify-center">523명
+                            className="w-12 h-6 text-center text-[#777777]/70 text-sm font-bold flex items-center justify-center">
+                            {selectChatRoom.UserNumber || <LoadingSvg w={24} h={24}/>}명
                         </div>
                     </div>
                     {!isJoin ? <div
@@ -190,7 +200,6 @@ export const CommunityChatRoomComponent = () => {
                                                     className="min-w-16 text-center text-[#8f8f8f] text-[11px] flex items-end justify-center">
                                                     {formatDate(message.createAt)}
                                                 </div>}
-
                                             </div>
                                         </div>
                                     </li>
