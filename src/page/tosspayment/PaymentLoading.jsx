@@ -14,7 +14,7 @@ export const PaymentLoading = () => {
             params:{amount: amount}
         }).catch((err)=> {
             console.log(err)
-            navigate("/tosspayment/fail");
+            navigate("/tosspayment/fail?message=Plantipay 서버에러");
         });
         console.log(response.data);
         window.location.href = `https://payments-client-seven.vercel.app/payment?token=${response.data.token}`;
@@ -28,7 +28,7 @@ export const PaymentLoading = () => {
             }
         }).catch((err)=> {
             console.log(err)
-            navigate("/tosspayment/fail");
+            navigate("/tosspayment/fail?message=Plantipay 서버에러");
         });
         console.log(response.data);
         navigate(`/tosspayment/${response.data}?orderId=${orderId}`);
