@@ -5,8 +5,9 @@
 .header {
     padding: 10px 20px;
     display: flex;
-    justify-content: space-between; /* 양옆에 공간을 두기 */
-    align-items: center;
+    flex-direction: row;
+    width: 100%;
+
 
 }
 
