@@ -16,6 +16,7 @@ import MainSignUp from "../page/mainuser/MainSignUp.jsx";
 import {usersApi} from "../api/api.js";
 import {v4 as uuidv4} from "uuid";
 import MainContactAdmin from "../page/mainuser/MainContactAdmin.jsx";
+import axios from "axios";
 
 function SideBar() {
     const navigate = useNavigate();
@@ -23,8 +24,26 @@ function SideBar() {
     const [modalState, setModalState] = useState({signIn: false, signUp: false, contactAdmin: false});
     const [userName, setUserName] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isVisible, setIsVisible] = useState(true); // 상태 관리로 보여짐 여부 설정
+    const [isVisible, setIsVisible] = useState(null); // 상태 관리로 보여짐 여부 설정
 
+    useEffect(() => {
+        const handleBilling = async () => {
+            const {data: billing} = await usersApi.get("/users/billing", {
+                headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
+            })
+            console.log("billing 타입 : " + typeof billing);
+            console.log("billing : " + JSON.stringify(billing));
+            if (billing && billing.billing===false) {
+                console.log("결제 안됐음 false임")
+                setIsVisible(true);
+
+            } else {
+                console.log("결제 했음 true임");
+                setIsVisible(false);
+            }
+        };
+        handleBilling();
+    },[])
     const handleHide = () => {
         setIsVisible(false); // 클릭 시 숨기기
     };
@@ -79,10 +98,18 @@ function SideBar() {
                     {!localStorage.getItem("accessToken") ? (<>
                         <div className={"absolute bottom-5 left-5 font-medium text-[12px]"}>
                             <button className={"text-white mr-5"}
-                                    onClick={() => setModalState({signIn: true, signUp: false, contactAdmin: false})}>로그인
+                                    onClick={() => setModalState({
+                                        signIn: true,
+                                        signUp: false,
+                                        contactAdmin: false
+                                    })}>로그인
                             </button>
                             <button className={"text-white mr-5"}
-                                    onClick={() => setModalState({signIn: false, signUp: true, contactAdmin: false})}>회원가입
+                                    onClick={() => setModalState({
+                                        signIn: false,
+                                        signUp: true,
+                                        contactAdmin: false
+                                    })}>회원가입
                             </button>
                             <button
                                 className={"text-white"}
