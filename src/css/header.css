@@ -3,12 +3,10 @@
 @tailwind utilities;
 
 .header {
+    box-sizing  : border-box;
     padding: 10px 20px;
     display: flex;
-    flex-direction: row;
-    width: 100%;
-
-
+    margin: 0;
 }
 
 .modal-content {
@@ -44,9 +42,7 @@
     z-index: 10;
 }
 .user-greeting{
-    margin-top: 10px;
-    margin-left: 11px;
-    float:left;
+    margin-top: 3px;
 }
 
 .modal-content {
@@ -168,23 +164,14 @@ button.close-modal:hover {
     margin-right: 8px;
 }
 
-.token-timer {
-    background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
-    color: white; /* 글자 색상 */
-    padding: 10px 15px; /* 패딩 */
-    border-radius: 8px; /* 둥근 모서리 */
-    font-size: 8px; /* 글자 크기 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-    z-index: 1000; /* 우선순위 높임 */
-}
+
 .token-extend{
     color: #2c3e50; /* 글자 색상 */
+    height: 30px;
     padding: 8px 10px; /* 패딩 */
     border-radius: 15px; /* 둥근 모서리 */
     border: 1px solid #2c3e50;
     font-size: 8px; /* 글자 크기 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-    z-index: 1000; /* 우선순위 높임 */
 }
 
 .kakao {

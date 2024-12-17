@@ -95,6 +95,7 @@
 
 .inputContainer {
     position: relative; /* 버튼 위치 조정을 위해 relative로 설정 */
+    margin-top: 30px;
 }
 
 .chatInput {
