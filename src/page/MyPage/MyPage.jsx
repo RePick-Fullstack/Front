@@ -3,9 +3,7 @@ import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {DefaultInfo} from "./component/DefaultInfo.jsx";
 import {PaymentInfo} from "./component/PaymentInfo.jsx";
-import {PostInfo} from "./component/PostInfo.jsx";
-import {CommentInfo} from "./component/CommentInfo.jsx";
-import {ReportInfo} from "./component/ReportInfo.jsx";
+import {PostInfo} from "./component/PostInfo/PostInfo.jsx";
 
 function MyPage() {
     const navigate = useNavigate();
@@ -18,12 +16,12 @@ function MyPage() {
 
     return (
         <>
-            <div className="ml-[50px] px-10 flex flex-wrap gap-5">
-                <DefaultInfo/>
-                <PaymentInfo/>
-                <PostInfo/>
-                <CommentInfo/>
-                <ReportInfo/>
+            <div className="ml-[50px] px-10 flex flex-wrap gap-5 justify-center">
+                <div className={"flex flex-col w-[600px]"}>
+                    <DefaultInfo/>
+                    <PaymentInfo/>
+                </div>
+                    <PostInfo/>
             </div>
         </>
     )

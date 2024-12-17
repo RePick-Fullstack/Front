@@ -139,7 +139,7 @@ export const DefaultInfo = () => {
                 </button>
                 <button
                     onClick={handleDeleteAccount}
-                    className="bg-[#2c3e50] h-10 text-white px-3 py-2 rounded"
+                    className="bg-[#2c3e50] h-10 text-white px-3 py-2 rounded hover:bg-[#37afe1]"
                 >
                     회원 탈퇴
                 </button>
@@ -150,7 +150,7 @@ export const DefaultInfo = () => {
             {/* 사용자 정보 표시 */}
             {["name", "nickname", "gender", "birthDate", "email"].map((field) => (
                 <React.Fragment key={field}>
-                    <div className="w-full h-[75px] flex items-center text-[14px]">
+                    <div className="w-full h-16 flex items-center text-[14px]">
                         <div className="w-40 font-bold">{field === "name" ? "이름" :
                             field === "nickname" ? "닉네임" :
                                 field === "gender" ? "성별" :
