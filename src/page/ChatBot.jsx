@@ -191,29 +191,29 @@ function ChatBot() {
                             <button className={"markdown-content w-full h-20"}
                             style={{paddingLeft: "0px", paddingRight: "0px"}}
                                     onClick={() => {
-                                        handleSendRequest("예상 질문 1");
+                                        handleSendRequest("2025년 유망 산업은?");
                                     }}
-                            >예상 질문 1</button>
+                            >2025년 유망 산업은?</button>
                                 <button className={"markdown-content w-full h-20"}
                                         style={{paddingLeft: "0px", paddingRight: "0px"}}
                                         onClick={() => {
-                                            handleSendRequest("예상 질문 2");
+                                            handleSendRequest("2024년 KOSPI200 건설업종 주가 동향");
                                         }}
-                                >예상 질문 2
+                                >2024년 KOSPI200 <br/>건설업종 주가 동향
                                 </button>
                                 <button className={"markdown-content w-full h-20"}
                                         style={{paddingLeft: "0px", paddingRight: "0px"}}
                                         onClick={() => {
-                                            handleSendRequest("예상 질문 3");
+                                            handleSendRequest("24년 하반기 시장 흐름은?");
                                         }}
-                                >예상 질문 3
+                                >24년 하반기 시장<br/> 흐름은?
                                 </button>
                                 <button className={"markdown-content w-full h-20"}
                                         style={{paddingLeft: "0px", paddingRight: "0px"}}
                                         onClick={() => {
-                                            handleSendRequest("예상 질문 4");
+                                            handleSendRequest("트럼프 대선이 한국에 미치는 25년 전망");
                                         }}
-                                >예상 질문 4
+                                >트럼프 대선이 한국에 미치는 25년 전망
                                 </button>
                             </div>
                         </div>}
