@@ -72,13 +72,13 @@ function SideBar() {
                     </div>
                     <div className={" w-4/5 flex flex-row text-left mb-1"}>
                         <img className={"h-[51px] w-[51px]"} src={MyPageLogo} alt={"MyPageLogo"}/> {/*  마이페이지 로고 */}
-                        <div className={"cursor-pointer font-semibold text-white text-[15px] mt-4 "}
+                        <div className={"cursor-pointer font-semibold text-white text-[14px] mt-4 "}
                              onClick={() => { //사이드바 열렸을때
                                  handleNavigation("/myPage")
-                             }}>마이 페이지
+                             }}>마이페이지
                         </div>
                     </div>
-                    <hr className={"w-4/5 bg-white h-[1px] scale-y-50 mt-2 mb-5"}/>
+                    <hr className={"w-4/5 bg-white border-[0.5px] scale-y-50 mb-5"}/>
 
                     <h3 className={"text-white h-[40vh] w-3/4 rounded-xl flex justify-center"}>
                         <ChatHistory/> {/* 최근 검색 기록 나오는 곳*/}
@@ -106,9 +106,6 @@ function SideBar() {
                                 <div className={"text-white text-center text-[15px] font-bold"}>결제하기</div>
                             </div>
                         </div> {/* 결제 한 인원을 이 div태그박스가 안보이게 삼항연산자 사용해서 */}
-                        <button className={"text-white absolute bottom-5 left-5 font-bold"}
-                                onClick={handleLogout}>로그아웃
-                        </button>
                     </>)}
                 </>) : (<>
                         <span className={"cursor-pointer"} onClick={() => { //챗봇 페이지
