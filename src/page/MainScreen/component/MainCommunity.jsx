@@ -75,7 +75,7 @@ export const MainCommunity = () => {
                 {community.map((item, index) => {
                     return (
                         <div
-                            className={"hover:bg-gray-200 text-sm rounded-xl py-2 pl-2 ml-3 flex items-center gap-1 cursor-pointer text-[#213457]"}
+                            className={"hover:bg-gray-200 text-sm rounded-xl py-2 pl-2 ml-3 flex items-center gap-1 cursor-pointer text-[black]"}
                             onClick={() => {
                                 navigate(`/posts/${item.id}`)
                             }}
