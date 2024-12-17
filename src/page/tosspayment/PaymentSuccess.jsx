@@ -59,7 +59,7 @@ if(searchParams.get("paymentKey")) {
               <div className="flex justify-center">
                 <img width="100px" src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png"/>
               </div>
-              <div className="p-grid typography--p" style={{marginTop: "50px"}}>
+              <div className="p-grid typography--p" style={{marginTop: "10px"}}>
                 <div className="p-grid-col text--left">
                   <b>결제금액</b>
                 </div>
@@ -76,6 +76,20 @@ if(searchParams.get("paymentKey")) {
                 </div>
               </div>
               <div className="p-grid-col">
+              </div>
+              <div className={"flex justify-center text-white text-2xl gap-10"}>
+                <button
+                    className={"rounded-[25px] bg-[#303e4f] w-48 h-14 " +
+                        "flex flex-col justify-center items-center " +
+                        "py-5 cursor-pointer gap-5 hover:bg-[#37AFE1] "}
+                    onClick={() => navigate("/tosspayment")}>
+                  <div>추가 결제</div>
+                </button>
+                <button
+                    className={"rounded-[25px] bg-[#303e4f] w-48 h-14 flex flex-col justify-center items-center py-5 cursor-pointer gap-5 hover:bg-[#37AFE1] "}
+                    onClick={() => navigate("/")}>
+                  <div>홈페이지</div>
+                </button>
               </div>
             </div>
           </div>
