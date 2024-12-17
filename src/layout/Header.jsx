@@ -80,7 +80,6 @@ function Header() {
                 localStorage.setItem('refreshToken', data.refreshToken.token);
 
                 updateTokenRemainingTime();
-                alert('토큰이 연장되었습니다.');
             } else {
                 throw new Error('서버로부터 유효한 accessToken을 받지 못했습니다.');
             }
