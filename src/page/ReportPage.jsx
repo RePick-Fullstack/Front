@@ -16,12 +16,14 @@ function ReportPage() {
     const [pageSize, setPageSize] = useState([]);
     const [keyword, setKeyword] = useState("");
     const [isSearching, setIsSearching] = useState(false);
+    const [nowView , setNowView] = useState(1);
 
     const handleCompanyReports = async (searchPage) => {
         setIsSearching(false);
         if (!searchPage) {
             setPage(0)
         }
+        setNowView(searchPage || 1);
         setLoading(true);
         setCompanyOrSector("기업");
         setActiveIndex(0);
@@ -38,6 +40,7 @@ function ReportPage() {
         if (!searchPage) {
             setPage(0)
         }
+        setNowView(searchPage || 1);
         setLoading(true);
         setCompanyOrSector("산업");
         setActiveIndex(1);
@@ -53,6 +56,7 @@ function ReportPage() {
         if (!searchPage) {
             setPage(0)
         }
+        setNowView(searchPage || 1);
         setLoading(true);
         const type = companyOrSector === "기업" ? "company" : "industry";
         console.log(type);
@@ -170,15 +174,11 @@ function ReportPage() {
                                         })
                                         .map((report, index) => {
                                             const pageIndex = page * 10 + index + 1;
-                                            const isActivePage = page === pageIndex - 1;  // 현재 페이지와 일치하는지 확인 -> 페이지 background 포기
-                                            console.log(pageIndex)
-                                            console.log(isActivePage)
                                             return (
                                                 <div key={index}
                                                      className={`w-5 h-5 flex items-center justify-center hover:cursor-pointer rounded-full 
-                                                       ${isActivePage ? "bg-blue-500 text-white" : ""} font-medium`}
+                                                       ${nowView === pageIndex ? "bg-blue-500 text-white" : ""} font-medium`}
                                                      onClick={() => {
-                                                         { console.log(index)}
                                                          isSearching ? handleSearch(pageIndex) : companyOrSector === "기업"
                                                              ? handleCompanyReports(pageIndex)
                                                              : handleIndustryReports(pageIndex);}}>
