@@ -222,7 +222,7 @@ function ChatBot() {
 
                 </div>
             </div>
-            <div className={"flex justify-center"}>
+            <div className={"flex justify-center pr-2"}>
                 <div className="inputContainer flex w-full justify-center pb-5">
                     <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
                         <input
