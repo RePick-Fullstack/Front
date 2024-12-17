@@ -57,7 +57,7 @@ function ChatHistory() {
                                      className={"overflow-hidden flex justify-center items-center hover:cursor-pointer px-2 hover:bg-gray-500 rounded-lg"}>
                                     <h2
                                         onClick={() => navigate(`/chatbot/${chatBotRoom.uuid}`)}
-                                        className={"text-white font-bold w-full my-1 h-6 text-[14px] overflow-hidden flex items-center"}>
+                                        className={"text-white font-bold w-full my-1 h-6 text-[13px] overflow-hidden flex items-center"}>
                                         {chatBotRoom.title}
                                     </h2>
                                     <svg className={"hover:fill-red-500 z-10"}
