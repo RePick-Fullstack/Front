@@ -112,7 +112,7 @@ function ReportPage() {
                                 <span></span>
                                 <img src={Search} alt="SearchLogo"/>
                                 <input
-                                    className={"outline-none text-left ml-2.5"}
+                                    className={"outline-none text-left font-light ml-2.5"}
                                     value={keyword}
                                     placeholder={"무엇이든 찾아보세요"}
                                     onChange={(e) => setKeyword(e.target.value)}
@@ -131,7 +131,7 @@ function ReportPage() {
                                 {/*    </button>*/}
                                 {/*</div>*/}
                             </li>
-                            <hr className={"mb-5 w-[500px]"}/>
+                            <hr className={"mb-5 w-[500px] border-[1px]"}/>
                             <li className={"min-w-[830px] grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2"}>
                                 <span className="text-left">{companyOrSector}</span>
                                 <span className="text-left">레포트 제목</span>
