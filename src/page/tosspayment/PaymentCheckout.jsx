@@ -179,7 +179,7 @@ export function PaymentCheckoutPage() {
            style={{minHeight: `calc(100vh - 78px)`, maxWidth: `calc(100% - 50px)`}}>
         <div className="flex px-2 w-full">
           {!isSelected && <OrderSelect handleIsSelected={handleIsSelected}/>}
-          {isSelected && isPaySelected === 0 && <PaymentSelect setIsPaySelected={setIsPaySelected}/>}
+          {isSelected && isPaySelected === 0 && <PaymentSelect setIsPaySelected={setIsPaySelected} amount={amount}/>}
           {isSelected && isPaySelected !== 0 &&
               <div className="flex items-center justify-center h-full gap-5 flex-col w-full">
                   <div

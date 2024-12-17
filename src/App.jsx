@@ -19,6 +19,7 @@ import ChatBot from "./page/ChatBot.jsx";
 import PostDetail from "./page/PostDetail.jsx";
 import NoExistUrl from "./page/NoExistUrl.jsx";
 import EditPost from "./page/EditPost.jsx";
+import {PaymentLoading} from "./page/tosspayment/PaymentLoading.jsx";
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
                     <Route path="/chatbot/:id" element={<ChatBot />} />
                     <Route path="/chatbot" element={<ChatBot />} />
                     <Route path="/tosspayment" element={<PaymentCheckoutPage />} />
+                    <Route path="/tosspayment/loading" element={<PaymentLoading />} />
                     <Route path="/tosspayment/success" element={<PaymentSuccessPage />} />
                     <Route path="/tosspayment/fail" element={<PaymentFailPage />} />
                     <Route path="/editpost/:id" element={<EditPost/>}/>
