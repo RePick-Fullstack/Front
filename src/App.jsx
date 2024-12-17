@@ -47,7 +47,7 @@ function App() {
                     <Route path="/tosspayment/loading" element={<PaymentLoading />} />
                     <Route path="/tosspayment/success" element={<PaymentSuccessPage />} />
                     <Route path="/tosspayment/fail" element={<PaymentFailPage />} />
-                    <Route path="/editpost/:id" element={<EditPost/>}/>
+                    <Route path="/editpost/:postId" element={<EditPost/>}/>
 
                     {/* 잘못된 URL 접근 시 리다이렉트 */}
                     <Route path="*" element={<NoExistUrl/>} />
