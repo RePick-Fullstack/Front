@@ -15,11 +15,12 @@ import MainSignIn from "../page/mainuser/MainSignIn.jsx";
 import MainSignUp from "../page/mainuser/MainSignUp.jsx";
 import {usersApi} from "../api/api.js";
 import {v4 as uuidv4} from "uuid";
+import MainContactAdmin from "../page/mainuser/MainContactAdmin.jsx";
 
 function SideBar() {
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
-    const [modalState, setModalState] = useState({signIn: false, signUp: false});
+    const [modalState, setModalState] = useState({signIn: false, signUp: false, contactAdmin: false});
     const [userName, setUserName] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -86,10 +87,15 @@ function SideBar() {
                     {!localStorage.getItem("accessToken") ? (<>
                         <div className={"absolute bottom-5 left-5 text-[15px]"}>
                             <button className={"text-white font-bold mr-5"}
-                                    onClick={() => setModalState({signIn: true, signUp: false})}>로그인
+                                    onClick={() => setModalState({signIn: true, signUp: false, contactAdmin: false})}>로그인
                             </button>
-                            <button className={"text-white font-bold"}
-                                    onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
+                            <button className={"text-white font-bold mr-5"}
+                                    onClick={() => setModalState({signIn: false, signUp: true, contactAdmin: false})}>회원가입
+                            </button>
+                            <button
+                                className={"text-white font-bold"}
+                                onClick={() => setModalState({signIn: false, signUp: false, contactAdmin: true})}>
+                                고객센터
                             </button>
                         </div>
                     </>) : (<>
@@ -136,6 +142,12 @@ function SideBar() {
             {modalState.signUp && (<MainSignUp
                 setIsSignUpOpen={(isOpen) => setModalState({...modalState, signUp: isOpen})}
                 setIsLoggedIn={setIsLoggedIn}/>)}
+            {modalState.contactAdmin && (
+                <MainContactAdmin
+                    setIsContactUsOpen={(isOpen) => setModalState({...modalState, contactAdmin: isOpen})} // 수정
+                    setIsLoggedIn={setIsLoggedIn}
+                />
+            )}
         </div>
     </>)
 
