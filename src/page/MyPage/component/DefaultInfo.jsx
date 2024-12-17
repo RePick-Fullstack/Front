@@ -129,19 +129,19 @@ export const DefaultInfo = () => {
     return (
         <div>
             <div className={"flex flex-row mb-5"}>
-                <div className={"font-bold text-2xl mb-2 mt-5 "}>기본정보</div>
-                <button
-                    onClick={handleEditClick}
-                    className="border px-3 text-white py-2 rounded bg-gray-500 ml-3 mt-2"
-                >
-                    수정
-                </button>
-                <button
-                    onClick={handleDeleteAccount}
-                    className="bg-[#2c3e50] text-white px-3 py-2 rounded ml-3 mt-2"
-                >
-                    회원 탈퇴
-                </button>
+                <div className={"font-bold text-lg mb-2 mt-5 "}>기본정보</div>
+                {/*<button*/}
+                {/*    onClick={handleEditClick}*/}
+                {/*    className="border px-3 text-white py-2 rounded bg-gray-500 ml-3 mt-2"*/}
+                {/*>*/}
+                {/*    수정*/}
+                {/*</button>*/}
+                {/*<button*/}
+                {/*    onClick={handleDeleteAccount}*/}
+                {/*    className="bg-[#2c3e50] text-white px-3 py-2 rounded ml-3 mt-2"*/}
+                {/*>*/}
+                {/*    회원 탈퇴*/}
+                {/*</button>*/}
             </div>
             <hr />
 

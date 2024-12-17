@@ -78,6 +78,17 @@ export const CommunityChatRoomComponent = () => {
         };
     }
 
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate);
+        date.setHours(date.getHours() + 9);
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const period = hours < 12 ? "오전" : "오후";
+        const formattedHours = hours % 12 === 0 ? 12 : hours % 12; // 0시, 12시는 12로 표시
+        const formattedMinutes = String(minutes).padStart(2, "0");
+        return `${period} ${formattedHours}:${formattedMinutes}`;
+    };
+
     const sendMessage = () => {
         if (input.trim() && socket && socket.readyState === WebSocket.OPEN) {
             const message = {id: userId, input: input}
@@ -167,12 +178,16 @@ export const CommunityChatRoomComponent = () => {
                                             <div
                                                 className={`text-${isMe ? `right` : 'left'} text-[#232323] text-xs font-bold my-1`}>{message.username}</div>
                                             <div className={"flex"}>
-                                                <div
+                                                {isMe && <div
                                                     className="min-w-16 text-center text-[#8f8f8f] text-[11px] flex items-end justify-center">
-                                                    {message.createAt.substring(11, 16)}
-                                                </div>
+                                                    {formatDate(message.createAt)}
+                                                </div>}
                                                 <div
                                                     className={`min-h-[30px] bg-[#f4f7f8] rounded-[20px] p-2 flex items-center px-5`}>{`${message.message}`}</div>
+                                                {!isMe && <div
+                                                    className="min-w-16 text-center text-[#8f8f8f] text-[11px] flex items-end justify-center">
+                                                    {formatDate(message.createAt)}
+                                                </div>}
 
                                             </div>
                                         </div>
