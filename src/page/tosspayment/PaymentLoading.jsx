@@ -30,8 +30,8 @@ export const PaymentLoading = () => {
             console.log(err)
             navigate("/tosspayment/fail?message=Plantipay 서버에러");
         });
-        console.log(response.data);
-        navigate(`/tosspayment/${response.data}?orderId=${orderId}`);
+        if(response.data === 0){navigate("/tosspayment/fail?message=Plantipay 서버에러"); return;}
+        navigate(`/tosspayment/success?orderId=${orderId}&amount=${response.data}`);
     }
 
     useEffect(() => {
