@@ -98,7 +98,7 @@ function Community() {
                     <span className={"font-semibold text-sm flex gap-6 "}>
                          {data.map((item, index) => (
                              <span
-                                 className={"caret-transparent cursor-pointer hover:underline hover:text-[15px] hover:text-slate-700 text-center"}
+                                 className={"caret-transparent cursor-pointer text-center transform transition-transform duration-300 hover:scale-125  hover:text-slate-700"}
                                  key={index}
                                  onClick={() => handleCategoryChange(item.title)}>
                                  {item.description}</span>
