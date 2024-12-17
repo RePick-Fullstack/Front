@@ -23,7 +23,7 @@ export const CompanyReportView = () => {
 
     return (
         <>
-            <div className={"pl-20 flex items-center gap-2 h-10"}>
+            <div className={"pl-[34px] flex items-center gap-2 h-10"}>
                 <div className={"w-20"}>
                     종목 레포트
                 </div>
