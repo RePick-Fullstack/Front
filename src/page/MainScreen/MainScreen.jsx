@@ -84,7 +84,7 @@ function MainScreen() {
                                 <ul> {/*     종목분석 레포트     */}
                                     {reports.map((report, index) =>
                                         <li key={index}>
-                                            <div className={"report_data grid grid-cols-4 gap-4 px-4 py-2"}>
+                                            <div className={"report_data grid grid-cols-4 gap-4 px-4 py-2 text-[black]"}>
                                             <span
                                                 className={"text-left ml-4 hover:cursor-pointer hover:underline"}
                                                 onClick={() => {handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);}}
@@ -116,7 +116,7 @@ function MainScreen() {
                             <ul>       {/*    여기에 산업분석 레포트 나오는거 넣기  */}
                                 {industryReports.map((report, index) =>
                                     <li key={index}>
-                                        <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-5 px-4 py-2"}>
+                                        <div className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-5 px-4 py-2 text-[black]"}>
                                             <span
                                                 onClick={() => {handleSendRequest(report.sector + " " + `현황 알려줘`);}}
                                                 className={"text-left ml-4 hover:cursor-pointer hover:underline"}>{`${report.sector}`}</span>
