@@ -5,7 +5,7 @@ import axios from "axios";
 export const PaymentSelect = ({setIsPaySelected}) => {
 
     const handlePlantiPay = async () => {
-        const response = await axios.post("http://localhost:4000/api/v1/tosspayments/plantipay", {}, {
+        const response = await axios.post("https://repick.site/api/v1/tosspayments/plantipay", {}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
