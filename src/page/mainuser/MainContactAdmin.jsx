@@ -13,7 +13,7 @@ function MainContactAdmin({ setIsContactUsOpen }) {
     const validateForm = () => {
         const newErrors = { name: "", message: "" };
 
-        if (!name.trim()) newErrors.name = "이름을 입력하세요.";
+        if (!name.trim()) newErrors.name = "연락받을 연락처나 이메일을 입력하세요.";
         if (!message.trim()) newErrors.message = "문의 내용을 입력하세요.";
 
         setErrors(newErrors);
@@ -179,13 +179,13 @@ function MainContactAdmin({ setIsContactUsOpen }) {
                 {!successMessage && (
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="name">이름</label>
+                            <label htmlFor="name">연락처, 이메일</label>
                             <input
                                 id="name"
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="이름을 입력하세요."
+                                placeholder="연락받을 연락처나 이메일을 입력하세요."
                                 aria-describedby="name-error"
                                 className={`input ${errors.name ? "input-error" : ""}`}
                             />

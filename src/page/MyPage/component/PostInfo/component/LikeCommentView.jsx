@@ -1,6 +1,5 @@
 import arrow from "../../../../../assets/arrow2.svg";
 import {LoadingSvg} from "../../../../../assets/LoadingSvg.jsx";
-import {changeCategory} from "../../../../../data/changeCategory.js";
 import React, {useState} from "react";
 import axios from "axios";
 
@@ -33,7 +32,7 @@ export const LikeCommentView = () => {
             </div>
             {isView && <div
                 className="w-full mt-[17px] mb-[17px] p-2 bg-[#F2F2F2] border-[1px] border-[#CCCCCC] rounded text-[14px]">
-                {comments.length === 0 && <div className={"w-full text-center"}>작성한 댓글이 없습니다.</div>}
+                {comments.length === 0 && <div className={"w-full text-center"}>좋아요한 댓글이 없습니다.</div>}
                 {comments.map((comment, index) => {
                     return (<div key={index} className={"flex items-center gap-2 h-6"}>
                         <div className={"w-36 text-center border-r-[1px] border-black"}>
