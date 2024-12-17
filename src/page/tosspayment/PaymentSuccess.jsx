@@ -34,14 +34,15 @@ export function PaymentSuccessPage() {
 
       return json;
     }
-
-    confirm()
+if(searchParams.get("paymentKey")) {
+  confirm()
       .then((data) => {
         setResponseData(data);
       })
       .catch((error) => {
         navigate(`/tosspayment/fail?code=${error.code}&message=${error.message}`);
       });
+}
   }, [searchParams]);
 
   return (
@@ -65,14 +66,6 @@ export function PaymentSuccessPage() {
           </div>
           <div className="p-grid-col text--right" id="orderId">
             {`${searchParams.get("orderId")}`}
-          </div>
-        </div>
-        <div className="p-grid typography--p" style={{ marginTop: "10px" }}>
-          <div className="p-grid-col text--left">
-            <b>paymentKey</b>
-          </div>
-          <div className="p-grid-col text--right" id="paymentKey" style={{ whiteSpace: "initial", width: "250px" }}>
-            {`${searchParams.get("paymentKey")}`}
           </div>
         </div>
         <div className="p-grid-col">
