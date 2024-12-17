@@ -127,10 +127,10 @@ export const DefaultInfo = () => {
     };
 
     return (
-        <div>
+        <div className={"max-w-[600px] w-full"}>
             <div className={"flex justify-between"}>
-                <div className={"font-bold text-lg mb-4 mt-5 "}>회원정보</div>
-                <div className={"flex gap-5 items-center justify-center"}>
+                <div className={"font-bold text-lg mb-4 mt-5 "}>회원 정보</div>
+                <div className={"flex gap-5 items-center justify-center text-[14px]"}>
                 <button
                     onClick={handleEditClick}
                     className="border px-3 h-10 text-white py-2 rounded bg-gray-500"

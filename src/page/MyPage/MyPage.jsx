@@ -18,7 +18,7 @@ function MyPage() {
 
     return (
         <>
-            <div className="ml-[50px] px-12" style={{maxWidth: "696px"}}>
+            <div className="ml-[50px] px-10 flex flex-wrap gap-5">
                 <DefaultInfo/>
                 <PaymentInfo/>
                 <PostInfo/>

@@ -36,8 +36,8 @@ function ChatBot() {
                 setInputValue("")
             }
             if (type) {
-                setisNew(true)
-                HeaddersimulateTypingEffect("번거로운 자료 조사를 간편하게")
+                !searchParams.get("message") && setisNew(true)
+                !searchParams.get("message") && HeaddersimulateTypingEffect("번거로운 자료 조사를 간편하게")
                 navigate(`/chatbot/${id.id}`)
             }
         } else {

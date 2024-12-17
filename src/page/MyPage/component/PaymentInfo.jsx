@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 
 export const PaymentInfo = () => {
@@ -37,11 +37,11 @@ export const PaymentInfo = () => {
 
 
     return (
-        <div>
-            <div className={"font-bold text-2xl mb-2 mt-5"}>구독정보</div>
-            <hr className="border-t-[2.4px]"/>
-            <div className="w-full h-16 flex items-center px-2 justify-between">
-                <div className={"w-48"}>구독 여부</div>
+        <div className={"max-w-[600px] w-full"}>
+            <div className={"font-bold text-lg mb-4 mt-5 "}>추가 정보</div>
+            <div className={"border-b-[1px] border-black"}/>
+            <div className="w-full h-16 flex items-center justify-between text-[14px]">
+                <div className={"w-48"}>구독정보</div>
                 <div className={"w-64"}>{Remaining ? `구독` : `미구독`}</div>
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
@@ -51,13 +51,13 @@ export const PaymentInfo = () => {
                     결제
                 </div>
             </div>
-            <hr className="border-t-[2.4px]" style={{borderColor: "rgb(229, 231, 235)"}}/>
+            <div className={"border-b-[1px]"}/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>구독 유효 기간</div>
                 <div className={"w-64"}>{Remaining}</div>
                 <div className={"h-8 min-w-14 flex items-center justify-center"}/>
             </div>
-            <hr className="border-t-[2.4px]"/>
+            <div className={"border-b-[1px]"}/>
             <div className="w-full h-16 flex items-center px-2 justify-between">
                 <div className={"w-48"}>결제 내역</div>
                 <div className={"w-64"}></div>
@@ -67,28 +67,28 @@ export const PaymentInfo = () => {
                     {isView ? `닫기` : `보기`}
                 </div>
             </div>
-            <hr className="border-t-[2.4px]"/>
+            <div className={"border-b-[1px]"}/>
             {isView &&
                 <div>
                     {payments.length === 0 ? <div>
-                        <div className="w-full h-16 flex items-center px-2 justify-center">
-                            결제 내역이 없습니다.
-                        </div>
-                        <hr className="border-t-[2.4px]"/>
-                    </div> :
-                    payments.map((payment, index) => {
-                        return (
-                            <div key={index}>
-                                <div className="w-full py-2 px-2">
-                                    <div>주문 번호 : {payment.orderId}</div>
-                                    <div>결제 수단 : {payment.method}</div>
-                                    <div>결제 일시 : {payment.requestedAt}</div>
-                                    <div>결제 금액 : {payment.amount}</div>
-                                </div>
-                                <hr className="border-t-[2.4px]"/>
+                            <div className="w-full h-16 flex items-center px-2 justify-center">
+                                결제 내역이 없습니다.
                             </div>
-                        )
-                    })}
+                            <div className={"border-b-[1px]"}/>
+                        </div> :
+                        payments.map((payment, index) => {
+                            return (
+                                <div key={index}>
+                                    <div className="w-full py-2 px-2">
+                                        <div>주문 번호 : {payment.orderId}</div>
+                                        <div>결제 수단 : {payment.method}</div>
+                                        <div>결제 일시 : {payment.requestedAt}</div>
+                                        <div>결제 금액 : {payment.amount}</div>
+                                    </div>
+                                    <div className={"border-b-[1px]"}/>
+                                </div>
+                            )
+                        })}
                 </div>
             }
         </div>
