@@ -156,8 +156,8 @@ function Header() {
                 <div className="flex w-full justify-between items-center">
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
-                                    <div className={"flex items-center caret-transparent"}>
-                                        <img src={Logo} alt="Logo" width="200px"/>
+                                    <div className={"flex items-center caret-transparent bg-yellow-500"}>
+                                        <img src={Logo} alt="Logo" width={"400px"}/>
                                     </div>
                                     <div className={"flex items-center gap-3"}>
                                         <div className={"text-[#2c3e50] text-[9px]"}>
@@ -176,7 +176,7 @@ function Header() {
                         ) : (
                             <>
                                     <div className={"flex items-center caret-transparent"}>
-                                        <img className={"float-left"} src={Logo} alt="Logo" width="200px"/>
+                                        <img src={Logo} alt="Logo" width="250px"/>
                                     </div>
                                     <div className={"float-right"}>
                                         {!localStorage.getItem("accessToken") ? (<>
