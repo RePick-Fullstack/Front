@@ -176,8 +176,8 @@ function ReportPage() {
                                             const pageIndex = page * 10 + index + 1;
                                             return (
                                                 <div key={index}
-                                                     className={`w-5 h-5 flex items-center justify-center hover:cursor-pointer rounded-full 
-                                                       ${nowView === pageIndex ? "bg-blue-500 text-white" : ""} font-medium`}
+                                                     className={`w-10 h-5 flex items-center justify-center hover:cursor-pointer rounded-full 
+                                                       ${nowView === pageIndex ? "bg-[rgba(0,27,55,0.1)] text-[#333d4b]" : ""} font-medium`}
                                                      onClick={() => {
                                                          isSearching ? handleSearch(pageIndex) : companyOrSector === "기업"
                                                              ? handleCompanyReports(pageIndex)
