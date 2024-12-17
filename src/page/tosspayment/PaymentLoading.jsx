@@ -40,7 +40,8 @@ export const PaymentLoading = () => {
     }, []);
 
     return (
-        <div className={"w-full h-full flex items-center justify-center"}>
+        <div className={"pl-[50px] w-full h-full flex items-center justify-center"}
+        style={{maxHeight: `calc(100% - 55px)`}}>
             <LoadingSvg w={64} h={64}></LoadingSvg>
         </div>
     )
