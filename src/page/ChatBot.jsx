@@ -5,6 +5,7 @@ import '../css/ChatBot.css';
 import {validate} from "uuid";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 
 function ChatBot() {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ function ChatBot() {
     const chatBoxRef = useRef(null);
     const [header, setHeader] = useState("");
     const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (localStorage.getItem("accessToken") === null) {
@@ -115,6 +117,7 @@ function ChatBot() {
 
     const handleSendRequest = async () => {
         chatHistory.length === 0 && await handleCreateChat()
+        setIsLoading(true);
         const fetchChatBotResponse = async () => {
             try {
                 const response = await axios.post(`https://repick.site/api/v1/chatbot/message/${id.id}/async`,
@@ -132,10 +135,10 @@ function ChatBot() {
                 addChatEntry("error", "챗봇 응답을 불러오지 못했습니다.");
             }
         };
-
         if (inputValue) {
             addChatEntry("user", inputValue); // 사용자가 입력한 메시지 추가
             await fetchChatBotResponse();
+            setIsLoading(false);
         }
     };
 
@@ -159,7 +162,7 @@ function ChatBot() {
             <div className={"flex flex-row h-full"}
                  style={{maxHeight: ` calc(100% - 80px)`}}>
                 <div ref={chatBoxRef}
-                     className="chatBot-container w-full flex justify-center h-full overflow-y-scroll scrollbar-custom">
+                     className="chatBot-container w-full flex items-center h-full overflow-y-scroll scrollbar-custom">
                     <ul className="chatBox w-full">
                         {chatHistory.length === 0 && <h1>{header}</h1>}
                         {chatHistory.map((message, index) => (
@@ -181,6 +184,7 @@ function ChatBot() {
                             </li>
                         ))}
                     </ul>
+                    {isLoading && <div className={"py-[15px]"}><LoadingSvg w={48} h={48}/></div>}
                 </div>
             </div>
             <div className={"flex justify-center"}>
