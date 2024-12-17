@@ -89,16 +89,14 @@ function SideBar() {
                             <button className={"text-white font-bold mr-5"}
                                     onClick={() => setModalState({signIn: true, signUp: false, contactAdmin: false})}>로그인
                             </button>
-                            <button className={"text-white font-bold"}
+                            <button className={"text-white font-bold mr-5"}
                                     onClick={() => setModalState({signIn: false, signUp: true, contactAdmin: false})}>회원가입
                             </button>
                             <button
-                                className={"text-white font-bold ml-28"}
+                                className={"text-white font-bold"}
                                 onClick={() => setModalState({signIn: false, signUp: false, contactAdmin: true})}>
                                 고객센터
                             </button>
-
-
                         </div>
                     </>) : (<>
                         <div className={"w-[263px] h-[147px] bg-[#DADEE3] border-2 rounded-lg"}>
