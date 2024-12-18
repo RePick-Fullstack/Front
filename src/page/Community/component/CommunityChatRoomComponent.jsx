@@ -34,7 +34,6 @@ export const CommunityChatRoomComponent = () => {
             alert("먼저 로그인 하여 주시기 바랍니다.");
             return;
         }
-        setVerification(false);
         const {data: user} = await axios.get("https://repick.site/api/v1/chatroom/verification", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`
