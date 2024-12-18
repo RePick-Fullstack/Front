@@ -160,7 +160,7 @@ function ChatBot() {
 
     return (
         <div className={"ml-[50px] h-full"}
-             style={{maxHeight: ` calc(100% - 55px)`}}>
+             style={{maxHeight: ` calc(100% - 105px)`}}>
             <div className={"flex flex-row h-full"}
                  style={{maxHeight: ` calc(100% - 80px)`}}>
                 <div ref={chatBoxRef}
