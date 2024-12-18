@@ -67,9 +67,16 @@ export const CommunityChatRoomComponent = () => {
         socket.onmessage = (event) => {
             console.log('Message from server:', event.data);
             console.log(event.data);
-            if (Number(event.data.replace(/"/g, '')) === user.id) {
-                setLoading(true);
-                return;
+
+            const data = event.data.replace(/"/g, '');
+
+            if (!isNaN(Number(data))) {
+                if (Number(data) === user.id) {
+                    setLoading(true);
+                    return;
+                } else {
+                    return;
+                }
             }
             const chat = JSON.parse(JSON.parse(event.data));
             try {
