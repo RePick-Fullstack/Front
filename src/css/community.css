@@ -22,7 +22,6 @@
 }
 
 .left-container {
-    margin: 0 0 0 150px;
     height: auto;
     padding: 20px 20px 10px 20px; /* 콘텐츠가 편하게 들어갈 수 있도록 여백 추가 */
     width: 32vw;
