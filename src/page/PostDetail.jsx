@@ -302,8 +302,8 @@ function PostDetail() {
                         </div>
                         <div className={"bg-white"}>
                             <div className={"bg-white"}>
-                                {comments.map((comment) => (
-                                    <div>
+                                {comments.map((comment,index) => (
+                                    <div key={index}>
                                         <hr className={"border-1 mb-5 mt-5 w-[700px]"}/>
                                         <div className={"ml-5"}>
                                             <div className={"text-xl flex flex-row"}>{comment.userNickname}
