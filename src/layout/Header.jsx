@@ -167,12 +167,12 @@ function Header() {
                                     <div className={"flex items-center caret-transparent ml-[50px]"}>
                                         <img src={Logo} alt="Logo" onClick={handleLogoClick} style={{cursor : "pointer"}}/>
                                     </div>
-                                    <div className={"flex items-center gap-3"}>
+                                    <div className={"flex items-center gap-3 text-[14px]"}>
                                         <div className={"text-[#2c3e50] text-[9px]"}>
                                             로그인 남은
                                             시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                         </div>
-                                        <button className="token-extend" onClick={handleTokenRefresh}>토큰연장</button>
+                                        <button onClick={handleTokenRefresh}>토큰연장</button>
                                         <div className="user-greeting">안녕하세요, {userName}님!</div>
                                         <button className={"w-[82px] h-[30px]"} onClick={handleLogout}>로그아웃</button>
                                         <button className={"w-[82px] h-[30px]"} onClick={() => handleNavigation("mypage")}>마이페이지

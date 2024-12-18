@@ -41,9 +41,7 @@
     justify-content: center;
     z-index: 10;
 }
-.user-greeting{
-    margin-top: 3px;
-}
+
 
 .modal-content {
     position: relative;
