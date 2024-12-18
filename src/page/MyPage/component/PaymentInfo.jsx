@@ -11,18 +11,20 @@ export const PaymentInfo = () => {
     const [Remaining, setRemaining] = useState('');
 
     useEffect(() => {
-        const handleRemaining = async () => {
-            const {data: remaining} = await axios.get("https://repick.site/api/v1/tosspayments/remaining",{
-                headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
-            })
-            if (remaining === null || new Date(remaining) < new Date().getTime()) {
-                return;
-            }
-            console.log(remaining);
-            setRemaining(remaining);
-        }
         handleRemaining();
-    })
+    },[])
+
+    const handleRemaining = async () => {
+        const {data: remaining} = await axios.get("https://repick.site/api/v1/tosspayments/remaining",{
+            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
+        })
+        if (remaining.split(".")[0] < new Date().toISOString().split(".")[0]) {
+            setRemaining(null);
+            return;
+        }
+        console.log(remaining);
+        setRemaining(remaining);
+    }
 
     const formatDate = (isoString) => {
             const dateObj = new Date(isoString);

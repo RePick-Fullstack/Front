@@ -20,11 +20,13 @@ import PostDetail from "./page/PostDetail.jsx";
 import NoExistUrl from "./page/NoExistUrl.jsx";
 import EditPost from "./page/EditPost.jsx";
 import {PaymentLoading} from "./page/tosspayment/PaymentLoading.jsx";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
 function App() {
 
-
+    const queryClient = new QueryClient();
     return (
+        <QueryClientProvider client={queryClient}>
         <RecoilRoot>
             <div className="App w-full h-full">
                 {<Header />}
@@ -54,6 +56,7 @@ function App() {
                 </Routes>
             </div>
         </RecoilRoot>
+        </QueryClientProvider>
     );
 }
 

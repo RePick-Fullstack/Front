@@ -9,13 +9,14 @@ import {v4 as uuidv4} from "uuid";
 import {News} from "./component/News.jsx";
 import {MainCommunity} from "./component/MainCommunity.jsx";
 import Logo from "../../assets/logo_black.png"
+import {CompanyReport} from "./component/CompanyReport.jsx";
+import {IndustryReport} from "./component/IndustryReport.jsx";
 
 
 function MainScreen() {
     let navigate = useNavigate();
     const [reports, setReports] = useState([]);
     const [industryReports, setIndustryReports] = useState([]);
-
     const [inputValue, setInputValue] = useState("");
     const [userMessage, setUserMessage] = useState("");  // userMessage로 상태 관리
     const [chating, setChating] = useState(false);
@@ -29,17 +30,6 @@ function MainScreen() {
             chatAreaRef.current.scrollTop = chatAreaRef.current.scrollHeight;
         }
     }, [chatHistory]);
-
-    const handleReports = async (type) => {
-            const {data: {content : reports}} = await eksApi.get(`/reports/${type}`,{params:{page: 0, size: 5}}).catch(() => {console.log("server is not running");});
-            console.log(reports);
-            type === "company" ? setReports(reports) : setIndustryReports(reports);
-    };
-
-    useEffect(() => {
-        handleReports("company");
-        handleReports("industry");
-    }, []);
 
     const handleSendRequest = async (text) => {
         if (localStorage.getItem("accessToken") === null) {
@@ -57,7 +47,6 @@ function MainScreen() {
         setInputValue("");
     };
 
-
     const handleEnterKey = (event) => {
         if (event.key === "Enter") {
             handleSendRequest();
@@ -70,76 +59,9 @@ function MainScreen() {
             <div className="main_container justify-center">
                 <div className="left_container">
                     <div className="report_header">
-                        {enterDelay || <div className="hotReport">
-                            <p className={"font-bold text-xl pl-5 p-3"}>종목분석 레포트</p>
-                            <ul className={"font-extrabold"}>
-                                <hr className={"border-whitesmoke border-[0.5px]"}/>
-                                <li className={"grid grid-cols-4 font-black text-[13px] gap-4 px-4 py-2"}>
-                                    <span className="text-left ml-6">기업</span>
-                                    <span className="text-left">제목</span>
-                                    <span className="text-center ml-3">증권사</span>
-                                    <span className="text-center ml-2">발행 일자</span>
-                                </li>
-                            </ul>
-                            <hr className={"border-whitesmoke border-[0.5px]"}/>
-                            <div className="report_scroll">
-                                <ul> {/*     종목분석 레포트     */}
-                                    {reports.map((report, index) =>
-                                        <li key={index}>
-                                            <div
-                                                className={"report_data grid grid-cols-4 gap-4 px-4 py-2 text-[black]"}>
-                                            <span
-                                                className={"text-left ml-4 hover:cursor-pointer hover:underline"}
-                                                onClick={() => {
-                                                    handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);
-                                                }}
-                                            >{`${report.company_name}`}</span>
-                                                <span>{report.report_title}</span>
-                                                <span className={"text-left ml-[75px]"}>{report.securities_firm}</span>
-                                                <span className={"text-center ml-[25px]"}>{report.report_date}</span>
-                                                {/*여기에 리포트 내용의 요약이 들어가야됨*/}
-                                            </div>
-                                        </li>
-                                    )}
-                                </ul>
-                            </div>
-                        </div>}
+                        <CompanyReport handleSendRequest={handleSendRequest}/>
                     </div>
-                    {enterDelay || <div className="industryReport">
-                        <p className={"font-bold text-xl pl-5 p-3"}>산업분석 레포트</p>
-                        <ul className={"font-extrabold"}>
-                            <hr className={"border-whitesmoke border-[1px]"}/>
-                            <li className={"grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 font-black text-[13px] gap-5 px-4 py-2"}>
-                                <span className="text-left ml-6">산업</span>
-                                <span className="text-left">제목</span>
-                                <span className="text-center ml-3">증권사</span>
-                                <span className="text-center">발행 일자</span>
-                            </li>
-                        </ul>
-                        <hr className={"border-whitesmoke border-[1px]"}/>
-                        <div className="industry_scroll">
-                            <ul>       {/*    여기에 산업분석 레포트 나오는거 넣기  */}
-                                {industryReports.map((report, index) =>
-                                    <li key={index}>
-                                        <div
-                                            className={"report_data grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4  gap-5 px-4 py-2 text-[black]"}>
-                                            <span
-                                                onClick={() => {
-                                                    handleSendRequest(report.sector + " " + `현황 알려줘`);
-                                                }}
-                                                className={"text-left ml-4 hover:cursor-pointer hover:underline"}>{`${report.sector}`}</span>
-                                            <span>{report.report_title}</span>
-                                            <span className={"text-left ml-[52px]"}><a
-                                                className={"ml-5 hover:underline"}
-                                                href={report.pdf_link}>{report.securities_firm}</a></span>
-                                            <span className={"text-center ml-[20px]"}>{report.report_date}</span>
-                                            {/*여기에 리포트 내용의 요약이 들어가야됨*/}
-                                        </div>
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-                    </div>}
+                        <IndustryReport handleSendRequest={handleSendRequest}/>
                 </div>
                 {enterDelay || <div className="flex flex-col gap-[10px]">
                     <News/>
