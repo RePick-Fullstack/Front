@@ -110,7 +110,7 @@ function Community() {
                 <div className="left-container">
                     <div className={"hotPost mb-1"}>인기 게시글</div>
                     <hr className={"mb-1"}/>
-                    <button className={" border-2 border-b-fuchsia text-[15px] bg-[#303E4F] text-white py-1 px-5 mx-2.5 my-2"}
+                    <button className={"border-2 border-b-fuchsia text-[15px] bg-[#303E4F] text-white py-1 px-5 mx-2.5 my-2"}
                             onClick={() => createButton()}>작성하기
                     </button>
 
