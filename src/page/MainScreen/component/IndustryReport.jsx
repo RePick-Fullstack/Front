@@ -50,7 +50,7 @@ export const IndustryReport = ({handleSendRequest}) => {
 
     return (
         <div className="industryReport">
-            <p className={"font-bold text-xl pl-5 p-3"}>산업분석 레포트</p>
+            <p className={"font-bold text-xl pl-5 p-3"}>{isLogin && "추천 "}산업분석 레포트</p>
             <ul className={"font-extrabold"}>
                 <hr className={"border-whitesmoke border-[1px]"}/>
                 <li className={"grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 font-black text-[13px] gap-5 px-4 py-2"}>

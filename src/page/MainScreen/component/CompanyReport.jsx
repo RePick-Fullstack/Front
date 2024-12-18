@@ -49,7 +49,7 @@ export const CompanyReport = ({handleSendRequest}) => {
 
     return (
         <div className="hotReport">
-            <p className={"font-bold text-xl pl-5 p-3"}>종목분석 레포트</p>
+            <p className={"font-bold text-xl pl-5 p-3"}>{isLogin && "추천 "}종목분석 레포트</p>
             <ul className={"font-extrabold"}>
                 <hr className={"border-whitesmoke border-[0.5px]"}/>
                 <li className={"grid grid-cols-4 font-black text-[13px] gap-4 px-4 py-2"}>
