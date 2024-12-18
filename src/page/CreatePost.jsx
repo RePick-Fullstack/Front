@@ -86,7 +86,7 @@ const CreatePost = () => {
                             </ul>
                         )}
                     </span>
-                    <span className="border-2 border-b-fuchsia text-[15px] bg-[#303E4F] text-white py-2.5 px-5 mx-2.5 my-2 rounded-[20px]" type="submit" onClick={handleSubmit}>게시글 작성</span>
+                    <span className="border-2 border-b-fuchsia text-[15px] bg-[#303E4F] text-white py-2.5 px-5 mx-2.5 my-2 rounded-[20px] cursor-pointer" type="submit" onClick={handleSubmit}>게시글 작성</span>
                 </div>
                 <div className={"caret-transparent"}>
                     <input
