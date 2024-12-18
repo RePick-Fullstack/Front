@@ -76,7 +76,7 @@ function EditPost() {
                             {category || '카테고리 선택'}
                         </div>
                     </span>
-                    <span className="submit_button" type="submit" onClick={handleSubmit}>게시글 수정</span>
+                    <span className={"border-2 border-b-fuchsia text-[15px] bg-[#303E4F] text-white py-2.5 px-5 mx-2.5 my-2 rounded-[20px] cursor-pointer"} type="submit" onClick={handleSubmit}>게시글 수정</span>
                 </div>
                 <div className={"caret-transparent"}>
                     <input
