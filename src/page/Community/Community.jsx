@@ -106,8 +106,8 @@ function Community() {
                     </span>
                 </div>
             </div>
-            <div className="flex max-w-[1130px] w-full px-10 gap-5">
-                <div className="left-container w-full">
+            <div className="container">
+                <div className="left-container">
                     <div className={"hotPost mb-1"}>인기 게시글</div>
                     <hr className={"mb-1"}/>
                     <button className={" border-2 border-b-fuchsia text-[15px] bg-[#303E4F] hover:bg-[#37afe1] text-white py-1 px-5 mx-2.5 my-2"}
@@ -149,7 +149,7 @@ function Community() {
                 <CommunityChatRoomComponent/>
             </div>
 
-        </div>
+        </>
     )
 }
 
