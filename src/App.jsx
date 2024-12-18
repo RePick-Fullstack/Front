@@ -20,18 +20,33 @@ import PostDetail from "./page/PostDetail.jsx";
 import NoExistUrl from "./page/NoExistUrl.jsx";
 import EditPost from "./page/EditPost.jsx";
 import {PaymentLoading} from "./page/tosspayment/PaymentLoading.jsx";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
+import {QueryClient} from "@tanstack/react-query";
 
 function App() {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 1000 * 60 * 5,
+                cacheTime: 1000 * 60 * 10,
+            },
+        },
+    })
 
-    const queryClient = new QueryClient();
+    const persister = createSyncStoragePersister({
+        storage: window.localStorage,
+    })
+
     return (
-        <QueryClientProvider client={queryClient}>
+        <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{ persister }}
+        >
         <RecoilRoot>
             <div className="App w-full h-full">
                 {<Header />}
                 {<SideBar />}
-
                 <Routes>
                     {/* 명시된 라우트 */}
                     <Route path="/complete-profile" element={<MainKakaoSignUp />} />
@@ -56,7 +71,7 @@ function App() {
                 </Routes>
             </div>
         </RecoilRoot>
-        </QueryClientProvider>
+        </PersistQueryClientProvider>
     );
 }
 

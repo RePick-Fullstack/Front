@@ -1,20 +1,22 @@
 import {useEffect, useState} from "react";
 import {eksApi} from "../../../api/api.js";
+import {useQuery} from "@tanstack/react-query";
 
 export const CompanyReport = ({handleSendRequest}) => {
     const [reports, setReports] = useState([]);
+    const [isLogin, setIsLogin] = useState(true);
+    const { data } = useQuery({
+        queryKey: ['company'],
+        queryFn: async () => {
+            const {data: {content : reports}} = await eksApi.get(`/reports/company`,{params:{page: 0, size: 5}});
+            return reports;
+        },
+    });
 
     useEffect(() => {
-        if(localStorage.getItem("accessToken") === null) {handleReports("company"); return; }
+        if(localStorage.getItem("accessToken") === null) {setIsLogin(false);  return; }
         handleRecommendedReports("company");
     }, []);
-
-    const handleReports = async (type) => {
-
-        const {data: {content : reports}} = await eksApi.get(`/reports/${type}`,{params:{page: 0, size: 5}}).catch(() => {console.log("server is not running");});
-        console.log(reports);
-        setReports(reports);
-    };
 
     const handleRecommendedReports = async (type) => {
         const {data: {content : reports}} = await eksApi.get(`/reports/user/${type}recommendedreports`,{
@@ -25,7 +27,27 @@ export const CompanyReport = ({handleSendRequest}) => {
         setReports(reports);
     };
 
-    return(
+    const CompanyReport = (report,index) => {
+        return (
+            <li key={index}>
+                <div
+                    className={"report_data grid grid-cols-4 gap-4 px-4 py-2 text-[black]"}>
+                                            <span
+                                                className={"text-left ml-4 hover:cursor-pointer hover:underline"}
+                                                onClick={() => {
+                                                    handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);
+                                                }}
+                                            >{`${report.company_name}`}</span>
+                    <span>{report.report_title}</span>
+                    <span className={"text-left ml-[75px]"}>{report.securities_firm}</span>
+                    <span className={"text-center ml-[25px]"}>{report.report_date}</span>
+                    {/*여기에 리포트 내용의 요약이 들어가야됨*/}
+                </div>
+            </li>
+        )
+    }
+
+    return (
         <div className="hotReport">
             <p className={"font-bold text-xl pl-5 p-3"}>종목분석 레포트</p>
             <ul className={"font-extrabold"}>
@@ -40,23 +62,8 @@ export const CompanyReport = ({handleSendRequest}) => {
             <hr className={"border-whitesmoke border-[0.5px]"}/>
             <div className="report_scroll">
                 <ul> {/*     종목분석 레포트     */}
-                    {reports.map((report, index) =>
-                        <li key={index}>
-                            <div
-                                className={"report_data grid grid-cols-4 gap-4 px-4 py-2 text-[black]"}>
-                                            <span
-                                                className={"text-left ml-4 hover:cursor-pointer hover:underline"}
-                                                onClick={() => {
-                                                    handleSendRequest(report.company_name + " " + `재무제표 요약해줘`);
-                                                }}
-                                            >{`${report.company_name}`}</span>
-                                <span>{report.report_title}</span>
-                                <span className={"text-left ml-[75px]"}>{report.securities_firm}</span>
-                                <span className={"text-center ml-[25px]"}>{report.report_date}</span>
-                                {/*여기에 리포트 내용의 요약이 들어가야됨*/}
-                            </div>
-                        </li>
-                    )}
+                    {!isLogin && data && data.map((report, index) => CompanyReport(report, index))}
+                    {isLogin && reports.map((report, index) => CompanyReport(report, index))}
                 </ul>
             </div>
         </div>

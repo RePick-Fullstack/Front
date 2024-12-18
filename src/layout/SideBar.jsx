@@ -27,23 +27,26 @@ function SideBar() {
     const [isVisible, setIsVisible] = useState(null); // 상태 관리로 보여짐 여부 설정
 
     useEffect(() => {
-        const handleBilling = async () => {
-            const {data: billing} = await usersApi.get("/users/billing", {
-                headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
-            })
-            console.log("billing 타입 : " + typeof billing);
-            console.log("billing : " + JSON.stringify(billing));
-            if (billing && billing.billing===false) {
-                console.log("결제 안됐음 false임")
-                setIsVisible(true);
-
-            } else {
-                console.log("결제 했음 true임");
-                setIsVisible(false);
-            }
-        };
+        if(localStorage.getItem("accessToken") === null) {return;}
         handleBilling();
     },[])
+
+    const handleBilling = async () => {
+        const {data: billing} = await usersApi.get("/users/billing", {
+            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`}
+        })
+        console.log("billing 타입 : " + typeof billing);
+        console.log("billing : " + JSON.stringify(billing));
+        if (billing && billing.billing===false) {
+            console.log("결제 안됐음 false임")
+            setIsVisible(true);
+
+        } else {
+            console.log("결제 했음 true임");
+            setIsVisible(false);
+        }
+    };
+
     const handleHide = () => {
         setIsVisible(false); // 클릭 시 숨기기
     };
