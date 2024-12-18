@@ -1,10 +1,12 @@
 .create_container {
     margin-left: auto;
     margin-right: auto;
-    width: 75%;
-    height: 770px;
-    border: 1px solid black;
-    background-color: white;
+    background-color: #fff;
+    width: 65%;
+    height: 85%;
+    border-radius: 20px;
+    border: 3px solid #f2f4f5;
+    box-shadow: 2px 2px 2px 2px #f2f4f5;
     color: black;
 }
 
@@ -15,21 +17,13 @@
     justify-content: space-between;
 }
 
-.submit_button {
-    position: relative;
-    height: 30px;
-    margin-top: 10px;
-    caret-color: transparent;
-    cursor: pointer;
-    background-color: #f5f5f5;
-}
-
 .category_select {
     position: relative;
     display: inline-block;
     width: 150px;
     cursor: pointer;
     border: 1px solid #ccc;
+    border-radius: 20px;
     margin: 10px;
     padding: 8px;
     background-color: white;
@@ -49,6 +43,7 @@
     overflow-y: auto;
     background-color: white;
     border: 1px solid #ccc;
+    border-radius: 20px;
     z-index: 10;
 }
 
@@ -58,7 +53,7 @@
 }
 
 .dropdown_item {
-    padding: 8px;
+    padding: 6px;
     cursor: pointer;
     text-align: center;
     border-bottom: 1px solid #eee;
@@ -70,7 +65,7 @@
 
 .title_write {
     width: 80%;
-    margin-left: 50px;
+    margin-left: 70px;
     height: 40px;
     background-color: #F5F6F8;
     padding-left: 15px; /* 좌측 여백 설정 */
@@ -78,9 +73,9 @@
 
 .content_write {
     width: 80%;
-    margin-left: 50px;
+    margin-left: 70px;
     margin-top: 50px;
-    height: 400px;
+    height: 45vh;
     padding-left: 15px; /* 좌측 여백 설정 */
     padding-top: 5px; /* 상단 여백 설정 */
     background-color: #F5F6F8;
