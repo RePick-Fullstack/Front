@@ -142,7 +142,7 @@ function ReportPage() {
                             {!loading && reports.map((report, index) =>
                                     <li key={index}>
                                         <div
-                                            className={"min-w-[830px] text-[14px] font-medium grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2 border-t border-gray-300"}>
+                                            className={"min-w-[830px] text-[14px] font-medium grid grid-cols-[1fr_4fr_1fr_2fr_1fr] px-4 py-2 items-center border-t border-gray-300"}>
                                             <span className={"text-left"}>{companyOrSector === "기업" ? report.company_name : report.sector}</span>
                                             <span className={"text-left"}>{report.report_title}</span>
                                             <span className={"text-left"}>{report.securities_firm}</span>
