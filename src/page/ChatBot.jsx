@@ -93,7 +93,7 @@ function ChatBot() {
                 }
                 return updatedHistory;
             });
-            await new Promise((resolve) => setTimeout(resolve, 50)); // 타이핑 효과를 위해 지연 시간 설정
+            await new Promise((resolve) => setTimeout(resolve, 10)); // 타이핑 효과를 위해 지연 시간 설정
         }
 
         setChatHistory((prev) => {
