@@ -73,7 +73,7 @@ export const DefaultInfo = () => {
     };
 
     // 사용자 정보 수정 요청
-    const handleSaveChanges = () => {
+    const handleSaveChanges = async () => {
         const validationErrors = validateForm(); // 유효성 검사 실행
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -82,8 +82,9 @@ export const DefaultInfo = () => {
 
         const token = localStorage.getItem("accessToken");
 
-        usersApi
-            .put(
+        try {
+            // 1. 사용자 정보 수정 요청
+            await usersApi.put(
                 "/users/update",
                 {
                     name: editUserInfo.name,
@@ -92,19 +93,39 @@ export const DefaultInfo = () => {
                     birthDate: editUserInfo.birthDate,
                 },
                 { headers: { Authorization: `Bearer ${token}` } }
-            )
-            .then(() => {
-                alert("사용자 정보가 성공적으로 수정되었습니다.");
-                setUserInfo(editUserInfo); // 화면에 표시할 정보 업데이트
-                setIsEditModalOpen(false);
-                setErrors({});
+            );
+
+            alert("사용자 정보가 성공적으로 수정되었습니다.");
+            setUserInfo(editUserInfo); // 화면에 표시할 정보 업데이트
+            setIsEditModalOpen(false);
+            setErrors({});
+
+            // 2. 정보 수정 후 바로 토큰 갱신 요청
+            const refreshToken = localStorage.getItem('refreshToken');
+
+            // 토큰 갱신 요청
+            const {data} = await usersApi.post(
+                '/users/refresh-token',
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${refreshToken}`,
+                    },
+                }
+            );
+
+            if (data) {
+                // 3. 새로운 토큰 저장
+                localStorage.setItem('accessToken', data.accessToken.token);
+                localStorage.setItem('refreshToken', data.refreshToken.token);
                 window.location.reload();
-            })
-            .catch((error) => {
-                console.error("정보 수정 실패:", error);
-                alert("정보 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
-            });
+            }
+        } catch (error) {
+            console.error("정보 수정 또는 토큰 갱신 실패:", error);
+            alert("정보 수정 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
     };
+
 
     // 회원 탈퇴 처리
     const handleDeleteAccount = () => {
