@@ -134,7 +134,7 @@ export const CommunityChatRoomComponent = () => {
     };
 
     return (
-        <div className="right-container">
+        <div className="">
             <div
                 className="w-[390px] h-[530px] bg-white rounded-[20px] shadow-[2px_2px_2px_2px_#f2f4f5] border-solid border-[3px] border-[#f2f4f5]">
                 <div
@@ -142,25 +142,25 @@ export const CommunityChatRoomComponent = () => {
                     커뮤니티 채팅방
                 </div>
                 <div className="w-[375px] h-[46px] border-y-2 border-[#f7f7f9] flex items-center justify-between">
-                    <div className="flex">
+                    {selectChatRoom.chatRoomName ? <div className="flex">
                         <div
-                            className="w-[125px] h-6 text-[#303e4f] text-[16px] font-bold flex items-center justify-center">
-                            {selectChatRoom.chatRoomName || <LoadingSvg w={24} h={24}/>}
+                            className="pl-4 h-6 text-[#303e4f] text-[16px] font-bold flex items-center justify-center">
+                            {selectChatRoom.chatRoomName}
                         </div>
                         <div
                             className="w-12 h-6 text-center text-[#777777]/70 text-sm font-bold flex items-center justify-center">
-                            {selectChatRoom.UserNumber || <LoadingSvg w={24} h={24}/>}명
+                            {selectChatRoom.UserNumber}명
                         </div>
-                    </div>
+                    </div> : <LoadingSvg w={24} h={24}/>}
                     {!isJoin ? <div
-                            className="w-[108px] h-[30px] bg-[#303e4f] rounded-[7px] text-white text-[15px] flex items-center justify-center hover:cursor-pointer"
+                            className="w-[108px] h-[30px] bg-[#303e4f] hover:bg-[#37afe1] rounded-[7px] text-white text-[15px] flex items-center justify-center hover:cursor-pointer"
                             onClick={() => {
                                 handleJoin()
                             }}>
                             채팅방 입장
                         </div> :
                         <div
-                            className="w-[108px] h-[30px] bg-[#303e4f] rounded-[7px] text-white text-[15px] flex items-center justify-center hover:cursor-pointer"
+                            className="w-[108px] h-[30px] bg-[#303e4f] hover:bg-[#37afe1] rounded-[7px] text-white text-[15px] flex items-center justify-center hover:cursor-pointer"
                             onClick={() => {
                                 setIsJoin(false)
                                 setLoading(false)
