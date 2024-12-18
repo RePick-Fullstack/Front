@@ -8,7 +8,6 @@ import {eksApi} from "../../api/api.js";
 import {v4 as uuidv4} from "uuid";
 import {News} from "./component/News.jsx";
 import {MainCommunity} from "./component/MainCommunity.jsx";
-import Logo from "../../assets/logo_black.png"
 import {CompanyReport} from "./component/CompanyReport.jsx";
 import {IndustryReport} from "./component/IndustryReport.jsx";
 

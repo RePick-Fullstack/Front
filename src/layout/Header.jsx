@@ -7,7 +7,7 @@ import '../css/header.css'
 import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 import MainSignIn from "../page/mainuser/MainSignIn.jsx";
 import MainSignUp from "../page/mainuser/MainSignUp.jsx";
-import Logo from "../assets/logo_black.png";
+import Logo from "../assets/logo_black.svg";
 
 function Header() {
     const navigate = useNavigate();
@@ -164,8 +164,8 @@ function Header() {
                 <div className="flex w-full justify-between items-center">
                         {localStorage.getItem("accessToken") !== null ? (
                             <>
-                                    <div className={"flex items-center caret-transparent ml-8 w-[200px]"}>
-                                        <img src={Logo} alt="Logo" onClick={handleLogoClick} className={"w-[150px] h-[50px]"} style={{cursor : "pointer"}}/>
+                                    <div className={"flex items-center caret-transparent ml-[50px]"}>
+                                        <img src={Logo} alt="Logo" onClick={handleLogoClick} style={{cursor : "pointer"}}/>
                                     </div>
                                     <div className={"flex items-center gap-3"}>
                                         <div className={"text-[#2c3e50] text-[9px]"}>
@@ -183,8 +183,8 @@ function Header() {
                             </>
                         ) : (
                             <>
-                                    <div className={"flex items-center caret-transparent"}>
-                                        <img src={Logo} alt="Logo" width="250px"/>
+                                    <div className={"flex items-center caret-transparent ml-16"}>
+                                        <img src={Logo} alt="Logo" onClick={handleLogoClick} style={{cursor : "pointer"}}/>
                                     </div>
                                     <div className={"float-right"}>
                                         {!localStorage.getItem("accessToken") ? (<>
