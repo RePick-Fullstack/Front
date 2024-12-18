@@ -24,6 +24,7 @@ export const CompanyReport = ({handleSendRequest}) => {
             params:{page: 0, size: 5}}
         ).catch(() => {console.log("server is not running");});
         console.log(reports);
+        if(reports.length === 0){setIsLogin(false);  return; }
         setReports(reports);
     };
 
