@@ -5,6 +5,7 @@ import {useQuery} from "@tanstack/react-query";
 export const IndustryReport = ({handleSendRequest}) => {
     const [industryReports, setIndustryReports] = useState([]);
     const [isLogin, setIsLogin] = useState(true);
+    const [isrecommend, setIsrecommend] = useState(false);
     const { data } = useQuery({
         queryKey: ['industry'],
         queryFn: async () => {
@@ -15,6 +16,7 @@ export const IndustryReport = ({handleSendRequest}) => {
 
     useEffect(() => {
         if(localStorage.getItem("accessToken") === null) {setIsLogin(false); return; }
+        setIsrecommend(true);
         handleRecommendedReports("industry");
     }, []);
 
@@ -51,7 +53,14 @@ export const IndustryReport = ({handleSendRequest}) => {
 
     return (
         <div className="industryReport">
-            <p className={"font-bold text-xl pl-5 p-3"}>{isLogin && "추천 "}산업분석 레포트</p>
+            <div className={"flex justify-between items-center"}>
+                <p className={"font-bold text-xl pl-5 p-3"}>{isLogin ? "추천 " : "최신 "}산업분석 레포트</p>
+                {isrecommend && <button className={"mr-5 w-[100px] h-[30px] border-[1px] border-black rounded-2xl"}
+                                        onClick={() => {
+                                            setIsLogin(!isLogin)
+                                        }}
+                >{isLogin ? "최신" : "추천"} 레포트</button>}
+            </div>
             <ul className={"font-extrabold"}>
                 <hr className={"border-whitesmoke border-[1px]"}/>
                 <li className={"grid grid-cols-4 sm:grid-cols-2 md:grid-cols-4 font-black text-[13px] gap-5 px-4 py-2"}>
