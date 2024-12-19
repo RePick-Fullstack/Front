@@ -18,7 +18,15 @@ function PostDetail() {
     const [content, setContent] = useState(""); //댓글창
     const {id} = useParams();
     const textareaRef = useRef(null);
+    const [isDebouncing, setIsDebouncing] = useState(false); // 디바운스 상태
+    const debounceTimeout = useRef(null); // 타임아웃 참조
 
+    const [clickCount, setClickCount] = useState(() => {
+        // 새로고침 후에도 상태 유지
+        const savedCount = localStorage.getItem("reloadClickCount");
+        return savedCount ? parseInt(savedCount, 10) : 0;
+    });
+    const [isDisabled, setIsDisabled] = useState(false);
 
     useEffect(() => {
         handlePost();
@@ -28,6 +36,28 @@ function PostDetail() {
     useEffect(() => {
         handleComment();
     }, [id]);
+
+    const handleReload = () => {
+        if (clickCount < 5) {
+            const newCount = clickCount + 1;
+            setClickCount(newCount);
+            localStorage.setItem("reloadClickCount", newCount); // 상태 저장
+            window.location.reload();
+        }
+    };
+
+    useEffect(() => {
+        if (clickCount >= 5) {
+            setIsDisabled(true);
+            alert("새로고침은 최대 5번까지만 가능합니다.");
+        }
+    }, [clickCount]);
+    useEffect(() => {
+        // 경로가 변경될 때 reloadClickCount 제거
+        return () => {
+            localStorage.removeItem("reloadClickCount");
+        };
+    }, [location]); // location이 변경될 때 실행
 
 
     const handlePost = async () => { //게시글 가져오는 함수
@@ -97,14 +127,24 @@ function PostDetail() {
             setAuthHeader(token);
             const fetchedPostLikes = await likePost(id); // 서버에 댓글 좋아요 요청
             console.log(JSON.stringify(fetchedPostLikes, null, 2));
-            console.log("성공하긴함 ㅇㅇ");
             console.log(fetchedPostLikes.likeCnt);
             setLikesCount(fetchedPostLikes.likeCnt);
-            alert("게시글의 좋아요를 눌렀습니다.")
         } catch (error) {
-            alert("자신의 게시글에는 좋아요를 누를 수 없습니다.")
+            alert("자신의 게시글에는 좋아요를 누를 수 없습니다.");
+        } finally {
+            setIsDebouncing(false); // 디바운스 상태 해제
         }
-    }
+    };
+
+        const debouncedLikeHandler = (id) => {
+            if (isDebouncing) {
+                console.log("디바운싱 중: 요청 무시됨")
+                return; // 디바운싱 중일 경우 추가 요청 방지
+            }
+            setIsDebouncing(true); // 디바운스 시작
+            clearTimeout(debounceTimeout.current); // 이전 타임아웃 초기화
+            debounceTimeout.current = setTimeout(() => handlePostLike(id), 750); // 500ms 지연 후 실행
+        };
 
     const editPost = async (postId) => {
         const confirmEdit = window.confirm("게시글을 수정 하시겠습니까?");
@@ -231,12 +271,12 @@ function PostDetail() {
                         <div className={"bg-white flex flex-nowrap justify-between mb-10"}>
                             <div className={"flex flex-row justify-between"}>
                             <span className={"flex flex-row"} onClick={() => {
-                                handlePostLike(id)
+                                debouncedLikeHandler(id)
                             }}> 좋아요 {likesCount}</span>
                                 <span className={"text-left ml-5"}>댓글 {post.commentsCount}</span>
-                                <div><img onClick={() => {
-                                    window.location.reload();
-                                }} className={"cursor-pointer ml-5"} src={ReLoad} alt="ReLoad Logo"></img></div>
+                                <div><img onClick={isDisabled ? null : handleReload}
+                                          className={`cursor-pointer ml-5 ${isDisabled ? "opacity-50" : ""}`}
+                                          src={ReLoad} alt="ReLoad Logo"></img></div>
                             </div>
 
                         </div>
@@ -262,8 +302,8 @@ function PostDetail() {
                         </div>
                         <div className={"bg-white"}>
                             <div className={"bg-white"}>
-                                {comments.map((comment) => (
-                                    <div>
+                                {comments.map((comment,index) => (
+                                    <div key={index}>
                                         <hr className={"border-1 mb-5 mt-5 w-[700px]"}/>
                                         <div className={"ml-5"}>
                                             <div className={"text-xl flex flex-row"}>{comment.userNickname}
@@ -277,7 +317,7 @@ function PostDetail() {
                                             <div
                                                 className={"text-xs text-[rgb(151,151,151)] font-light"}>{formatDateTime(comment.createdAt)}</div>
                                         </div>
-                                    </div> //대충 ㅋㅋ
+                                    </div>
                                 ))}
                             </div>
                         </div>

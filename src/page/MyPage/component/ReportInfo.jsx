@@ -44,7 +44,7 @@ export const ReportInfo = () => {
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
                     onClick={handleCompanyReportView}>
-                    보기
+                    {companyView ? `닫기` : `보기` }
                 </div>
             </div>
             <hr className="border-t-[2.4px]"/>
@@ -80,7 +80,7 @@ export const ReportInfo = () => {
                 <div
                     className={"border-y-[2.4px] border-x-0 h-7 min-w-10 flex items-center justify-center cursor-pointer"}
                     onClick={handleIndustryReportView}>
-                    보기
+                    {industryView ? `닫기` : `보기` }
                 </div>
             </div>
             <hr className="border-t-[2.4px]"/>

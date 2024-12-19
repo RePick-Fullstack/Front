@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 .header {
+    box-sizing  : border-box;
     padding: 10px 20px;
     display: flex;
-    justify-content: space-between; /* 양옆에 공간을 두기 */
-    align-items: center;
-
+    margin: 0;
 }
 
 .modal-content {
@@ -42,11 +41,7 @@
     justify-content: center;
     z-index: 10;
 }
-.user-greeting{
-    margin-top: 10px;
-    margin-left: 11px;
-    float:left;
-}
+
 
 .modal-content {
     position: relative;
@@ -167,29 +162,14 @@ button.close-modal:hover {
     margin-right: 8px;
 }
 
-.token-timer {
-    position: absolute;
-    top: 10px; /* 화면 아래에서 10px 위로 */
-    left: 90px; /* 화면 오른쪽에서 10px 왼쪽으로 */
-    background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
-    color: white; /* 글자 색상 */
-    padding: 10px 15px; /* 패딩 */
-    border-radius: 8px; /* 둥근 모서리 */
-    font-size: 8px; /* 글자 크기 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-    z-index: 1000; /* 우선순위 높임 */
-}
+
 .token-extend{
-    position: absolute;
-    top: 50px; /* 화면 아래에서 10px 위로 */
-    left: 79px; /* 화면 오른쪽에서 10px 왼쪽으로 */
-    background-color: rgba(0, 0, 0, 0.7); /* 반투명 검정 배경 */
-    color: white; /* 글자 색상 */
-    padding: 10px 15px; /* 패딩 */
-    border-radius: 8px; /* 둥근 모서리 */
+    color: #2c3e50; /* 글자 색상 */
+    height: 30px;
+    padding: 8px 10px; /* 패딩 */
+    border-radius: 15px; /* 둥근 모서리 */
+    border: 1px solid #2c3e50;
     font-size: 8px; /* 글자 크기 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
-    z-index: 1000; /* 우선순위 높임 */
 }
 
 .kakao {

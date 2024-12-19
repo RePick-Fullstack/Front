@@ -3,8 +3,11 @@ import "../../css/community.css"
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {testMainCommunity} from "../../data/testMainCommunity.js";
 import {useEffect, useState} from "react";
-import {getPosts, getPostsByCategory, increaseViewCount} from "../../api/postApi.js";
-import {CommunityChatRoomComponentMk2} from "./component/CommunityChatRoomComponentMk2.jsx";
+import {getPosts, getPostsByCategory} from "../../api/postApi.js";
+import {translateToKorean} from "../../data/changeCategory.js";
+import {CommunityChatRoomComponent} from "./component/CommunityChatRoomComponent.jsx";
+
+//import {translateToEnglish} from "../../data/changeCategory.js"
 
 
 function Community() {
@@ -18,6 +21,7 @@ function Community() {
 
     const getData = async (selectedCategory) => {
         try {
+            localStorage.setItem("selectedCategory", selectedCategory)
             console.log("선택한 카테고리" + selectedCategory);
             if (selectedCategory === "TOTAL") {
                 return await getPosts();
@@ -85,8 +89,8 @@ function Community() {
         }
     }, [searchParams]); // searchParams 변경 시 실행
     return (
-        <>
-            <div className={"rounded-xl font-bold p-10 w-[75vw]"} style={{margin: "0 0 0px 120px"}}>
+        <div className={"ml-[50px] flex flex-col items-center"}>
+            <div className={"rounded-xl font-bold pb-5 px-10 w-full max-w-[1130px]"}>
                 <div className={"community_font caret-transparent"}
                      style={{fontSize: "30px"}}>{selectCat ? `${selectCat} 커뮤니티` : "커뮤니티"}</div>
                 <div
@@ -94,7 +98,7 @@ function Community() {
                     <span className={"font-semibold text-sm flex gap-6 "}>
                          {data.map((item, index) => (
                              <span
-                                 className={"caret-transparent cursor-pointer hover:underline hover:text-[15px] hover:text-slate-700 text-center"}
+                                 className={"caret-transparent cursor-pointer text-center transform transition-transform duration-300 hover:scale-125  hover:text-slate-700"}
                                  key={index}
                                  onClick={() => handleCategoryChange(item.title)}>
                                  {item.description}</span>
@@ -102,30 +106,33 @@ function Community() {
                     </span>
                 </div>
             </div>
-            <div className="container">
-                <div className="left-container">
-                    <button className={"border-2 border-b-fuchsia  bg-white mb-5"}
+            <div className="px-10 w-full max-w-[1130px] flex gap-5">
+                <div className="left-container w-full">
+                    <div className={"hotPost mb-1"}>인기 게시글</div>
+                    <hr className={"mb-1"}/>
+                    <button className={" border-2 border-b-fuchsia text-[15px] bg-[#303E4F] hover:bg-[#37afe1] text-white py-1 px-5 mx-2.5 my-2"}
                             onClick={() => createButton()}>작성하기
                     </button>
 
-                    <div className={"rounded-xl border-black border-1 bg-[rgb(132,116,216)] scrollbar-custom"} style={{
-                        height: "60vh",
+                    <div className={"rounded-xl border-black border-1 scrollbar-custom"} style={{
+                        height: "50vh",
                         overflow: `auto`,
                         minWidth: "360px"
                     }}>
-                        <div className={"border-amber-100 p-2 border-solid"}>
+                        <div className={"border-amber-100 p-2 border-solid min-w-[360px]"}>
                             <ul>
                                 {posts.map((post) => (
                                     <li key={post.id} className={"border-2 border-gray-200 mb-2 rounded-md"}>
-                                        <h3 className={"hover:cursor-pointer hover:underline hover:font-semibold p-5 text-lg "}
+                                        <h3 className={"hover:cursor-pointer hover:underline hover:font-semibold p-5 text-[14px] "}
                                             onClick={() => {
                                                 handlePostClick(post)
-                                            }}>{post.title}</h3>
+                                            }}>{post.title} <span className={"float-right text-[11px]"}>{translateToKorean(post.category)}</span></h3>
+
 
                                         <div className={"relative text-sm"}>
-                                            <h3 className={"inline-block align-middle m-3"}>{post.userNickname}</h3>
+                                            <h3 className={"inline-block align-middle ml-5 mb-2 font-bold text-[#232323] text-[12px]"}>{post.userNickname}</h3>
                                             <div className={"absolute top-0 right-0 inline-block align-middle"}>
-                                                <ul className={"list-none mr-2.5 mt-3 p-0 flex"}>
+                                                <ul className={"list-none flex text-[#232323] text-[10px] mr-2"}>
                                                     <li className={"mr-2"}> 좋아요 : {post.likesCount}</li>
                                                     <li className={"mr-2"}> 댓글 : {post.commentsCount}</li>
                                                     <li> 조회 : {post.viewCount}</li>
@@ -136,22 +143,11 @@ function Community() {
                                 ))}
                             </ul>
                         </div>
-
                     </div>
                 </div>
-                {/*<div className="right-container p-1 rounded-xl ">*/}
-                {/*    <p className={"chatRoom_font text-[25px] font-bold p-2"}>커뮤니티 채팅방</p>*/}
-                {/*    <div className={"bg-white mt-2"}>*/}
-                {/*        <div style={{*/}
-                {/*            height: "60vh",*/}
-                {/*        }}><CommunityChatRoomComponent/>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-                <CommunityChatRoomComponentMk2/>
+                <CommunityChatRoomComponent/>
             </div>
-
-        </>
+        </div>
     )
 }
 

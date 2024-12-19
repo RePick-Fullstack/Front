@@ -14,19 +14,26 @@
     text-align: left;
     z-index: 1; /* 콘텐츠가 사이드바, 헤더보다 뒤에 위치하도록 설정 */
 }
-@media (max-width: 800px){ /* 화면 폭이 768px 이하일 때 */
+@media (max-width: 1050px){ /* 화면 폭이 768px 이하일 때 */
     .container{
         flex-direction: column;
     }
 }
 
 .left-container {
-    margin: 0 0 0 90px;
     height: auto;
-    padding: 20px 50px 10px 50px; /* 콘텐츠가 편하게 들어갈 수 있도록 여백 추가 */
-    border-radius: 10px;
-    width: 45vw;
-
+    padding: 20px 20px 10px 20px; /* 콘텐츠가 편하게 들어갈 수 있도록 여백 추가 */
+    width: 32vw;
+    background-color: #fff;
+    border-radius: 20px;
+    border: 3px solid #f2f4f5;
+    box-shadow: 2px 2px 2px 2px #f2f4f5;
+    overflow: hidden;
+}
+.hotPost{
+    font-family: 'Pretendard-Bold', sans-serif;
+    font-weight: 800;
+    font-size: 25px;
 }
 
 .community_font {
@@ -46,10 +53,12 @@
         opacity: 1; /* 완전한 불투명 */
     }
 }
-
-@media (max-width: 800px){ /* 화면 폭이 768px 이하일 때 */
+.right-container{
+    margin-left: 120px;
+}
+@media (max-width: 1050px){ /* 화면 폭이 768px 이하일 때 */
     .right-container{
-        margin-left: 120px;
+        margin-left: 100px;
     }
 }
 .chatRoom_font{

@@ -7,6 +7,8 @@ import '../css/header.css'
 import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 import MainSignIn from "../page/mainuser/MainSignIn.jsx";
 import MainSignUp from "../page/mainuser/MainSignUp.jsx";
+import Logo from "../assets/logo_black.svg";
+import Clock from "../assets/clock.svg"
 
 function Header() {
     const navigate = useNavigate();
@@ -41,6 +43,14 @@ function Header() {
         }
     }, [location, navigate]);
 
+    //로고 클릭시 동작 함수
+    const handleLogoClick = () => {
+        if (window.location.pathname === "/") {
+            window.location.reload();
+        } else {
+            navigate("/");
+        }
+    };
 
     // 사용자 이름 가져오기
     const fetchUserName = async (accessToken) => {
@@ -79,7 +89,6 @@ function Header() {
                 localStorage.setItem('refreshToken', data.refreshToken.token);
 
                 updateTokenRemainingTime();
-                alert('토큰이 연장되었습니다.');
             } else {
                 throw new Error('서버로부터 유효한 accessToken을 받지 못했습니다.');
             }
@@ -114,6 +123,10 @@ function Header() {
         setUserName('');
         window.location.reload();
     };
+    const handleNavigation = (path) => {
+        navigate(path);
+        window.location.reload();
+    }
 
     useEffect(() => {
         if (tokenRemainingTime === 0) {
@@ -147,38 +160,50 @@ function Header() {
     }, [location, isLoggedIn, navigate]);
 
     return (
-        <div className="w-full flex justify-end">
-            <header className="header">
-                <div className="header-content">
-                    <div className="auth-buttons">
-                        {localStorage.getItem("accessToken") !== null ? (
-                            <>
-                                <button className={"bg-white mt-2"} onClick={handleLogout}>로그아웃</button>
-                                <button onClick={() => navigate('/tosspayment')}>결제하기</button>
-                                {/* 토큰 연장 버튼 */}
-                                <div className="user-greeting">안녕하세요, {userName}님!</div>
-                                <div className="token-timer">
-                                    로그인 남은
-                                    시간: {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
+        <div className="w-full">
+            <header className={"py-[10px] px-5 flex justify-between items-center m-0"}>
+                <div className="flex w-full justify-between items-center">
+                    {localStorage.getItem("accessToken") !== null ? (
+                        <>
+                            <div className={"flex items-center caret-transparent ml-[66px]"}>
+                                <img src={Logo} alt="Logo" onClick={handleLogoClick} style={{cursor: "pointer"}}/>
+                            </div>
+                            <div className={"flex items-center gap-3 text-[14px]"}>
+                                <div className={"text-[#2c3e50] text-[15px] flex gap-1.5"}>
+                                    <img src={Clock}
+                                         alt="clock Logo"/> {tokenRemainingTime !== null ? formatRemainingTime(tokenRemainingTime) : '계산 중...'}
                                 </div>
-                                <button className="token-extend" onClick={handleTokenRefresh}>토큰연장</button>
-                            </>
-                        ) : (
-                            <>
-                            {!localStorage.getItem("accessToken") ? (<>
-                                    <button className={"bg-white w-[55px]"}
-                                            onClick={() => setModalState({signIn: true, signUp: false})}>로그인
-                                    </button>
-                                    <button className={"bg-white w-[65px]"}
-                                            onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
-                                    </button>
+                                <button className={"w-[100px] h-[30px] border-[1px] border-black rounded-2xl"}
+                                        onClick={handleTokenRefresh}>토큰연장
+                                </button>
+                                <div className="user-greeting">안녕하세요, {userName}님!</div>
+                                <button className={"w-[100px] h-[30px] border-[1px] border-black rounded-2xl"}
+                                        onClick={handleLogout}>로그아웃
+                                </button>
+                                <button className={"w-[100px] h-[30px] border-[1px] border-black rounded-2xl"}
+                                        onClick={() => handleNavigation("mypage")}>마이페이지
+                                </button>
+                            </div>
+                            {/* 토큰 연장 버튼 */}
 
-                                </>) : (<>
-
-                                </>)}
-                            </>
-                        )}
-                    </div>
+                        </>
+                    ) : (
+                        <div className={"flex w-full justify-between items-center"}>
+                            <div className={"flex items-center caret-transparent ml-[66px]"}>
+                                <img src={Logo} alt="Logo" onClick={handleLogoClick} style={{cursor: "pointer"}}/>
+                            </div>
+                            <div className={"float-right flex gap-3"}>
+                                <button
+                                    className={"w-[100px] h-[30px] border-[1px] border-black rounded-2xl"}
+                                    onClick={() => setModalState({signIn: true, signUp: false})}>로그인
+                                </button>
+                                <button
+                                    className={"w-[100px] h-[30px] border-[1px] border-black rounded-2xl"}
+                                    onClick={() => setModalState({signIn: false, signUp: true})}>회원가입
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </header>
             {modalState.signIn && (<MainSignIn

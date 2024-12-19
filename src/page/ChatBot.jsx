@@ -3,6 +3,9 @@ import {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import '../css/ChatBot.css';
 import {validate} from "uuid";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import {LoadingSvg} from "../assets/LoadingSvg.jsx";
 
 function ChatBot() {
     const navigate = useNavigate();
@@ -13,9 +16,12 @@ function ChatBot() {
     const [chatHistory, setChatHistory] = useState([]);
     const chatBoxRef = useRef(null);
     const [header, setHeader] = useState("");
+    const [isError, setIsError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isNew, setisNew] = useState(false);
 
     useEffect(() => {
-        if(localStorage.getItem("accessToken") === null){
+        if (localStorage.getItem("accessToken") === null) {
             alert("쳇봇을 사용하려면 먼저 로그인 하여 주시기 바랍니다.")
             navigate("/");
             return;
@@ -23,37 +29,48 @@ function ChatBot() {
         setHeader("")
         setChatHistory([])
         if (validate(id.id)) {
+            setIsError(false);
             !type && handlePullChat(id.id)
-            if(searchParams.get("message")) {
+            if (searchParams.get("message")) {
                 handleSendRequest()
                 setInputValue("")
             }
-            if(type) {
-                HeaddersimulateTypingEffect("번거로운 자료 조사를 간편하게")
+            if (type) {
+                !searchParams.get("message") && setisNew(true)
+                !searchParams.get("message") && HeaddersimulateTypingEffect("번거로운 자료 조사를 간편하게")
                 navigate(`/chatbot/${id.id}`)
             }
         } else {
             console.error('Invalid UUID format:', id.id);
+            HeaddersimulateTypingEffect("없는 채팅방입니다. 다시 입장하여 주시기 바랍니다.")
+            setIsError(true);
         }
     }, [id.id]);
 
     const handlePullChat = async (uuid) => {
-        const { data: messages } = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`);
-        if(messages.length === 0) {console.log("chat is not found"); return;}
+        const {data: messages} = await axios.get(`https://repick.site/api/v1/chatbot/${uuid}`,
+            {params: {page: 0, size: 50}});
+        console.log(messages);
+        if (messages.content.length === 0) {
+            console.log("chat is not found");
+            return;
+        }
         const chats = [];
-            messages.map(message => {
-                chats.push({type: "user", text: message.request});
-                chats.push({type: "llm", text: JSON.parse(message.response).response});
+        messages.content.map(message => {
+            chats.push({type: "user", text: message.request});
+            chats.push({type: "llm", text: JSON.parse(message.response).response});
         })
         setChatHistory(chats);
     }
 
-    const handleCreateChat = async () => {
-        await axios.post("https://repick.site/api/v1/chatbot",{
+    const handleCreateChat = async (buttonInput) => {
+        await axios.post("https://repick.site/api/v1/chatbot", {
                 "uuid": `${id.id}`,
-                "title": `${inputValue}`
+                "title": `${buttonInput || inputValue}`
             },
-            {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}}).catch((err) => {console.log(err)});
+            {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,}}).catch((err) => {
+            console.log(err)
+        });
     }
 
     // 챗봇 응답 요청 및 타이핑 효과 적용
@@ -76,7 +93,7 @@ function ChatBot() {
                 }
                 return updatedHistory;
             });
-            await new Promise((resolve) => setTimeout(resolve, 50)); // 타이핑 효과를 위해 지연 시간 설정
+            await new Promise((resolve) => setTimeout(resolve, 10)); // 타이핑 효과를 위해 지연 시간 설정
         }
 
         setChatHistory((prev) => {
@@ -93,20 +110,21 @@ function ChatBot() {
         let currentText = "";
 
         for (let i = 0; i < words.length; i++) {
-            currentText +=  words[i];
+            currentText += words[i];
             setHeader(currentText + "_");
             await new Promise((resolve) => setTimeout(resolve, 150)); // 타이핑 효과를 위해 지연 시간 설정
         }
-        setHeader( currentText);
+        setHeader(currentText);
     };
 
-    const handleSendRequest = async () => {
-        chatHistory.length === 0 && await handleCreateChat()
+    const handleSendRequest = async (buttonInput) => {
+        chatHistory.length === 0 && await handleCreateChat(buttonInput)
+        setIsLoading(true);
         const fetchChatBotResponse = async () => {
             try {
-                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/${id.id}`,
+                const response = await axios.post(`https://repick.site/api/v1/chatbot/message/${id.id}/async`,
                     {
-                        message: inputValue,
+                        message: buttonInput || inputValue,
                     }, {
                         headers: {
                             'Content-Type': 'application/json',
@@ -119,10 +137,10 @@ function ChatBot() {
                 addChatEntry("error", "챗봇 응답을 불러오지 못했습니다.");
             }
         };
-
-        if (inputValue) {
-            addChatEntry("user", inputValue); // 사용자가 입력한 메시지 추가
+        if (buttonInput || inputValue) {
+            addChatEntry("user", buttonInput || inputValue); // 사용자가 입력한 메시지 추가
             await fetchChatBotResponse();
+            setIsLoading(false);
         }
     };
 
@@ -134,57 +152,77 @@ function ChatBot() {
     };
 
     useEffect(() => {
-        scrollToBottom();
-    }, [chatHistory]);
-
-    // MutationObserver를 사용하여 chatBox의 자식 변화 감지
-    useEffect(() => {
-        const chatBoxElement = chatBoxRef.current;
-
-        if (chatBoxElement) {
-            const observer = new MutationObserver(() => {
-                scrollToBottom(); // 자식 요소가 변할 때마다 스크롤을 아래로 내림
-            });
-
-            // chatBox의 자식 요소 변화(자식 추가)를 감지하도록 설정
-            observer.observe(chatBoxElement, {
-                childList: true,
-                subtree: true,
-            });
-
-            // 컴포넌트가 unmount 될 때 observer를 해제
-            return () => {
-                observer.disconnect();
-            };
-        }
-    }, []);
-
-    // 스크롤을 맨 아래로 내리는 함수
-    const scrollToBottom = () => {
+        // chatHistory가 변경될 때마다 스크롤을 최하단으로 설정
         if (chatBoxRef.current) {
             chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
         }
-    };
+    }, [chatHistory]);
 
     return (
-        <div className={"ml-[50px]"}>
-            <div className={"flex flex-row"}>
-                <div className="chatBot-container">
-                    <div className="chatBox">
+        <div className={"ml-[50px] h-full"}
+             style={{maxHeight: ` calc(100% - 105px)`}}>
+            <div className={"flex flex-row h-full"}
+                 style={{maxHeight: ` calc(100% - 80px)`}}>
+                <div ref={chatBoxRef}
+                     className="chatBot-container w-full flex items-center h-full overflow-y-scroll scrollbar-custom">
+                    <ul className="chatBox w-full h-full">
                         {chatHistory.length === 0 && <h1>{header}</h1>}
                         {chatHistory.map((message, index) => (
-                            <div
+                            <li
                                 key={index}
-                                className={`slide-up text-[18px] mt-[15px] ${message.type === "user" ? "font-bold text-center" : ""}`}
+                                className={`slide-up text-[18px] mt-[15px] w-full ${message.type === "user" ? "font-bold text-center" : ""}`}
                             >
-                                <span>{message.text}</span>
-                                {message.type === "user" && <hr className="mt-[15px]" />}
-                            </div>
+                                {message.type === "llm" ? (
+                                    <ReactMarkdown remarkPlugins={[remarkGfm]}
+                                                   className="markdown-content"
+                                                   breaks={true}
+                                                   skipHtml={false}>
+                                        {message.text}
+                                    </ReactMarkdown>
+                                ) : (
+                                    <span>{message.text}</span>
+                                )}
+                                {message.type === "user" && <hr className="mt-[15px]"/>}
+                            </li>
                         ))}
-                    </div>
+                        {isNew && chatHistory.length === 0 && <div className="flex h-full items-end"
+                        style={{maxHeight: ` calc(100% - 125px)`}}>
+                            <div className={"flex justify-between w-full gap-5"}>
+                            <button className={"markdown-content w-full h-20"}
+                            style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                    onClick={() => {
+                                        handleSendRequest("2025년 유망 산업은?");
+                                    }}
+                            >2025년 유망 산업은?</button>
+                                <button className={"markdown-content w-full h-20"}
+                                        style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                        onClick={() => {
+                                            handleSendRequest("2024년 KOSPI200 건설업종 주가 동향");
+                                        }}
+                                >2024년 KOSPI200 <br/>건설업종 주가 동향
+                                </button>
+                                <button className={"markdown-content w-full h-20"}
+                                        style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                        onClick={() => {
+                                            handleSendRequest("24년 하반기 시장 흐름은?");
+                                        }}
+                                >24년 하반기 시장<br/> 흐름은?
+                                </button>
+                                <button className={"markdown-content w-full h-20"}
+                                        style={{paddingLeft: "0px", paddingRight: "0px"}}
+                                        onClick={() => {
+                                            handleSendRequest("트럼프 대선이 한국에 미치는 25년 전망");
+                                        }}
+                                >트럼프 대선이 한국에 미치는 25년 전망
+                                </button>
+                            </div>
+                        </div>}
+                        {isLoading && <div className={"py-[15px] flex justify-center"}><LoadingSvg w={48} h={48}/></div>}
+                    </ul>
+
                 </div>
             </div>
-            <div className={"flex justify-center"}>
+            <div className={"flex justify-center pr-2"}>
                 <div className="inputContainer flex w-full justify-center pb-5">
                     <div className={"relative w-full flex"} style={{maxWidth: `744px`}}>
                         <input
@@ -193,6 +231,7 @@ function ChatBot() {
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyPress={handleEnterKey}
+                            disabled={isError}
                         />
                         <div className={"absolute flex items-center justify-center w-5 h-[35px]"}
                              style={{left: 'calc(100% - 30px)'}}
@@ -205,7 +244,6 @@ function ChatBot() {
                                     ></path>
                                 </svg>
                             </button>
-
                         </div>
                     </div>
                 </div>

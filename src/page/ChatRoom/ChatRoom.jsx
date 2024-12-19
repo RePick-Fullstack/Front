@@ -1,8 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import ChatComponentmk2 from "./ChatComponentmk2.jsx";
-import {realTimeChatApi} from "../api/api.js";
-import {formatDateTime} from "../data/formatTime.js";
+import {realTimeChatApi} from "../../api/api.js";
+import {formatDateTime} from "../../data/formatTime.js";
 
 export const ChatRoom = (props) => {
     const isCommunity = props.isCommunity || false;
