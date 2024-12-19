@@ -50,11 +50,11 @@ export const CommunityChatRoomComponent = () => {
         console.log(user);
         setUserId(user.id);
         setIsJoin(true);
-        const {data: messages} = await axios.get("https://repick.site/api/v1/chatroom/38e05c99-d5c7-41bd-ae84-4c7f2d0de160/message", {
+        const {data: messages} = await axios.get(`https://repick.site/api/v1/chatroom/${uuidCategory[category]}/message`, {
             params: {page: 0, size: 30}
         }).catch((err) => {console.log(err)});
-        setMessages(messages.content);
-        socket = new WebSocket(`wss://repick.site/api/v1/chatroom/websocket/38e05c99-d5c7-41bd-ae84-4c7f2d0de160`);
+        setMessages(messages.content.reverse());
+        socket = new WebSocket(`wss://repick.site/api/v1/chatroom/websocket/${uuidCategory[category]}`);
 
         socket.onopen = async () => {
             console.log(`WebSocket connection opened`);
