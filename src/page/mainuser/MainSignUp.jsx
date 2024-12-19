@@ -20,6 +20,7 @@ function MainSignUp({ setIsSignUpOpen }) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+        console.log(formData)
     };
 
     // 유효성 검사 함수
@@ -188,7 +189,7 @@ function MainSignUp({ setIsSignUpOpen }) {
                         type="date"
                         name="birthDate"
                         value={formData.birthDate}
-                        onChange={(e) => setFormData(e.target.value)}
+                        onChange={handleChange}
                         max="2024-12-18"
                         required
                     />
