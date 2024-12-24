@@ -63,7 +63,7 @@ function SideBar() {
                     <button onClick={() => { //사이드바 열기
                         setMenuOpen(!menuOpen)
                     }}>
-                        {menuOpen ? "" : <img src={SideBarOpen} alt="SideBar Logo"/>}
+                        {menuOpen ? "" : <img src={SideBarOpen} alt="SideBar Logo" title="사이드바 열기"/>}
                     </button>
                 </div>)}
                 <div className={"flex justify-between items-center mb-5 w-3/4 ml-2.5"}>
@@ -71,11 +71,11 @@ function SideBar() {
                         navigate('/');
                         setMenuOpen(false);
                     }}>
-                        <img src={Home} alt="Home Logo"/>
+                        <img src={Home} alt="Home Logo" title="홈으로"/>
                     </button>
-                    <button onClick={() => { //사이드바 열기
+                    <button onClick={() => { //사이드바 닫기
                         setMenuOpen(!menuOpen)
-                    }}>{menuOpen ? <img src={SideBarClose} alt="SideBar Logo"/> : ""}
+                    }}>{menuOpen ? <img src={SideBarClose} alt="SideBar Logo" title="사이드바 닫기"/> : ""}
                     </button>
                 </div>
                 {menuOpen ? (<>
@@ -152,18 +152,18 @@ function SideBar() {
                         <span className={"cursor-pointer"} onClick={() => { //챗봇 페이지
                             navigate(`/chatbot/${uuidv4().toString()}?type=new`)
                         }}>
-                            <img src={ChatBot} alt="ChatBot Logo"/> 
+                            <img src={ChatBot} alt="ChatBot Logo" title="챗봇 이용하기"/>
                         </span>
                     <div className={"cursor-pointer mb-3.5" +
                         ""} onClick={() => { //커뮤니티 TOTAL 페이지
                         navigate("/community?category=TOTAL")
                     }}>
-                        <img src={Community} alt="Community Logo"/>
+                        <img src={Community} alt="Community Logo" title="커뮤니티 페이지"/>
                     </div>
                     <span className={"cursor-pointer"} onClick={() => { //사이드바 닫혔을때 레포트 저장소 페이지
                         navigate("/ReportPage")
                     }}>
-                                    <img src={ReportDownload} alt="Report Logo"/>
+                                    <img src={ReportDownload} alt="Report Logo" title="레포트 저장소"/>
                             </span>
 
                 </>)}

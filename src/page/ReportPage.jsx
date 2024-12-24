@@ -150,7 +150,7 @@ function ReportPage() {
                                             <span className={"flex-col flex"}>
                                 <a className={"ml-14"}
                                    href={report.pdf_link}>
-                                    <img src={Pdf} alt="Pdf Logo"/>
+                                    <img src={Pdf} alt="Pdf Logo" title="해당 레포트 PDF 다운로드"/>
                             </a>
                             </span>
 
