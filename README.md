@@ -1,5 +1,7 @@
 # Front
 
+Repick 사이트 url -> https://repick.site
+
 Repick main 페이지 (기업 및 산업을 클릭하면 해당 클릭한 텍스트가 챗봇에 넘어가서 답변을 해준다.)
 
 ![image](https://github.com/user-attachments/assets/f2ab13ec-f86c-441e-90f8-1177f0617dd8)
