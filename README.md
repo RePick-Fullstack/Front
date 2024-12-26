@@ -6,7 +6,7 @@ Repick main 페이지 (기업 및 산업을 클릭하면 해당 클릭한 텍스
 
 ![image](https://github.com/user-attachments/assets/f2ab13ec-f86c-441e-90f8-1177f0617dd8)
 
-사이드바
+사이드바 (사용자가 검색한 챗봇 텍스트 출력)
 
 ![image](https://github.com/user-attachments/assets/11b23e4e-e350-418f-8700-26b4e1848fe7)
 
@@ -19,7 +19,7 @@ Repick main 페이지 (기업 및 산업을 클릭하면 해당 클릭한 텍스
 
 ![image](https://github.com/user-attachments/assets/fb60c7b8-cbdd-4e29-97ad-2655e8102602)
 
-문의사항 관리자 페이지
+문의사항 관리자 페이지 ( 개선사항을 알려줄 연락처, 내용, 문의사항이 도착한 시간이 출력됨)
 
 ![image](https://github.com/user-attachments/assets/3ffbba82-bec9-4de2-8791-b07c57178cac)
 
